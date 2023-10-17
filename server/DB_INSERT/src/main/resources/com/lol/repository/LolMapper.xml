@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lol.repository.LolMapper">
+    <insert id="insertObj" parameterType="com.lol.dto.OriginalDto">
+        INSERT INTO ORIGINAL(ID, DATETIME, TIER, MATCHID, TOPID, JUNGLEID, MIDDLEID, BOTTOMID, UTILITYID, TEAMID, WIN)
+        VALUES(ORIGINAL_AUTOINC.NEXTVAL, #{datetime}, #{tier}, #{matchId}, #{topId}, #{jungleId}, #{middleId}, #{bottomId}, #{utilityId}, #{teamId}, #{win})
+    </insert>
+
+    <insert id="insertChampionIdDto" parameterType="com.lol.dto.ChampionIdDto">
+        INSERT INTO CHAMPIONNAME(ID, CHAMPIONNAME)
+        VALUES(#{id}, #{ChampionName})
+    </insert>
+
+    <select id="checkCombination" resultType="com.lol.dto.CombinationDto">
+        SELECT ID FROM COMSAVE WHERE TOPID= #{topId} AND JUNGLEID= #{jungleId} AND MIDDLEID= #{middleId} AND BOTTOMID= #{bottomId} AND UTILITYID= #{utilityId}
+    </select>
+
+
+</mapper>
