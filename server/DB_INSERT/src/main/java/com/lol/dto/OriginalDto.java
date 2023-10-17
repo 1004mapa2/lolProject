@@ -13,6 +13,7 @@ public class OriginalDto {
     private String middleId;
     private String bottomId;
     private String utilityId;
+    private int comSaveId;
     private String teamId;
     private String win;
 }

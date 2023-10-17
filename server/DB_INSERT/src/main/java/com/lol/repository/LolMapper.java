@@ -14,5 +14,7 @@ public interface LolMapper {
 
     public Optional<CombinationDto> checkCombination(CombinationDto combinationDto);
 
+    public void insertCombination(CombinationDto combinationDto);
+
     public void insertChampionIdDto(ChampionIdDto championIdDto);
 }

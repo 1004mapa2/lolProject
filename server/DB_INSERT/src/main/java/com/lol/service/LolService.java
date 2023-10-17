@@ -19,7 +19,7 @@ import java.util.*;
 @Service
 public class LolService {
 
-    private final String apiKey = "RGAPI-64fd7185-0455-4633-8326-8b90bb5e13f5";
+    private final String apiKey = "RGAPI-6406518c-fe97-4718-aed2-9aebf8f1e74f";
     private final LolMapper mapper;
     private final WebClient.Builder builder = WebClient.builder(); //url 호출할 때마다 필요해서 메모리 절약을 위해 생성
     private String startTime = "1696971600"; //10월11일 6시 유닉스 타임스탬프
@@ -48,10 +48,10 @@ public class LolService {
          */
         Gson gson = new Gson();
 
-        for (int i = 0; i < 10; i++) { //dataToArray.size()
+        for (int i = 0; i < 2; i++) { //dataToArray.size()
             JsonObject userInfo = (JsonObject) summonerIdDto.get(i);
             String summonerId = userInfo.get("summonerId").toString().replaceAll("\"", "");
-            String puuidUrl = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/" + summonerId + "?api_key=" + apiKey; //10명의 정보를 불러온다, 요청 10번
+            String puuidUrl = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/" + summonerId + "?api_key=" + apiKey; //?명의 정보를 불러온다, 요청 ?번
             String summonerData = getGsonData(puuidUrl, builder);
             JsonObject jsonObject = gson.fromJson(summonerData, JsonObject.class);
             String puuid = jsonObject.get("puuid").toString().replaceAll("\"", "");
@@ -111,34 +111,34 @@ public class LolService {
                     }
 
                     if (j == 4) {
-//                        int i1 = mapper.checkCombination(combinationDto);
-                        setEtcData(matchId, dateTime, obj, playerInfo, tier);
-                        mapper.insertObj(obj);
-                        obj = new OriginalDto(); //2팀 객체 다시 생성
+                        setDataAndInsertDB(tier, matchId, dateTime, obj, combinationDto, playerInfo);
                     } else if (j == participantsData.size() - 1) {
-                        setEtcData(matchId, dateTime, obj, playerInfo, tier);
-                        mapper.insertObj(obj);
+                        setDataAndInsertDB(tier, matchId, dateTime, obj, combinationDto, playerInfo);
                     }
                 }
             }
         }
     }
 
-    public void test() {
-        CombinationDto combinationDto = new CombinationDto();
-        combinationDto.setTopId("1");
-        combinationDto.setJungleId("2");
-        combinationDto.setMiddleId("3");
-        combinationDto.setBottomId("4");
-        combinationDto.setUtilityId("5");
-        Optional<CombinationDto> combinationDto1 = mapper.checkCombination(combinationDto);
-        if (combinationDto1.isPresent()) {
-            System.out.println(combinationDto1.get().getId());
-        } else {
-            System.out.println(combinationDto1);
+    private void setDataAndInsertDB(String tier, String matchId, String dateTime, OriginalDto obj, CombinationDto combinationDto, JsonObject playerInfo) {
+        Optional<CombinationDto> comData = mapper.checkCombination(combinationDto);
+        if(comData.isPresent()) { //조합 테이블에 조합 ID가 있으면 그 ID를 obj 객체에 넣기
+            int comSaveId = comData.get().getId();
+            obj.setComSaveId(comSaveId);
+        } else { //조합 테이블에 조합 ID가 없으면 새로 DB에 넣고 그 comSaveId 가져오기
+            mapper.insertCombination(combinationDto);
+            int comSaveId = mapper.checkCombination(combinationDto).get().getId();
+            obj.setComSaveId(comSaveId);
         }
+        String teamId = playerInfo.get("teamId").toString();
+        String win = playerInfo.get("win").toString();
+        obj.setTeamId(teamId);
+        obj.setWin(win);
+        obj.setDatetime(dateTime);
+        obj.setTier(tier);
+        obj.setMatchId(matchId);
+        mapper.insertObj(obj);
     }
-
 
     public void insertChampionId() {
         try {
@@ -158,16 +158,6 @@ public class LolService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private static void setEtcData(String matchId, String dateTime, OriginalDto obj, JsonObject playerInfo, String tier) {
-        String teamId = playerInfo.get("teamId").toString();
-        String win = playerInfo.get("win").toString();
-        obj.setTeamId(teamId);
-        obj.setWin(win);
-        obj.setDatetime(dateTime);
-        obj.setTier(tier);
-        obj.setMatchId(matchId);
     }
 
     private static String getGsonData(String url, WebClient.Builder builder) {
