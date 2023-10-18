@@ -6,6 +6,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
 @RestController
 @RequiredArgsConstructor
 public class LolController {
@@ -29,5 +34,10 @@ public class LolController {
     @GetMapping("/3")
     public void getChampionId(){
         lolService.insertChampionId();
+    }
+
+    @GetMapping("/4")
+    public void testMethod(){
+
     }
 }
