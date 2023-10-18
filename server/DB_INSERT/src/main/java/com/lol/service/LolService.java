@@ -14,6 +14,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.io.FileReader;
 import java.io.Reader;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -74,13 +76,17 @@ public class LolService {
                 String matchData = getGsonData(matchUrl, builder);
                 JsonObject infoData = (JsonObject) gson.fromJson(matchData, JsonObject.class).get("info");
 
+                //현재 시간
+                LocalDateTime now = LocalDateTime.now();
+                String formatNowTime = now.format(DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm"));
+
                 //timestamp YYYY-MM-dd로 바꾸기
                 JsonElement endTimestamp = infoData.get("gameEndTimestamp");
                 long timestamp = Long.parseLong(endTimestamp.toString());
                 Date date = new Date();
                 date.setTime(timestamp);
-                SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
-                String dateTime = sdf.format(date);
+                SimpleDateFormat formatDate = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+                String formatGameTime = formatDate.format(date);
 
                 JsonArray participantsData = (JsonArray) infoData.get("participants");
                 OriginalDto obj = new OriginalDto(); //1팀 객체 생성
@@ -111,16 +117,16 @@ public class LolService {
                     }
 
                     if (j == 4) {
-                        setDataAndInsertDB(tier, matchId, dateTime, obj, combinationDto, playerInfo);
+                        setDataAndInsertDB(tier, matchId, formatGameTime, formatNowTime, obj, combinationDto, playerInfo);
                     } else if (j == participantsData.size() - 1) {
-                        setDataAndInsertDB(tier, matchId, dateTime, obj, combinationDto, playerInfo);
+                        setDataAndInsertDB(tier, matchId, formatGameTime, formatNowTime, obj, combinationDto, playerInfo);
                     }
                 }
             }
         }
     }
 
-    private void setDataAndInsertDB(String tier, String matchId, String dateTime, OriginalDto obj, CombinationDto combinationDto, JsonObject playerInfo) {
+    private void setDataAndInsertDB(String tier, String matchId, String formatGameTime, String formatNowTime, OriginalDto obj, CombinationDto combinationDto, JsonObject playerInfo) {
         Optional<CombinationDto> comData = mapper.checkCombination(combinationDto);
         if(comData.isPresent()) { //조합 테이블에 조합 ID가 있으면 그 ID를 obj 객체에 넣기
             int comSaveId = comData.get().getId();
@@ -134,7 +140,8 @@ public class LolService {
         String win = playerInfo.get("win").toString();
         obj.setTeamId(teamId);
         obj.setWin(win);
-        obj.setDatetime(dateTime);
+        obj.setGameTime(formatGameTime);
+        obj.setInsertTime(formatNowTime);
         obj.setTier(tier);
         obj.setMatchId(matchId);
         mapper.insertObj(obj);
