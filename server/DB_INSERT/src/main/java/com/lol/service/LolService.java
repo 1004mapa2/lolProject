@@ -19,7 +19,7 @@ import java.util.*;
 @Service
 public class LolService {
 
-    private final String apiKey = "RGAPI-6406518c-fe97-4718-aed2-9aebf8f1e74f";
+    private final String apiKey = "";
     private final LolMapper mapper;
     private final WebClient.Builder builder = WebClient.builder(); //url 호출할 때마다 필요해서 메모리 절약을 위해 생성
     private String startTime = "1696971600"; //10월11일 6시 유닉스 타임스탬프
