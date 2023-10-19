@@ -27,11 +27,15 @@
         VALUES(SUMMONERLIST_AUTOINC.NEXTVAL, #{summonerId}, #{summonerName}, #{status})
     </insert>
 
-    <select id="getSummonerDto" parameterType="int" resultType="com.lol.dto.SummonerDto">
+    <select id="checkSummonerId" parameterType="int" resultType="com.lol.dto.SummonerDto">
         SELECT SUMMONERID FROM SUMMONERLIST WHERE ID= #{id}
     </select>
     
     <update id="updateSummonerStatus" parameterType="com.lol.dto.SummonerDto">
         UPDATE SUMMONERLIST SET STATUS= #{status} WHERE ID= #{id}
     </update>
+
+    <select id="checkMatchId" parameterType="string" resultType="com.lol.dto.OriginalDto">
+        SELECT MATCHID FROM ORIGINAL WHERE MATCHID= #{matchId} GROUP BY MATCHID
+    </select>
 </mapper>

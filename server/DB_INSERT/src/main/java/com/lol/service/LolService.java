@@ -65,7 +65,7 @@ public class LolService {
         int id = 1;
         int count = 0;
         while (true) {
-            Optional<SummonerDto> userInfo = mapper.getSummonerDto(id);
+            Optional<SummonerDto> userInfo = mapper.checkSummonerId(id);
             if (userInfo.isPresent()) {
                 /**
                  * puuid 얻기
@@ -92,65 +92,69 @@ public class LolService {
                  * matchData 얻기
                  */
                 for (String matchId : matchList) {
-                    String matchUrl = "https://asia.api.riotgames.com/lol/match/v5/matches/" + matchId + "?api_key=" + apiKey;
-                    count = countCheck(count);
-                    String matchData = getGsonData(matchUrl, builder);
-                    JsonObject infoData = (JsonObject) gson.fromJson(matchData, JsonObject.class).get("info");
+                    Optional<OriginalDto> originalMatchId = mapper.checkMatchId(matchId);
+                    if (originalMatchId.isPresent() == true) {
+                        //matchId 중복이면 실행x
+                        String matchUrl = "https://asia.api.riotgames.com/lol/match/v5/matches/" + matchId + "?api_key=" + apiKey;
+                        count = countCheck(count);
+                        String matchData = getGsonData(matchUrl, builder);
+                        JsonObject infoData = (JsonObject) gson.fromJson(matchData, JsonObject.class).get("info");
 
-                    //현재 시간
-                    LocalDateTime now = LocalDateTime.now();
-                    String formatNowTime = now.format(DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm"));
+                        //현재 시간
+                        LocalDateTime now = LocalDateTime.now();
+                        String formatNowTime = now.format(DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm"));
 
-                    //timestamp YYYY-MM-dd로 바꾸기
-                    JsonElement endTimestamp = infoData.get("gameEndTimestamp");
-                    long timestamp = Long.parseLong(endTimestamp.toString());
-                    Date date = new Date();
-                    date.setTime(timestamp);
-                    SimpleDateFormat formatDate = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
-                    String formatGameTime = formatDate.format(date);
+                        //timestamp YYYY-MM-dd로 바꾸기
+                        JsonElement endTimestamp = infoData.get("gameEndTimestamp");
+                        long timestamp = Long.parseLong(endTimestamp.toString());
+                        Date date = new Date();
+                        date.setTime(timestamp);
+                        SimpleDateFormat formatDate = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+                        String formatGameTime = formatDate.format(date);
 
-                    JsonArray participantsData = (JsonArray) infoData.get("participants");
-                    OriginalDto obj = new OriginalDto(); //1팀 객체 생성
-                    CombinationDto combinationDto = new CombinationDto(); //COMSAVE COLUMN 만들기
+                        JsonArray participantsData = (JsonArray) infoData.get("participants");
+                        OriginalDto originalDto = new OriginalDto(); //1팀 객체 생성
+                        CombinationDto combinationDto = new CombinationDto(); //COMSAVE COLUMN 만들기
 
-                    for (int j = 0; j < participantsData.size(); j++) {
-                        JsonObject playerInfo = (JsonObject) participantsData.get(j);
-                        String championId = playerInfo.get("championId").toString();
-                        String teamPosition = playerInfo.get("teamPosition").toString().replaceAll("\"", "");
-                        if (teamPosition.equals("TOP")) {
-                            obj.setTopId(championId);
-                            combinationDto.setTopId(championId);
-                        } else if (teamPosition.equals("JUNGLE")) {
-                            obj.setJungleId(championId);
-                            combinationDto.setJungleId(championId);
-                        } else if (teamPosition.equals("MIDDLE")) {
-                            obj.setMiddleId(championId);
-                            combinationDto.setMiddleId(championId);
-                        } else if (teamPosition.equals("BOTTOM")) {
-                            obj.setBottomId(championId);
-                            combinationDto.setBottomId(championId);
-                        } else if (teamPosition.equals("UTILITY")) {
-                            obj.setUtilityId(championId);
-                            combinationDto.setUtilityId(championId);
-                        } else {
-                            System.out.println("오류");
-                            //try-catch 써보기
-                        }
+                        for (int j = 0; j < participantsData.size(); j++) {
+                            JsonObject playerInfo = (JsonObject) participantsData.get(j);
+                            String championId = playerInfo.get("championId").toString();
+                            String teamPosition = playerInfo.get("teamPosition").toString().replaceAll("\"", "");
+                            if (teamPosition.equals("TOP")) {
+                                originalDto.setTopId(championId);
+                                combinationDto.setTopId(championId);
+                            } else if (teamPosition.equals("JUNGLE")) {
+                                originalDto.setJungleId(championId);
+                                combinationDto.setJungleId(championId);
+                            } else if (teamPosition.equals("MIDDLE")) {
+                                originalDto.setMiddleId(championId);
+                                combinationDto.setMiddleId(championId);
+                            } else if (teamPosition.equals("BOTTOM")) {
+                                originalDto.setBottomId(championId);
+                                combinationDto.setBottomId(championId);
+                            } else if (teamPosition.equals("UTILITY")) {
+                                originalDto.setUtilityId(championId);
+                                combinationDto.setUtilityId(championId);
+                            } else {
+                                System.out.println("오류");
+                                //try-catch 써보기
+                            }
 
-                        if (j == 4) {
-                            setDataAndInsertDB(tier, matchId, formatGameTime, formatNowTime, obj, combinationDto, playerInfo);
-                        } else if (j == participantsData.size() - 1) {
-                            setDataAndInsertDB(tier, matchId, formatGameTime, formatNowTime, obj, combinationDto, playerInfo);
-                        }
+                            if (j == 4) {
+                                setDataAndInsertDB(tier, matchId, formatGameTime, formatNowTime, originalDto, combinationDto, playerInfo);
+                            } else if (j == participantsData.size() - 1) {
+                                setDataAndInsertDB(tier, matchId, formatGameTime, formatNowTime, originalDto, combinationDto, playerInfo);
+                            }
+                        } //end for(match)
                     }
-                    SummonerDto summonerDto = new SummonerDto();
-                    summonerDto.setId(id);
-                    summonerDto.setStatus("O");
-                    mapper.updateSummonerStatus(summonerDto);
-                }
+                } //end for(matchList)
+                SummonerDto summonerDto = new SummonerDto();
+                summonerDto.setId(id);
+                summonerDto.setStatus("O");
+                mapper.updateSummonerStatus(summonerDto);
             } else {
                 break;
-            } //end if
+            } //end if(userInfo)
             id++;
         } //end while
     } //end method
@@ -159,6 +163,7 @@ public class LolService {
         if (count == 100) { //2분 5초 기다리기
             try {
                 count = 0;
+                System.out.println("sleep");
                 Thread.sleep(125000);
             } catch (Exception e) {
                 e.printStackTrace();
