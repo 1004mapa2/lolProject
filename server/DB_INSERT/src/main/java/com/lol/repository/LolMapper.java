@@ -1,9 +1,6 @@
 package com.lol.repository;
 
-import com.lol.dto.ChampionIdDto;
-import com.lol.dto.CombinationDto;
-import com.lol.dto.OriginalDto;
-import com.lol.dto.SummonerDto;
+import com.lol.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Optional;
@@ -26,4 +23,8 @@ public interface LolMapper {
     public void updateSummonerStatus(SummonerDto summonerDto);
 
     public Optional<OriginalDto> checkMatchId(String matchId);
+
+    public void moveTier(String sign);
+
+    public void statusChange(Sign sign);
 }
