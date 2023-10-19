@@ -4,10 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.lol.dto.ChampionIdDto;
-import com.lol.dto.CombinationDto;
-import com.lol.dto.OriginalDto;
-import com.lol.dto.SummonerDto;
+import com.lol.dto.*;
 import com.lol.repository.LolMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -65,6 +62,9 @@ public class LolService {
         int id = 1;
         int count = 0;
         while (true) {
+            if(id == 3){
+                break;
+            }
             Optional<SummonerDto> userInfo = mapper.checkSummonerId(id);
             if (userInfo.isPresent()) {
                 /**
@@ -93,7 +93,7 @@ public class LolService {
                  */
                 for (String matchId : matchList) {
                     Optional<OriginalDto> originalMatchId = mapper.checkMatchId(matchId);
-                    if (originalMatchId.isPresent() == true) {
+                    if (originalMatchId.isPresent() == false) {
                         //matchId 중복이면 실행x
                         String matchUrl = "https://asia.api.riotgames.com/lol/match/v5/matches/" + matchId + "?api_key=" + apiKey;
                         count = countCheck(count);
@@ -159,6 +159,14 @@ public class LolService {
         } //end while
     } //end method
 
+    public void moveDB_originalToTier(){
+        Sign sign = new Sign();
+        mapper.moveTier(sign.getX_sign());
+        mapper.statusChange(sign);
+    }
+
+
+    /*-- 메서드 추출 --*/
     private static int countCheck(int count) {
         if (count == 100) { //2분 5초 기다리기
             try {
@@ -174,8 +182,7 @@ public class LolService {
         return count;
     }
 
-    private void setDataAndInsertDB(String tier, String matchId, String formatGameTime, String
-            formatNowTime, OriginalDto obj, CombinationDto combinationDto, JsonObject playerInfo) {
+    private void setDataAndInsertDB(String tier, String matchId, String formatGameTime, String formatNowTime, OriginalDto obj, CombinationDto combinationDto, JsonObject playerInfo) {
         Optional<CombinationDto> comData = mapper.checkCombination(combinationDto);
         if (comData.isPresent()) { //조합 테이블에 조합 ID가 있으면 그 ID를 obj 객체에 넣기
             int comSaveId = comData.get().getId();
@@ -193,6 +200,7 @@ public class LolService {
         obj.setInsertTime(formatNowTime);
         obj.setTier(tier);
         obj.setMatchId(matchId);
+        obj.setStatus("X");
         mapper.insertOriginalDto(obj);
     }
 

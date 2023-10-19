@@ -4,8 +4,8 @@
 
 <mapper namespace="com.lol.repository.LolMapper">
     <insert id="insertOriginalDto" parameterType="com.lol.dto.OriginalDto">
-        INSERT INTO ORIGINAL(ID, GAMETIME, INSERTTIME, TIER, MATCHID, TOPID, JUNGLEID, MIDDLEID, BOTTOMID, UTILITYID, COMSAVEID, TEAMID, WIN)
-        VALUES(ORIGINAL_AUTOINC.NEXTVAL, #{gameTime}, #{insertTime}, #{tier}, #{matchId}, #{topId}, #{jungleId}, #{middleId}, #{bottomId}, #{utilityId}, #{comSaveId}, #{teamId}, #{win})
+        INSERT INTO ORIGINAL(ID, GAMETIME, INSERTTIME, TIER, MATCHID, TOPID, JUNGLEID, MIDDLEID, BOTTOMID, UTILITYID, COMSAVEID, TEAMID, WIN, STATUS)
+        VALUES(ORIGINAL_AUTOINC.NEXTVAL, #{gameTime}, #{insertTime}, #{tier}, #{matchId}, #{topId}, #{jungleId}, #{middleId}, #{bottomId}, #{utilityId}, #{comSaveId}, #{teamId}, #{win}, #{status})
     </insert>
 
     <insert id="insertChampionIdDto" parameterType="com.lol.dto.ChampionIdDto">
@@ -38,4 +38,13 @@
     <select id="checkMatchId" parameterType="string" resultType="com.lol.dto.OriginalDto">
         SELECT MATCHID FROM ORIGINAL WHERE MATCHID= #{matchId} GROUP BY MATCHID
     </select>
+
+    <insert id="moveTier" parameterType="string">
+        INSERT INTO ALLTIER(ID, TIER, WIN, COMSAVEID)
+        SELECT ALLTIER_AUTOINC.NEXTVAL, TIER, WIN, COMSAVEID FROM ORIGINAL WHERE STATUS= #{sign}
+    </insert>
+
+    <update id="statusChange" parameterType="com.lol.dto.Sign">
+        UPDATE ORIGINAL SET STATUS= #{o_sign} WHERE STATUS= #{x_sign}
+    </update>
 </mapper>

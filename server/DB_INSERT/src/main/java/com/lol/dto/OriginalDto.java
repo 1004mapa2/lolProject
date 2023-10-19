@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class OriginalDto {
 
+    private int id;
     private String gameTime;
     private String insertTime;
     private String tier;
@@ -17,4 +18,5 @@ public class OriginalDto {
     private int comSaveId;
     private String teamId;
     private String win;
+    private String status;
 }

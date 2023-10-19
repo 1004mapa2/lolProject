@@ -17,6 +17,7 @@ public class LolController {
         String tier = "CHALLENGER";
 //        lolService.insertDB_userInfo(tier);
         lolService.insertDB_matchInfo(tier);
+        lolService.moveDB_originalToTier();
     }
 
     @GetMapping("/2")
@@ -33,6 +34,5 @@ public class LolController {
 
     @GetMapping("/4")
     public void testMethod(){
-
     }
 }
