@@ -21,7 +21,9 @@ public interface LolMapper {
 
     public void insertSummonerDto(SummonerDto summonerDto);
 
-    public Optional<SummonerDto> getSummonerDto(int id);
+    public Optional<SummonerDto> checkSummonerId(int id);
 
     public void updateSummonerStatus(SummonerDto summonerDto);
+
+    public Optional<OriginalDto> checkMatchId(String matchId);
 }
