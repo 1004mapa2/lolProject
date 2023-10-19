@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.lol.repository.LolMapper">
-    <insert id="insertObj" parameterType="com.lol.dto.OriginalDto">
+    <insert id="insertOriginalDto" parameterType="com.lol.dto.OriginalDto">
         INSERT INTO ORIGINAL(ID, GAMETIME, INSERTTIME, TIER, MATCHID, TOPID, JUNGLEID, MIDDLEID, BOTTOMID, UTILITYID, COMSAVEID, TEAMID, WIN)
         VALUES(ORIGINAL_AUTOINC.NEXTVAL, #{gameTime}, #{insertTime}, #{tier}, #{matchId}, #{topId}, #{jungleId}, #{middleId}, #{bottomId}, #{utilityId}, #{comSaveId}, #{teamId}, #{win})
     </insert>
@@ -17,9 +17,21 @@
         SELECT ID FROM COMSAVE WHERE TOPID= #{topId} AND JUNGLEID= #{jungleId} AND MIDDLEID= #{middleId} AND BOTTOMID= #{bottomId} AND UTILITYID= #{utilityId}
     </select>
 
-    <insert id="insertCombination" parameterType="com.lol.dto.CombinationDto">
+    <insert id="insertCombinationDto" parameterType="com.lol.dto.CombinationDto">
         INSERT INTO COMSAVE(ID, TOPID, JUNGLEID, MIDDLEID, BOTTOMID, UTILITYID)
         VALUES(COMSAVE_AUTOINC.NEXTVAL, #{topId}, #{jungleId}, #{middleId}, #{bottomId}, #{utilityId})
     </insert>
 
+    <insert id="insertSummonerDto" parameterType="com.lol.dto.SummonerDto">
+        INSERT INTO SUMMONERLIST(ID, SUMMONERID, SUMMONERNAME, STATUS)
+        VALUES(SUMMONERLIST_AUTOINC.NEXTVAL, #{summonerId}, #{summonerName}, #{status})
+    </insert>
+
+    <select id="getSummonerDto" parameterType="int" resultType="com.lol.dto.SummonerDto">
+        SELECT SUMMONERID FROM SUMMONERLIST WHERE ID= #{id}
+    </select>
+    
+    <update id="updateSummonerStatus" parameterType="com.lol.dto.SummonerDto">
+        UPDATE SUMMONERLIST SET STATUS= #{status} WHERE ID= #{id}
+    </update>
 </mapper>
