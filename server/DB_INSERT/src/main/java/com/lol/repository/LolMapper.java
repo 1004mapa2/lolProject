@@ -18,7 +18,7 @@ public interface LolMapper {
 
     public void insertSummonerDto(SummonerDto summonerDto);
 
-    public Optional<SummonerDto> checkSummonerId(int id);
+    public Optional<SummonerDto> checkSummonerList(int id);
 
     public void updateSummonerStatus(SummonerDto summonerDto);
 
@@ -26,5 +26,5 @@ public interface LolMapper {
 
     public void moveTier(String sign);
 
-    public void statusChange(Sign sign);
+    public void updateOriginalStatus(Sign sign);
 }

@@ -57,7 +57,7 @@ public class LolService {
         }
     } //end method
 
-    public void insertDB_matchInfo(String tier) {
+    public void insertDB_matchInfo() {
         /**
          * puuid 얻기
          */
@@ -69,12 +69,13 @@ public class LolService {
             if (id == 3) {
                 break;
             }
-            Optional<SummonerDto> userInfo = mapper.checkSummonerId(id);
-            if (userInfo.isPresent()) {
+            Optional<SummonerDto> userInfo = mapper.checkSummonerList(id);
+            if (userInfo.isPresent() && userInfo.get().getStatus().equals("X")) {
                 /**
                  * puuid 얻기
                  */
                 String summonerId = userInfo.get().getSummonerId();
+                String tier = userInfo.get().getTier();
                 String puuidUrl = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/" + summonerId + "?api_key=" + apiKey;
                 count = countCheck(count);
                 String summonerData = getGsonData(puuidUrl, builder);
@@ -166,7 +167,7 @@ public class LolService {
     public void moveDB_originalToTier() {
         Sign sign = new Sign();
         mapper.moveTier(sign.getX_sign());
-        mapper.statusChange(sign);
+        mapper.updateOriginalStatus(sign);
     }
 
 
