@@ -18,24 +18,17 @@ public class LolController {
     }
 
     @GetMapping("/2")
-    public void getChallengerGame() {
-        String tier = "CHALLENGER";
-        lolService.insertDB_matchInfo(tier);
+    public void getGame() {
+        lolService.insertDB_matchInfo();
         lolService.moveDB_originalToTier();
     }
 
     @GetMapping("/3")
-    public void getGrandmasterGame() {
-        String tier = "GRANDMASTER";
-        lolService.insertDB_matchInfo(tier);
-    }
-
-    @GetMapping("/4")
     public void getChampionId(){
         lolService.insertChampionId();
     }
 
-    @GetMapping("/5")
+    @GetMapping("/4")
     public void testMethod(){
     }
 }

@@ -27,8 +27,8 @@
         VALUES(SUMMONERLIST_AUTOINC.NEXTVAL, #{tier}, #{summonerId}, #{summonerName}, #{status})
     </insert>
 
-    <select id="checkSummonerId" parameterType="int" resultType="com.lol.dto.SummonerDto">
-        SELECT SUMMONERID FROM SUMMONERLIST WHERE ID= #{id}
+    <select id="checkSummonerList" parameterType="int" resultType="com.lol.dto.SummonerDto">
+        SELECT SUMMONERID, TIER, STATUS FROM SUMMONERLIST WHERE ID= #{id}
     </select>
     
     <update id="updateSummonerStatus" parameterType="com.lol.dto.SummonerDto">
@@ -44,7 +44,7 @@
         SELECT ALLTIER_AUTOINC.NEXTVAL, TIER, WIN, COMSAVEID FROM ORIGINAL WHERE STATUS= #{sign}
     </insert>
 
-    <update id="statusChange" parameterType="com.lol.dto.Sign">
+    <update id="updateOriginalStatus" parameterType="com.lol.dto.Sign">
         UPDATE ORIGINAL SET STATUS= #{o_sign} WHERE STATUS= #{x_sign}
     </update>
 </mapper>
