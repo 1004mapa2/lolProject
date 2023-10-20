@@ -13,26 +13,29 @@ public class LolController {
     private final LolService lolService;
 
     @GetMapping("/1")
+    public void getUserInfo() {
+        lolService.insertDB_userInfo();
+    }
+
+    @GetMapping("/2")
     public void getChallengerGame() {
         String tier = "CHALLENGER";
-//        lolService.insertDB_userInfo(tier);
         lolService.insertDB_matchInfo(tier);
         lolService.moveDB_originalToTier();
     }
 
-    @GetMapping("/2")
+    @GetMapping("/3")
     public void getGrandmasterGame() {
         String tier = "GRANDMASTER";
-        lolService.insertDB_userInfo(tier);
         lolService.insertDB_matchInfo(tier);
     }
 
-    @GetMapping("/3")
+    @GetMapping("/4")
     public void getChampionId(){
         lolService.insertChampionId();
     }
 
-    @GetMapping("/4")
+    @GetMapping("/5")
     public void testMethod(){
     }
 }
