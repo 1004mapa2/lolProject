@@ -3,6 +3,15 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.lol.repository.LolMapper">
+    <select id="getComsaveId" parameterType="com.lol.dto.ChampionDto">
+        SELECT ID FROM COMSAVE WHERE TOPID= #{topId} AND JUNGLEID= #{jungleId} AND MIDDLEID= #{middleId} AND BOTTOMID= #{bottomId} AND UTILITYID= #{utilityId}
+    </select>
 
+    <select id="getPickCount" parameterType="com.lol.dto.ComsaveIdDto" resultType="int">
+        SELECT COUNT(WIN) FROM ALLTIER WHERE COMSAVEID= #{id}
+    </select>
 
+    <select id="getWinCount" parameterType="com.lol.dto.ComsaveIdDto" resultType="int">
+        SELECT COUNT(WIN) AS WINCOUNT FROM ALLTIER WHERE COMSAVEID= #{id} AND WIN= #{T}
+    </select>
 </mapper>
