@@ -23,8 +23,8 @@
     </insert>
 
     <insert id="insertSummonerDto" parameterType="com.lol.dto.SummonerDto">
-        INSERT INTO SUMMONERLIST(ID, SUMMONERID, SUMMONERNAME, STATUS)
-        VALUES(SUMMONERLIST_AUTOINC.NEXTVAL, #{summonerId}, #{summonerName}, #{status})
+        INSERT INTO SUMMONERLIST(ID, TIER, SUMMONERID, SUMMONERNAME, STATUS)
+        VALUES(SUMMONERLIST_AUTOINC.NEXTVAL, #{tier}, #{summonerId}, #{summonerName}, #{status})
     </insert>
 
     <select id="checkSummonerId" parameterType="int" resultType="com.lol.dto.SummonerDto">

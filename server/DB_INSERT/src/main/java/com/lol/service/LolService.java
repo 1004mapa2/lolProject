@@ -24,33 +24,37 @@ public class LolService {
     private final WebClient.Builder builder = WebClient.builder(); //url 호출할 때마다 필요해서 메모리 절약을 위해 생성
     private String startTime = "1696971600"; //10월11일 6시 유닉스 타임스탬프
     private String endTime = "1697058000"; //10월12일 6시 유닉스 타임스탬프
+    private static List tier = new ArrayList<>(Arrays.asList("CHALLENGER", "GRANDMASTER", "MASTER"));
 
     public LolService(LolMapper mapper) {
         this.mapper = mapper;
     }
 
-    public void insertDB_userInfo(String tier) {
+    public void insertDB_userInfo() {
         /**
          * summonerIdDto 얻기
          */
         Gson gson = new Gson();
+        for (Object tierName : tier) {
+            for (int i = 1; i <= 2; i++) {
+                String summonerIdUrl = "https://kr.api.riotgames.com/lol/league-exp/v4/entries/RANKED_SOLO_5x5/" + tierName.toString() + "/I?page=" + i + "&api_key=" + apiKey; //page5면 1000명 정도
+                String usersInfo = getGsonData(summonerIdUrl, builder);
+                JsonArray dataToArray = gson.fromJson(usersInfo, JsonArray.class);
 
-        for (int i = 1; i <= 5; i++) {
-            String summonerIdUrl = "https://kr.api.riotgames.com/lol/league-exp/v4/entries/RANKED_SOLO_5x5/" + tier + "/I?page=" + i + "&api_key=" + apiKey; //page5면 1000명 정도
-            String usersInfo = getGsonData(summonerIdUrl, builder);
-            JsonArray dataToArray = gson.fromJson(usersInfo, JsonArray.class);
-
-            for (int j = 0; j < dataToArray.size(); j++) {
-                SummonerDto summonerDto = new SummonerDto();
-                JsonObject userInfo = (JsonObject) dataToArray.get(j);
-                String summonerId = userInfo.get("summonerId").toString().replaceAll("\"", "");
-                String summonerName = userInfo.get("summonerName").toString().replaceAll("\"", "");
-                summonerDto.setSummonerId(summonerId);
-                summonerDto.setSummonerName(summonerName);
-                summonerDto.setStatus("X");
-                mapper.insertSummonerDto(summonerDto);
+                for (int j = 0; j < dataToArray.size(); j++) {
+                    SummonerDto summonerDto = new SummonerDto();
+                    JsonObject userInfo = (JsonObject) dataToArray.get(j);
+                    String tier = userInfo.get("tier").toString().replaceAll("\"", "");
+                    String summonerId = userInfo.get("summonerId").toString().replaceAll("\"", "");
+                    String summonerName = userInfo.get("summonerName").toString().replaceAll("\"", "");
+                    summonerDto.setTier(tier);
+                    summonerDto.setSummonerId(summonerId);
+                    summonerDto.setSummonerName(summonerName);
+                    summonerDto.setStatus("X");
+                    mapper.insertSummonerDto(summonerDto);
+                } //end for
             } //end for
-        } //end for
+        }
     } //end method
 
     public void insertDB_matchInfo(String tier) {
@@ -62,7 +66,7 @@ public class LolService {
         int id = 1;
         int count = 0;
         while (true) {
-            if(id == 3){
+            if (id == 3) {
                 break;
             }
             Optional<SummonerDto> userInfo = mapper.checkSummonerId(id);
@@ -159,7 +163,7 @@ public class LolService {
         } //end while
     } //end method
 
-    public void moveDB_originalToTier(){
+    public void moveDB_originalToTier() {
         Sign sign = new Sign();
         mapper.moveTier(sign.getX_sign());
         mapper.statusChange(sign);
