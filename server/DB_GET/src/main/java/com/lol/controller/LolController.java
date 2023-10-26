@@ -1,22 +1,26 @@
 package com.lol.controller;
 
-import com.lol.dto.CountDto;
+import com.google.gson.Gson;
+import com.lol.dto.AllTierDto;
+import com.lol.dto.ReceiveDto;
 import com.lol.service.LolService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class LolController {
 
     private final LolService lolService;
-    @GetMapping("/1")
-    public Optional<CountDto> test(){
-        Optional<CountDto> count = lolService.getCount();
-        System.out.println(count);
-        return count;
+    @PostMapping("/1")
+    public String test(@RequestBody ReceiveDto data){
+        List<AllTierDto> allTierInfo = lolService.getAllTierInfo(data);
+        Gson gson = new Gson();
+        String json = gson.toJson(allTierInfo);
+
+        return json;
     }
 }
