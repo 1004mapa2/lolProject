@@ -1,0 +1,155 @@
+main {
+    min-width: 1080px;
+    background-color: #F5F3F7;
+}
+
+.container {
+    width: 1080px;
+    height: 2500px;
+    margin: 0 auto;
+}
+
+.functionDiv {
+    display: flex;
+}
+
+
+/* ---leftDiv 시작--- */
+.leftDiv {
+    border: 1px solid #BDBDBD;
+    background-color: #E9E4ED;
+    height: 2210px;
+}
+
+.searchDiv {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 10px;
+    margin-top: 20px;
+}
+
+.championListContainer {
+    display: flex;
+    justify-content: center;
+    width: 330px;
+    margin-top: 10px;
+}
+
+.championListDiv {
+    width: 310px;
+}
+
+img {
+    width: 50px;
+    height: 50px;
+}
+
+.championColumnDiv {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+/* ---leftDiv 끝--- */
+
+
+/* ---middleDiv 시작--- */
+.middleDiv {
+    width: 55px;
+}
+/* ---middleDiv 끝--- */
+
+
+/* ---rightDiv 시작--- */
+.rightDiv {
+    border: 1px solid #BDBDBD;
+    background-color: #F78181;
+    height: 1000px;
+}
+
+.positionName {
+    display: flex;
+    background-color: #FFFFFF;
+}
+
+.top {
+    margin-left: 22px;
+}
+
+.jungle {
+    margin-left: 45px;
+}
+
+.middle {
+    margin-left: 30px;
+}
+
+.bottom {
+    margin-left: 25px;
+}
+
+.utility {
+    margin-left: 30px;
+}
+
+.comDiv {
+    background-color: cadetblue;
+    display: flex;
+}
+
+.comImg {
+    display: flex;
+    width: 400px;
+    background-color: #58ACFA;
+    justify-content: space-between;
+    margin-left: 10px;
+}
+
+.comButtonDiv {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 280px;
+    background-color: blueviolet;
+}
+
+.comButton1 {
+    height: 35px;
+    font-size: 15px;
+}
+
+.comButton2 {
+    height: 35px;
+    font-size: 15px;
+}
+
+.listDiv {
+    display: flex;
+    background-color: burlywood;
+}
+
+.choiceList {
+    display: flex;
+    justify-content: space-around;
+    width: 300px;
+    margin-top: 10px;
+    background-color: chartreuse;
+}
+
+.tierP {
+    width: 150px;
+    height: 30px;
+
+}
+
+.sortP {
+    width: 100px;
+    height: 30px;
+
+}
+
+.resultCom {
+    background-color: #58ACFA;
+}
+
+
+/* ---rightDiv 끝--- */
