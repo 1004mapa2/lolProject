@@ -3,15 +3,28 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.lol.repository.LolMapper">
-    <select id="getComsaveId" parameterType="com.lol.dto.ChampionDto">
-        SELECT ID FROM COMSAVE WHERE TOPID= #{topId} AND JUNGLEID= #{jungleId} AND MIDDLEID= #{middleId} AND BOTTOMID= #{bottomId} AND UTILITYID= #{utilityId}
+
+    <select id="getAllTier" parameterType="com.lol.dto.ReceiveDto" resultType="com.lol.dto.AllTierDto">
+        SELECT * FROM ALLTIER WHERE TIER= #{tier} ORDER BY ${sort} DESC FETCH FIRST 5 ROWS ONLY
     </select>
 
-    <select id="getPickCount" parameterType="com.lol.dto.ComsaveIdDto" resultType="int">
-        SELECT COUNT(WIN) FROM ALLTIER WHERE COMSAVEID= #{id}
+    <select id="topToName" parameterType="string" resultType="string">
+        SELECT CHAMPIONNAME FROM CHAMPIONNAME WHERE ID= #{topId}
     </select>
 
-    <select id="getWinCount" parameterType="com.lol.dto.ComsaveIdDto" resultType="int">
-        SELECT COUNT(WIN) AS WINCOUNT FROM ALLTIER WHERE COMSAVEID= #{id} AND WIN= #{T}
+    <select id="jungleToName" parameterType="string" resultType="string">
+        SELECT CHAMPIONNAME FROM CHAMPIONNAME WHERE ID= #{jungleId}
+    </select>
+
+    <select id="middleToName" parameterType="string" resultType="string">
+        SELECT CHAMPIONNAME FROM CHAMPIONNAME WHERE ID= #{middleId}
+    </select>
+
+    <select id="bottomToName" parameterType="string" resultType="string">
+        SELECT CHAMPIONNAME FROM CHAMPIONNAME WHERE ID= #{bottomId}
+    </select>
+
+    <select id="utilityToName" parameterType="string" resultType="string">
+        SELECT CHAMPIONNAME FROM CHAMPIONNAME WHERE ID= #{utilityId}
     </select>
 </mapper>
