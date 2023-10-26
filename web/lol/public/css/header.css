@@ -1,0 +1,60 @@
+.headerDiv {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    min-width: 1080px;
+}
+
+.logo {
+    position: absolute;
+    margin-right: 800px;
+    margin-top: 20px;
+    width: 200px;
+    height: 80px;
+    z-index: 1;
+}
+
+.backImage {
+    width: 100%;
+    height: 150px;
+    opacity: 0.8;
+}
+
+.headerList {
+    width: 1080px;
+    height: 150px;
+    display: flex;
+    position: absolute;
+    align-items: flex-end;
+}
+
+a {
+    text-decoration: none; /*밑줄 지우기*/
+    color: #FFFFFF;
+}
+
+
+
+.tabBar {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+header ul {
+    list-style: none;
+    display: flex;
+    font-size: 20px;
+    font-weight: bold;
+    margin-block: 0;
+    padding-inline: 0;
+    width: 350px;
+    justify-content: space-around;
+}
+
+.loginDiv {
+    display: flex;
+    width: 710px;
+    font-size: 20px;
+    font-weight: bold;
+    justify-content: flex-end;
+}
