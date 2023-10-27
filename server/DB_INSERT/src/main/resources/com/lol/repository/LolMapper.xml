@@ -3,25 +3,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.lol.repository.LolMapper">
-    <insert id="insertOriginalDto" parameterType="com.lol.dto.OriginalDto">
-        INSERT INTO ORIGINAL(ID, GAMETIME, INSERTTIME, TIER, MATCHID, TOPID, JUNGLEID, MIDDLEID, BOTTOMID, UTILITYID, COMSAVEID, TEAMID, WIN, STATUS)
-        VALUES(ORIGINAL_AUTOINC.NEXTVAL, #{gameTime}, #{insertTime}, #{tier}, #{matchId}, #{topId}, #{jungleId}, #{middleId}, #{bottomId}, #{utilityId}, #{comSaveId}, #{teamId}, #{win}, #{status})
-    </insert>
-
-    <insert id="insertChampionIdDto" parameterType="com.lol.dto.ChampionIdDto">
-        INSERT INTO CHAMPIONNAME(ID, CHAMPIONNAME)
-        VALUES(#{id}, #{ChampionName})
-    </insert>
-
-    <select id="checkCombination" resultType="com.lol.dto.CombinationDto">
-        SELECT ID FROM COMSAVE WHERE TOPID= #{topId} AND JUNGLEID= #{jungleId} AND MIDDLEID= #{middleId} AND BOTTOMID= #{bottomId} AND UTILITYID= #{utilityId}
-    </select>
-
-    <insert id="insertCombinationDto" parameterType="com.lol.dto.CombinationDto">
-        INSERT INTO COMSAVE(ID, TOPID, JUNGLEID, MIDDLEID, BOTTOMID, UTILITYID)
-        VALUES(COMSAVE_AUTOINC.NEXTVAL, #{topId}, #{jungleId}, #{middleId}, #{bottomId}, #{utilityId})
-    </insert>
-
     <insert id="insertSummonerDto" parameterType="com.lol.dto.SummonerDto">
         INSERT INTO SUMMONERLIST(ID, TIER, SUMMONERID, SUMMONERNAME, STATUS)
         VALUES(SUMMONERLIST_AUTOINC.NEXTVAL, #{tier}, #{summonerId}, #{summonerName}, #{status})
@@ -30,21 +11,41 @@
     <select id="checkSummonerList" parameterType="int" resultType="com.lol.dto.SummonerDto">
         SELECT SUMMONERID, TIER, STATUS FROM SUMMONERLIST WHERE ID= #{id}
     </select>
-    
-    <update id="updateSummonerStatus" parameterType="com.lol.dto.SummonerDto">
-        UPDATE SUMMONERLIST SET STATUS= #{status} WHERE ID= #{id}
-    </update>
 
     <select id="checkMatchId" parameterType="string" resultType="com.lol.dto.OriginalDto">
         SELECT MATCHID FROM ORIGINAL WHERE MATCHID= #{matchId} GROUP BY MATCHID
     </select>
 
-    <insert id="moveTier" parameterType="string">
-        INSERT INTO ALLTIER(ID, TIER, WIN, COMSAVEID)
-        SELECT ALLTIER_AUTOINC.NEXTVAL, TIER, WIN, COMSAVEID FROM ORIGINAL WHERE STATUS= #{sign}
+    <update id="updateSummonerStatus" parameterType="com.lol.dto.SummonerDto">
+        UPDATE SUMMONERLIST SET STATUS= #{status} WHERE ID= #{id}
+    </update>
+
+    <insert id="moveTier">
+        INSERT INTO ALLTIER(ID, COMSAVEID, TIER, GAMETIME, TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME, WINRATE, PICKCOUNT)
+        SELECT ALLTIER_AUTOINC.NEXTVAL, COMSAVEID, TIER, GAMETIME, TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME, WINRATE, PICKCOUNT
+        FROM (SELECT COMSAVEID, TIER, GAMETIME, TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME,
+                     COUNT(CASE WHEN WIN = 'true' THEN '1' END) / COUNT(*) AS WINRATE,
+                     COUNT(*) AS PICKCOUNT
+              FROM ORIGINAL
+              GROUP BY COMSAVEID, TIER, GAMETIME, TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME)
     </insert>
 
-    <update id="updateOriginalStatus" parameterType="com.lol.dto.Sign">
-        UPDATE ORIGINAL SET STATUS= #{o_sign} WHERE STATUS= #{x_sign}
-    </update>
+    <select id="checkCombination" resultType="com.lol.dto.CombinationDto">
+        SELECT ID FROM COMSAVE WHERE TOPNAME= #{topName} AND JUNGLENAME= #{jungleName} AND MIDDLENAME= #{middleName} AND BOTTOMNAME= #{bottomName} AND UTILITYNAME= #{utilityName}
+    </select>
+
+    <insert id="insertCombinationDto" parameterType="com.lol.dto.CombinationDto">
+        INSERT INTO COMSAVE(ID, TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME)
+        VALUES(COMSAVE_AUTOINC.NEXTVAL, #{topName}, #{jungleName}, #{middleName}, #{bottomName}, #{utilityName})
+    </insert>
+
+    <insert id="insertOriginalDto" parameterType="com.lol.dto.OriginalDto">
+        INSERT INTO ORIGINAL(ID, GAMETIME, INSERTTIME, TIER, MATCHID, TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME, COMSAVEID, TEAMID, WIN)
+        VALUES(ORIGINAL_AUTOINC.NEXTVAL, #{gameTime}, #{insertTime}, #{tier}, #{matchId}, #{topName}, #{jungleName}, #{middleName}, #{bottomName}, #{utilityName}, #{comSaveId}, #{teamId}, #{win})
+    </insert>
+
+    <insert id="insertChampionIdDto" parameterType="com.lol.dto.ChampionIdDto">
+        INSERT INTO CHAMPIONNAME(ID, CHAMPIONNAME)
+        VALUES(#{id}, #{ChampionName})
+    </insert>
 </mapper>

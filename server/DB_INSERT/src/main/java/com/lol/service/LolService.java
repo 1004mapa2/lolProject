@@ -19,7 +19,7 @@ import java.util.*;
 @Service
 public class LolService {
 
-    private final String apiKey = "";
+    private final String apiKey = "RGAPI-1a44c0e4-a177-44ff-9de3-79ca9c4bbb2a";
     private final LolMapper mapper;
     private final WebClient.Builder builder = WebClient.builder(); //url 호출할 때마다 필요해서 메모리 절약을 위해 생성
     private String startTime = "1696971600"; //10월11일 6시 유닉스 타임스탬프
@@ -98,8 +98,7 @@ public class LolService {
                  */
                 for (String matchId : matchList) {
                     Optional<OriginalDto> originalMatchId = mapper.checkMatchId(matchId);
-                    if (originalMatchId.isPresent() == false) {
-                        //matchId 중복이면 실행x
+                    if (originalMatchId.isPresent() == false) { //matchId 중복이면 실행x
                         String matchUrl = "https://asia.api.riotgames.com/lol/match/v5/matches/" + matchId + "?api_key=" + apiKey;
                         count = countCheck(count);
                         String matchData = getGsonData(matchUrl, builder);
@@ -123,23 +122,23 @@ public class LolService {
 
                         for (int j = 0; j < participantsData.size(); j++) {
                             JsonObject playerInfo = (JsonObject) participantsData.get(j);
-                            String championId = playerInfo.get("championId").toString();
+                            String championName = playerInfo.get("championName").toString().replaceAll("\"", "");
                             String teamPosition = playerInfo.get("teamPosition").toString().replaceAll("\"", "");
                             if (teamPosition.equals("TOP")) {
-                                originalDto.setTopId(championId);
-                                combinationDto.setTopId(championId);
+                                originalDto.setTopName(championName);
+                                combinationDto.setTopName(championName);
                             } else if (teamPosition.equals("JUNGLE")) {
-                                originalDto.setJungleId(championId);
-                                combinationDto.setJungleId(championId);
+                                originalDto.setJungleName(championName);
+                                combinationDto.setJungleName(championName);
                             } else if (teamPosition.equals("MIDDLE")) {
-                                originalDto.setMiddleId(championId);
-                                combinationDto.setMiddleId(championId);
+                                originalDto.setMiddleName(championName);
+                                combinationDto.setMiddleName(championName);
                             } else if (teamPosition.equals("BOTTOM")) {
-                                originalDto.setBottomId(championId);
-                                combinationDto.setBottomId(championId);
+                                originalDto.setBottomName(championName);
+                                combinationDto.setBottomName(championName);
                             } else if (teamPosition.equals("UTILITY")) {
-                                originalDto.setUtilityId(championId);
-                                combinationDto.setUtilityId(championId);
+                                originalDto.setUtilityName(championName);
+                                combinationDto.setUtilityName(championName);
                             } else {
                                 System.out.println("오류");
                                 //try-catch 써보기
@@ -165,9 +164,7 @@ public class LolService {
     } //end method
 
     public void moveDB_originalToTier() {
-        Sign sign = new Sign();
-        mapper.moveTier(sign.getX_sign());
-        mapper.updateOriginalStatus(sign);
+        mapper.moveTier();
     }
 
 
@@ -187,26 +184,25 @@ public class LolService {
         return count;
     }
 
-    private void setDataAndInsertDB(String tier, String matchId, String formatGameTime, String formatNowTime, OriginalDto obj, CombinationDto combinationDto, JsonObject playerInfo) {
+    private void setDataAndInsertDB(String tier, String matchId, String formatGameTime, String formatNowTime, OriginalDto originalDto, CombinationDto combinationDto, JsonObject playerInfo) {
         Optional<CombinationDto> comData = mapper.checkCombination(combinationDto);
         if (comData.isPresent()) { //조합 테이블에 조합 ID가 있으면 그 ID를 obj 객체에 넣기
             int comSaveId = comData.get().getId();
-            obj.setComSaveId(comSaveId);
+            originalDto.setComSaveId(comSaveId);
         } else { //조합 테이블에 조합 ID가 없으면 새로 DB에 넣고 그 comSaveId 가져오기
             mapper.insertCombinationDto(combinationDto);
             int comSaveId = mapper.checkCombination(combinationDto).get().getId();
-            obj.setComSaveId(comSaveId);
+            originalDto.setComSaveId(comSaveId);
         }
         String teamId = playerInfo.get("teamId").toString();
         String win = playerInfo.get("win").toString();
-        obj.setTeamId(teamId);
-        obj.setWin(win);
-        obj.setGameTime(formatGameTime);
-        obj.setInsertTime(formatNowTime);
-        obj.setTier(tier);
-        obj.setMatchId(matchId);
-        obj.setStatus("X");
-        mapper.insertOriginalDto(obj);
+        originalDto.setTeamId(teamId);
+        originalDto.setWin(win);
+        originalDto.setGameTime(formatGameTime);
+        originalDto.setInsertTime(formatNowTime);
+        originalDto.setTier(tier);
+        originalDto.setMatchId(matchId);
+        mapper.insertOriginalDto(originalDto);
     }
 
     public void insertChampionId() {
