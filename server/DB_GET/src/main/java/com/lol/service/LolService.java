@@ -17,14 +17,6 @@ public class LolService {
     public List<AllTierDto> getAllTierInfo(ReceiveDto receiveDto){
         List<AllTierDto> allTier = mapper.getAllTier(receiveDto);
 
-        for(AllTierDto data : allTier){
-            data.setTopId(mapper.topToName(data.getTopId()));
-            data.setJungleId(mapper.jungleToName(data.getJungleId()));
-            data.setMiddleId(mapper.middleToName(data.getMiddleId()));
-            data.setBottomId(mapper.bottomToName(data.getBottomId()));
-            data.setUtilityId(mapper.utilityToName(data.getUtilityId()));
-        }
-
         return allTier;
     }
 }
