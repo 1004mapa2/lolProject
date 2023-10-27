@@ -19,7 +19,7 @@ import java.util.*;
 @Service
 public class LolService {
 
-    private final String apiKey = "RGAPI-1a44c0e4-a177-44ff-9de3-79ca9c4bbb2a";
+    private final String apiKey = "";
     private final LolMapper mapper;
     private final WebClient.Builder builder = WebClient.builder(); //url 호출할 때마다 필요해서 메모리 절약을 위해 생성
     private String startTime = "1696971600"; //10월11일 6시 유닉스 타임스탬프
@@ -66,7 +66,7 @@ public class LolService {
         int id = 1;
         int count = 0;
         while (true) {
-            if (id == 3) {
+            if (id == 10) {
                 break;
             }
             Optional<SummonerDto> userInfo = mapper.checkSummonerList(id);
