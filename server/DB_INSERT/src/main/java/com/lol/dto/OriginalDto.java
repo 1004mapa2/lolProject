@@ -10,13 +10,12 @@ public class OriginalDto {
     private String insertTime;
     private String tier;
     private String matchId;
-    private String topId;
-    private String jungleId;
-    private String middleId;
-    private String bottomId;
-    private String utilityId;
+    private String topName;
+    private String jungleName;
+    private String middleName;
+    private String bottomName;
+    private String utilityName;
     private int comSaveId;
     private String teamId;
     private String win;
-    private String status;
 }

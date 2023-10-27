@@ -6,9 +6,9 @@ import lombok.Data;
 public class CombinationDto {
 
     private int id;
-    private String topId;
-    private String jungleId;
-    private String middleId;
-    private String bottomId;
-    private String utilityId;
+    private String topName;
+    private String jungleName;
+    private String middleName;
+    private String bottomName;
+    private String utilityName;
 }
