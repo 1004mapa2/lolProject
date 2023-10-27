@@ -8,23 +8,4 @@
         SELECT * FROM ALLTIER WHERE TIER= #{tier} ORDER BY ${sort} DESC FETCH FIRST 5 ROWS ONLY
     </select>
 
-    <select id="topToName" parameterType="string" resultType="string">
-        SELECT CHAMPIONNAME FROM CHAMPIONNAME WHERE ID= #{topId}
-    </select>
-
-    <select id="jungleToName" parameterType="string" resultType="string">
-        SELECT CHAMPIONNAME FROM CHAMPIONNAME WHERE ID= #{jungleId}
-    </select>
-
-    <select id="middleToName" parameterType="string" resultType="string">
-        SELECT CHAMPIONNAME FROM CHAMPIONNAME WHERE ID= #{middleId}
-    </select>
-
-    <select id="bottomToName" parameterType="string" resultType="string">
-        SELECT CHAMPIONNAME FROM CHAMPIONNAME WHERE ID= #{bottomId}
-    </select>
-
-    <select id="utilityToName" parameterType="string" resultType="string">
-        SELECT CHAMPIONNAME FROM CHAMPIONNAME WHERE ID= #{utilityId}
-    </select>
 </mapper>

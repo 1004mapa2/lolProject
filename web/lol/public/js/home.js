@@ -3,11 +3,11 @@ document.addEventListener("DOMContentLoaded", function () {
     ALLTIER받아오기();
 })
 
-document.querySelector('.sortP').addEventListener('input', function(){
+document.querySelector('.sortP').addEventListener('input', function () {
     ALLTIER받아오기();
 })
 
-document.querySelector('.tierP').addEventListener('input', function(){
+document.querySelector('.tierP').addEventListener('input', function () {
     ALLTIER받아오기();
 })
 
@@ -15,7 +15,7 @@ function ALLTIER받아오기() {
     var tierValue = document.querySelector('.tierP').value;
     var sortValue = document.querySelector('.sortP').value;
 
-    if(sortValue == '승률 순'){
+    if (sortValue == '승률 순') {
         sortValue = 'WINRATE';
     } else {
         sortValue = 'PICKCOUNT';
@@ -40,24 +40,22 @@ function ALLTIER받아오기() {
             return response.json();
         })
         .then(data => {
-            console.log(data);
-            for(let i = 0; i < data.length; i++){
-                document.querySelectorAll('.winRate')[i].innerHTML = data[i].winRate;
-                document.querySelectorAll('.pickCount')[i].innerHTML = data[i].pickCount;
-                for(let j = 0; j < 5; j++){
-                    if(j == 0){
-                        document.querySelectorAll('.resultCom')[i].querySelectorAll('img')[j].src = '/img/' + data[i].topId + '.png';
-                    }else if(j == 1){
-                        document.querySelectorAll('.resultCom')[i].querySelectorAll('img')[j].src = '/img/' + data[i].jungleId + '.png';
-                    }else if(j == 2){
-                        document.querySelectorAll('.resultCom')[i].querySelectorAll('img')[j].src = '/img/' + data[i].middleId + '.png';
-                    }else if(j == 3){
-                        document.querySelectorAll('.resultCom')[i].querySelectorAll('img')[j].src = '/img/' + data[i].bottomId + '.png';
-                    }else if(j == 4){
-                        document.querySelectorAll('.resultCom')[i].querySelectorAll('img')[j].src = '/img/' + data[i].utilityId + '.png';
-                    }
-                }
+            if(document.querySelector('.resultComBox').innerHTML != ""){
+                document.querySelector('.resultComBox').innerHTML = "";
             }
+            data.forEach(function(item){
+                var 열 =
+                `<div class="resultCom">
+                <img src="/img/${item.topName}.png">
+                <img src="/img/${item.jungleName}.png">
+                <img src="/img/${item.middleName}.png">
+                <img src="/img/${item.bottomName}.png">
+                <img src="/img/${item.utilityName}.png">
+                <a class="winRate">${item.winRate}</a>
+                <a class="pickCount">${item.pickCount}</a>
+                </div>`;
+                document.querySelector('.resultComBox').insertAdjacentHTML('beforeend', 열);
+            });
         })
 }
 

@@ -10,9 +10,5 @@ import java.util.List;
 public interface LolMapper {
 
     public List<AllTierDto> getAllTier(ReceiveDto receiveDto);
-    public String topToName(String topId);
-    public String jungleToName(String jungleId);
-    public String middleToName(String middleId);
-    public String bottomToName(String bottomId);
-    public String utilityToName(String utilityId);
+
 }
