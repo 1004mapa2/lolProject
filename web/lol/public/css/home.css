@@ -1,12 +1,13 @@
 main {
-    min-width: 1080px;
+    min-width: 1050px;
     background-color: #F5F3F7;
 }
 
 .container {
-    width: 1080px;
-    height: 2500px;
+    width: 1050px;
     margin: 0 auto;
+    display: flex;
+    justify-content: center;
 }
 
 .functionDiv {
@@ -18,31 +19,46 @@ main {
 .leftDiv {
     border: 1px solid #BDBDBD;
     background-color: #E9E4ED;
-    height: 2210px;
 }
 
 .searchDiv {
     display: flex;
-    justify-content: flex-end;
-    margin-right: 10px;
-    margin-top: 20px;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.searchInput {
+    height: 35px;
+    width: 310px;
 }
 
 .championListContainer {
     display: flex;
-    justify-content: center;
     width: 330px;
     margin-top: 10px;
 }
 
-.championListDiv {
-    width: 310px;
+main ul {
+    display: flex;
+    list-style: none;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    margin-left: 10px;
+    gap: 5px;
+}
+
+main li {
+    width: 60px;
 }
 
 img {
     width: 50px;
     height: 50px;
 }
+
+/* imgC {
+} */
 
 .championColumnDiv {
     display: flex;
@@ -54,7 +70,7 @@ img {
 
 /* ---middleDiv 시작--- */
 .middleDiv {
-    width: 55px;
+    width: 30px;
 }
 /* ---middleDiv 끝--- */
 
@@ -97,6 +113,8 @@ img {
 }
 
 .comImg {
+    position: sticky;
+    top: 0;
     display: flex;
     width: 400px;
     background-color: #58ACFA;
