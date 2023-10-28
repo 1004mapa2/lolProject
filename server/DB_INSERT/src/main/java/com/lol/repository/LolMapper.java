@@ -16,15 +16,15 @@ public interface LolMapper {
 
     public void updateSummonerStatus(SummonerDto summonerDto);
 
-    public void moveTier();
+    public void moveTier(String tierName);
+
+    public Optional<Integer> checkChampionId(int championId);
+
+    public void insertChampionNameDto(ChampionNameDto championNameDto);
 
     public Optional<CombinationDto> checkCombination(CombinationDto combinationDto);
 
     public void insertCombinationDto(CombinationDto combinationDto);
 
     public void insertOriginalDto(OriginalDto originalDto);
-
-    public void insertChampionIdDto(ChampionIdDto championIdDto);
-
-
 }
