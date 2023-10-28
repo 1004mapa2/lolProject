@@ -2,7 +2,7 @@
     display: flex;
     position: relative;
     justify-content: center;
-    min-width: 1080px;
+    min-width: 1050px;
 }
 
 .logo {
@@ -21,7 +21,7 @@
 }
 
 .headerList {
-    width: 1080px;
+    width: 1050px;
     height: 150px;
     display: flex;
     position: absolute;
@@ -53,7 +53,7 @@ header ul {
 
 .loginDiv {
     display: flex;
-    width: 710px;
+    width: 650px;
     font-size: 20px;
     font-weight: bold;
     justify-content: flex-end;
