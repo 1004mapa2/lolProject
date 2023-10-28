@@ -22,8 +22,8 @@ public class LolService {
     private final String apiKey = "";
     private final LolMapper mapper;
     private final WebClient.Builder builder = WebClient.builder(); //url 호출할 때마다 필요해서 메모리 절약을 위해 생성
-    private String startTime = "1696971600"; //10월11일 6시 유닉스 타임스탬프
-    private String endTime = "1697058000"; //10월12일 6시 유닉스 타임스탬프
+    private String startTime = "1698094800";
+    private String endTime = "1698181200";
     private static List<String> tier = new ArrayList<>(Arrays.asList("CHALLENGER", "GRANDMASTER", "MASTER"));
 
     public LolService(LolMapper mapper) {
@@ -36,7 +36,7 @@ public class LolService {
          */
         Gson gson = new Gson();
         for (String tierName : tier) {
-            for (int i = 1; i <= 2; i++) {
+            for (int i = 1; i <= 5; i++) {
                 String summonerIdUrl = "https://kr.api.riotgames.com/lol/league-exp/v4/entries/RANKED_SOLO_5x5/" + tierName + "/I?page=" + i + "&api_key=" + apiKey; //page5면 1000명 정도
                 String usersInfo = getGsonData(summonerIdUrl, builder);
                 JsonArray dataToArray = gson.fromJson(usersInfo, JsonArray.class);
@@ -115,24 +115,25 @@ public class LolService {
                         JsonArray participantsData = (JsonArray) infoData.get("participants");
                         OriginalDto originalDto1 = new OriginalDto(); //1팀 객체 생성
                         OriginalDto originalDto2 = new OriginalDto(); //2팀 객체 생성
-                        CombinationDto combinationDto = new CombinationDto(); //COMSAVE COLUMN 만들기
+                        CombinationDto combinationDto1 = new CombinationDto();
+                        CombinationDto combinationDto2 = new CombinationDto();
 
                         for (int j = 0; j < participantsData.size(); j++) {
                             JsonObject playerInfo = (JsonObject) participantsData.get(j);
                             String championName = playerInfo.get("championName").toString().replaceAll("\"", "");
                             String teamPosition = playerInfo.get("teamPosition").toString().replaceAll("\"", "");
                             if (j < 5) {
-                                if (setChampionName(originalDto1, combinationDto, championName, teamPosition)) break;
+                                if (setChampionName(originalDto1, combinationDto1, championName, teamPosition)) break;
                                 originalDto1.setTeamId(playerInfo.get("teamId").toString());
                                 originalDto1.setWin(playerInfo.get("win").toString());
                             } else if (j < 10) {
-                                if (setChampionName(originalDto2, combinationDto, championName, teamPosition)) break;
+                                if (setChampionName(originalDto2, combinationDto2, championName, teamPosition)) break;
                                 originalDto2.setTeamId(playerInfo.get("teamId").toString());
                                 originalDto2.setWin(playerInfo.get("win").toString());
                             }
                             if (j == participantsData.size() - 1) {
-                                setDataAndInsertDB(tier, matchId, formatGameTime, formatNowTime, originalDto1, combinationDto);
-                                setDataAndInsertDB(tier, matchId, formatGameTime, formatNowTime, originalDto2, combinationDto);
+                                setDataAndInsertDB(tier, matchId, formatGameTime, formatNowTime, originalDto1, combinationDto1);
+                                setDataAndInsertDB(tier, matchId, formatGameTime, formatNowTime, originalDto2, combinationDto2);
                             }
                         } //end for(match)
                     }

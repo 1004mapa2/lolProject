@@ -1,2 +1,10 @@
-package com.lol.dto;public class FindChampionNameDto {
+package com.lol.dto;
+
+import lombok.Data;
+
+@Data
+public class FindChampionNameDto {
+
+    private String sort;
+    private String input;
 }
