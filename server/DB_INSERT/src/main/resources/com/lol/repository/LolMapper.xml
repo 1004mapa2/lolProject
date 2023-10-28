@@ -21,14 +21,19 @@
     </update>
 
     <insert id="moveTier">
-        INSERT INTO ALLTIER(ID, COMSAVEID, TIER, GAMETIME, TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME, WINRATE, PICKCOUNT)
-        SELECT ALLTIER_AUTOINC.NEXTVAL, COMSAVEID, TIER, GAMETIME, TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME, WINRATE, PICKCOUNT
-        FROM (SELECT COMSAVEID, TIER, GAMETIME, TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME,
+        INSERT INTO ALLTIER(ID, COMSAVEID, TIER, TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME, WINRATE, PICKCOUNT)
+        SELECT ALLTIER_AUTOINC.NEXTVAL, COMSAVEID, TIER, TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME, WINRATE, PICKCOUNT
+        FROM (SELECT COMSAVEID, TIER, TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME,
                      COUNT(CASE WHEN WIN = 'true' THEN '1' END) / COUNT(*) AS WINRATE,
                      COUNT(*) AS PICKCOUNT
               FROM ORIGINAL
-              GROUP BY COMSAVEID, TIER, GAMETIME, TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME)
+              WHERE TIER= #{tierName}
+              GROUP BY COMSAVEID, TIER, TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME)
     </insert>
+
+    <select id="checkChampionId" parameterType="int">
+        SELECT ID FROM CHAMPIONNAME WHERE ID= #{championId}
+    </select>
 
     <select id="checkCombination" resultType="com.lol.dto.CombinationDto">
         SELECT ID FROM COMSAVE WHERE TOPNAME= #{topName} AND JUNGLENAME= #{jungleName} AND MIDDLENAME= #{middleName} AND BOTTOMNAME= #{bottomName} AND UTILITYNAME= #{utilityName}
@@ -44,8 +49,8 @@
         VALUES(ORIGINAL_AUTOINC.NEXTVAL, #{gameTime}, #{insertTime}, #{tier}, #{matchId}, #{topName}, #{jungleName}, #{middleName}, #{bottomName}, #{utilityName}, #{comSaveId}, #{teamId}, #{win})
     </insert>
 
-    <insert id="insertChampionIdDto" parameterType="com.lol.dto.ChampionIdDto">
-        INSERT INTO CHAMPIONNAME(ID, CHAMPIONNAME)
-        VALUES(#{id}, #{ChampionName})
+    <insert id="championNameDto" parameterType="com.lol.dto.ChampionNameDto">
+        INSERT INTO CHAMPIONNAME(ID, CHAMPIONENGNAME, CHAMPIONKORNAME)
+        VALUES(#{id}, #{ChampionEngName}, #{ChampionKorName})
     </insert>
 </mapper>
