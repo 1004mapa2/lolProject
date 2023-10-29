@@ -72,19 +72,21 @@ document.querySelector('.tierP').addEventListener('input', function () {
 })
 
 function ALLTIER받아오기() {
-    var tierValue = document.querySelector('.tierP').value;
-    var sortValue = document.querySelector('.sortP').value;
+    const dataToSend = {};
+    sortValue = document.querySelector('.sortP').value;
+    tierValue = document.querySelector('.tierP').value;
 
     if (sortValue == '승률 순') {
         sortValue = 'WINRATE';
     } else {
         sortValue = 'PICKCOUNT';
     }
-
-    const dataToSend = {
-        tier: tierValue,
-        sort: sortValue
-    }
+    var championNameData = document.querySelector('.comImg').querySelectorAll('img');
+    championNameData.forEach(function (data, i) {
+        dataToSend[`championName${i + 1}`] = data.src.replace('http://localhost:3000/img/', '').replace('.png', '');
+    })
+    dataToSend.tier = tierValue;
+    dataToSend.sort = sortValue;
 
     fetch('http://localhost:8081/1', {
         method: 'POST',
@@ -142,29 +144,7 @@ function 조합박스(click_src) {
     }
 
     if (list[list.length - 1].src != empty) {
-        console.log("dkssud");
-        // fetch('http://localhost:8081/2', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify(dataToSend)
-        // })
-        //     .then(response => {
-        //         if (!response.ok) {
-        //             throw new Error('http 오류: ' + response.status);
-        //         }
-        //         return response.json();
-        //     })
-        //     .then(data => {
-        //         if (data == null) {
-        //             alert('조합이 없습니다');
-        //         } else {
-        //             document.querySelector('.pickCount').innerHTML = data.value.pickCount;
-        //             document.querySelector('.winRate').innerHTML = data.value.winRate * 100 + '%';
-        //         }
-
-        //     })
+        ALLTIER받아오기();
     }
 }
 
@@ -183,6 +163,10 @@ function 랜덤() {
             break;
         }
     }
+
+    if (list[list.length - 1].src != empty) {
+        ALLTIER받아오기();
+    }
 }
 
 
@@ -191,4 +175,5 @@ function 비우기() {
     for (let i = 0; i < list.length; i++) {
         list[i].src = "/img/emptyBox.png";
     }
+    ALLTIER받아오기();
 }
