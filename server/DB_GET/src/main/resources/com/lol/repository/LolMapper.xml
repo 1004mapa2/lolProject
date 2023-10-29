@@ -5,7 +5,7 @@
 <mapper namespace="com.lol.repository.LolMapper">
 
     <select id="getAllTier" parameterType="com.lol.dto.ReceiveDto" resultType="com.lol.dto.AllTierDto">
-        SELECT * FROM ALLTIER WHERE TIER= #{tier} ORDER BY ${sort} DESC FETCH FIRST 10 ROWS ONLY
+        SELECT * FROM ALLTIER WHERE TIER= #{tier} ORDER BY ${sort} DESC FETCH FIRST 15 ROWS ONLY
     </select>
 
     <select id="getAllChampionName" resultType="com.lol.dto.ChampionNameDto">

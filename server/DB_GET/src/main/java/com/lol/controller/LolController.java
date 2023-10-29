@@ -29,8 +29,8 @@ public class LolController {
     public String getChampionNameInfo(@RequestBody String data){
         Gson gson = new Gson();
         String reData = gson.fromJson(data, String.class);
-        List<ChampionNameDto> championNameDto = lolService.getChampionNameInfo(reData);
-        String json = gson.toJson(championNameDto);
+        List<ChampionNameDto> championNameDtos = lolService.getChampionNameInfo(reData);
+        String json = gson.toJson(championNameDtos);
 
         return json;
     }

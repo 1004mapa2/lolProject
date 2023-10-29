@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,13 +26,14 @@ public class LolService {
     public List<ChampionNameDto> getChampionNameInfo(String data) {
         String sort = "CHAMPIONKORNAME";
         if (data.isEmpty()) {
+
             return mapper.getAllChampionName(sort);
         } else {
             FindChampionNameDto findChampionNameDto = new FindChampionNameDto();
             findChampionNameDto.setSort(sort);
             findChampionNameDto.setInput(data);
+
             return mapper.getChampionName(findChampionNameDto);
         }
-
     }
 }
