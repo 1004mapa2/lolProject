@@ -4,15 +4,37 @@
 
 <mapper namespace="com.lol.repository.LolMapper">
 
-    <select id="getAllTier" parameterType="com.lol.dto.ReceiveDto" resultType="com.lol.dto.AllTierDto">
-        SELECT * FROM ALLTIER WHERE TIER= #{tier} ORDER BY ${sort} DESC FETCH FIRST 15 ROWS ONLY
+    <select id="getAllTierDtos" parameterType="com.lol.dto.ReceiveDto" resultType="com.lol.dto.AllTierDto">
+        SELECT * FROM ALLTIER
+        WHERE TIER= #{tier}
+
+        <where>
+            <if test="championName1 != null">
+                AND TOPNAME= #{championName1}
+            </if>
+            <if test="championName2 != null">
+                AND JUNGLENAME= #{championName2}
+            </if>
+            <if test="championName3 != null">
+                AND MIDDLENAME= #{championName3}
+            </if>
+            <if test="championName4 != null">
+                AND BOTTOMNAME= #{championName4}
+            </if>
+            <if test="championName5 != null">
+                AND UTILITYNAME= #{championName5}
+            </if>
+        </where>
+        ORDER BY ${sort} DESC FETCH FIRST 15 ROWS ONLY
     </select>
 
-    <select id="getAllChampionName" resultType="com.lol.dto.ChampionNameDto">
-        SELECT * FROM CHAMPIONNAME ORDER BY ${sort}
-    </select>
-
-    <select id="getChampionName" parameterType="com.lol.dto.FindChampionNameDto" resultType="com.lol.dto.ChampionNameDto">
-        SELECT * FROM CHAMPIONNAME WHERE CHAMPIONKORNAME LIKE '%'||#{input}||'%' ORDER BY ${sort}
+    <select id="getChampionNameDtos" parameterType="string" resultType="com.lol.dto.ChampionNameDto">
+        SELECT * FROM CHAMPIONNAME
+        <where>
+            <if test="input != ''">
+                AND CHAMPIONKORNAME LIKE '%'||#{input}||'%'
+            </if>
+        </where>
+        ORDER BY CHAMPIONKORNAME
     </select>
 </mapper>

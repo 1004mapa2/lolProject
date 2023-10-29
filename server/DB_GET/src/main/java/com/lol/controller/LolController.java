@@ -6,7 +6,10 @@ import com.lol.dto.ChampionNameDto;
 import com.lol.dto.ReceiveDto;
 import com.lol.service.LolService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -18,8 +21,8 @@ public class LolController {
     private final LolService lolService;
     @PostMapping("/1")
     public String getAllTierInfo(@RequestBody ReceiveDto data){
-        List<AllTierDto> allTierInfo = lolService.getAllTierInfo(data);
         Gson gson = new Gson();
+        List<AllTierDto> allTierInfo = lolService.getAllTierInfo(data);
         String json = gson.toJson(allTierInfo);
 
         return json;
@@ -29,8 +32,8 @@ public class LolController {
     public String getChampionNameInfo(@RequestBody String data){
         Gson gson = new Gson();
         String reData = gson.fromJson(data, String.class);
-        List<ChampionNameDto> championNameDtos = lolService.getChampionNameInfo(reData);
-        String json = gson.toJson(championNameDtos);
+        List<ChampionNameDto> championNameInfo = lolService.getChampionNameInfo(reData);
+        String json = gson.toJson(championNameInfo);
 
         return json;
     }
