@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="css/home.css">
     <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/footer.css">
 </head>
 
 <body style="margin: 0">
@@ -14,6 +15,7 @@
         <div class="headerDiv">
             <img class="logo" src="/img/logo.png">
             <img class="backImage" src="/img/backImage.jpg">
+            <div class="blackBar"></div>
             <div class="headerList">
                 <div class="tabBar">
                     <nav>
@@ -33,11 +35,13 @@
         <div class="container">
             <div class="functionDiv">
                 <div class="leftDiv">
-                    <div class="searchDiv">
-                        <input class="searchInput" placeholder="챔피언을 입력하세요">
-                    </div>
-                    <div class="championListContainer">
-                        <ul></ul>
+                    <div class="championDiv">
+                        <div class="searchDiv">
+                            <input class="searchInput" placeholder="챔피언을 입력하세요">
+                        </div>
+                        <div class="championListContainer">
+                            <ul></ul>
+                        </div>
                     </div>
                 </div>
                 <!--  -->
@@ -76,13 +80,20 @@
                                 <option>픽 횟수 순</option>
                             </select>
                         </div>
+                        <div style="width: 100px;"></div>
+                        <div class="definition">
+                            <span>승률</span>
+                            <span>픽 횟수</span>
+                        </div>
                     </div>
                     <div class="resultComBox"></div>
-
-
                 </div>
             </div>
+        </div>
     </main>
+    <footer>
+        <div class="footerBox"></div>
+    </footer>
     <script src="/js/home.js"></script>
 </body>
 

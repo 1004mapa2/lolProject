@@ -151,6 +151,11 @@ public class LolService {
     } //end method
 
     public void moveDB_originalToTier() {
+        //테이블 삭제 후 다시 생성
+        mapper.deleteAlltier();
+        mapper.deleteAlltierSeq();
+        mapper.createAlltier();
+        mapper.createAlltierSeq();
         for (String tierName : tier) {
             mapper.moveTier(tierName);
         }

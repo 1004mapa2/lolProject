@@ -1,5 +1,16 @@
+@font-face {
+    font-family: "Nanum";
+    src: url("../font/NanumSquareL.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "NanumRound";
+    src: url("../font/NanumSquareRoundR.ttf") format("truetype");
+}
+
 main {
     min-width: 1050px;
+    height: 2050px;
     background-color: #F5F3F7;
 }
 
@@ -17,6 +28,10 @@ main {
 
 /* ---leftDiv 시작--- */
 .leftDiv {
+    height: 2000px;
+}
+
+.championDiv {
     border: 1px solid #BDBDBD;
     background-color: #E9E4ED;
 }
@@ -65,6 +80,7 @@ img {
     justify-content: space-between;
     margin-bottom: 15px;
 }
+
 /* ---leftDiv 끝--- */
 
 
@@ -72,14 +88,15 @@ img {
 .middleDiv {
     width: 30px;
 }
+
 /* ---middleDiv 끝--- */
 
 
 /* ---rightDiv 시작--- */
 .rightDiv {
     border: 1px solid #BDBDBD;
-    background-color: #F78181;
-    height: 1000px;
+    background-color: #E9E4ED;
+    height: 2000px;
 }
 
 .positionName {
@@ -108,16 +125,16 @@ img {
 }
 
 .comDiv {
-    background-color: cadetblue;
+    background-color: #61398F;
     display: flex;
+    position: sticky;
+    top: 200px;
+    
 }
 
 .comImg {
-    position: sticky;
-    top: 0;
     display: flex;
     width: 400px;
-    background-color: #58ACFA;
     justify-content: space-between;
     margin-left: 10px;
 }
@@ -127,30 +144,38 @@ img {
     justify-content: space-around;
     align-items: center;
     width: 280px;
-    background-color: blueviolet;
 }
 
 .comButton1 {
     height: 35px;
     font-size: 15px;
+    font-family: 'NanumRound', serif;
+    border-width: 5px;
+    border-color: #E9E4ED;
+    border-radius: 10px;
 }
 
 .comButton2 {
     height: 35px;
     font-size: 15px;
+    font-family: 'NanumRound', serif;
+    border-width: 5px;
+    border-color: #E9E4ED;
+    border-radius: 10px;
 }
 
 .listDiv {
     display: flex;
-    background-color: burlywood;
+    background-color: #8B5FBF;
+    height: 40px;
 }
 
 .choiceList {
     display: flex;
     justify-content: space-around;
+    align-items: center;
     width: 300px;
-    margin-top: 10px;
-    background-color: chartreuse;
+    background-color: #8B5FBF;
 }
 
 .tierP {
@@ -165,9 +190,52 @@ img {
 
 }
 
-.resultCom {
-    background-color: #58ACFA;
+.definition {
+    margin-left: 10px;
+    display: flex;
+    justify-content: space-around;
+    width: 280px;
+    align-items: center;
+    font-weight: bold;
 }
 
+.resultCom {
+    display: flex;
+    margin-top: 20px;
+    background-color: #FFFFFF;
 
+}
+
+.littleSpace {
+    background-color: #E9E4ED;
+    width: 15px;
+}
+
+.totalBox {
+    display: flex;
+}
+
+.championComBox {
+    display: flex;
+    justify-content: space-around;
+    width: 400px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+
+}
+
+.definitionBox {
+    display: flex;
+    justify-content: space-around;
+    width: 260px;
+    align-items: center;
+}
+
+.winRate {
+    color: #000000;
+}
+
+.pickCount {
+    color: #000000;
+}
 /* ---rightDiv 끝--- */

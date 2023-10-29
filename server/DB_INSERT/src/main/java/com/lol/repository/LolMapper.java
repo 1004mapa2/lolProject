@@ -16,6 +16,18 @@ public interface LolMapper {
 
     public void updateSummonerStatus(SummonerDto summonerDto);
 
+
+    //ALLTIER 삭제 생성 시작
+    public void deleteAlltier();
+
+    public void deleteAlltierSeq();
+
+    public void createAlltier();
+
+    public void createAlltierSeq();
+    //ALLTIER 삭제 생성 끝
+
+
     public void moveTier(String tierName);
 
     public Optional<Integer> checkChampionId(int championId);
