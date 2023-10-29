@@ -20,11 +20,17 @@ function CHAMPIONNAME받아오기(value) {
         })
         .then(data => {
             document.querySelector('main ul').innerHTML = "";
-            data.forEach(function (item) {
-                var 열 =
-                    `<li><img src="/img/${item.ChampionEngName}.png"></li>`;
-                document.querySelector('main ul').insertAdjacentHTML('beforeend', 열);
-            })
+            if (data.length == 0) {
+                var 없음 =
+                    `<div>그런 챔프는 없어..<div>`;
+                document.querySelector('main ul').insertAdjacentHTML('beforeend', 없음);
+            } else {
+                data.forEach(function (item) {
+                    var 열 =
+                        `<li><img src="/img/${item.ChampionEngName}.png"></li>`;
+                    document.querySelector('main ul').insertAdjacentHTML('beforeend', 열);
+                })
+            }
         })
 }
 
@@ -100,14 +106,22 @@ function ALLTIER받아오기() {
             data.forEach(function (item) {
                 var 열 =
                     `<div class="resultCom">
-                <img src="/img/${item.topName}.png">
-                <img src="/img/${item.jungleName}.png">
-                <img src="/img/${item.middleName}.png">
-                <img src="/img/${item.bottomName}.png">
-                <img src="/img/${item.utilityName}.png">
-                <a class="winRate">${item.winRate}</a>
-                <a class="pickCount">${item.pickCount}</a>
-                </div>`;
+                        <div class="littleSpace"></div>
+                        <div class="totalBox">
+                            <div class="championComBox">
+                                <img src="/img/${item.topName}.png">
+                                <img src="/img/${item.jungleName}.png">
+                                <img src="/img/${item.middleName}.png">
+                                <img src="/img/${item.bottomName}.png">
+                                <img src="/img/${item.utilityName}.png">
+                            </div>
+                            <div class="definitionBox">
+                                <a class="winRate">${item.winRate}</a>
+                                <a class="pickCount">${item.pickCount}</a>
+                            </div>
+                        </div>
+                        <div class="littleSpace"></div>
+                    </div>`;
                 document.querySelector('.resultComBox').insertAdjacentHTML('beforeend', 열);
             });
         })
