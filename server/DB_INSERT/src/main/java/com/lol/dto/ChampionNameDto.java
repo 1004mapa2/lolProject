@@ -6,6 +6,6 @@ import lombok.Data;
 public class ChampionNameDto {
 
     private int id;
-    private String ChampionEngName;
-    private String ChampionKorName;
+    private String championEngName;
+    private String championKorName;
 }

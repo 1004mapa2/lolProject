@@ -10,11 +10,11 @@
     <link rel="stylesheet" href="css/footer.css">
 </head>
 
-<body style="margin: 0">
+<body style="margin: 0;">
+    <div class="selectChampion"></div>
     <header>
         <div class="headerDiv">
-            <img class="logo" src="/img/logo.png">
-            <img class="backImage" src="/img/backImage.jpg">
+            <img class="backImage" src="/img/backImage2.jpg">
             <div class="blackBar"></div>
             <div class="headerList">
                 <div class="tabBar">
@@ -48,24 +48,26 @@
                 <div class="middleDiv"></div>
                 <!--  -->
                 <div class="rightDiv">
-                    <div class="positionName">
-                        <p class="top">TOP</p>
-                        <p class="jungle">JUNGLE</p>
-                        <p class="middle">MIDDLE</p>
-                        <p class="bottom">BOTTOM</p>
-                        <p class="utility">UTILITY</p>
-                    </div>
-                    <div class="comDiv">
-                        <div class="comImg">
-                            <img src="/img/emptyBox.png" id="com1" onclick="빼기(id)">
-                            <img src="/img/emptyBox.png" id="com2" onclick="빼기(id)">
-                            <img src="/img/emptyBox.png" id="com3" onclick="빼기(id)">
-                            <img src="/img/emptyBox.png" id="com4" onclick="빼기(id)">
-                            <img src="/img/emptyBox.png" id="com5" onclick="빼기(id)">
+                    <div class="useSticky">
+                        <div class="positionName">
+                            <p class="top">TOP</p>
+                            <p class="jungle">JUNGLE</p>
+                            <p class="middle">MIDDLE</p>
+                            <p class="bottom">BOTTOM</p>
+                            <p class="utility">UTILITY</p>
                         </div>
-                        <div class="comButtonDiv">
-                            <button class="comButton1" onclick="랜덤()">랜덤 넣기</button>
-                            <button class="comButton2" onclick="비우기()">비우기</button>
+                        <div class="comDiv">
+                            <div class="comImg">
+                                <img src="/img/emptyBox.png" class="com">
+                                <img src="/img/emptyBox.png" class="com">
+                                <img src="/img/emptyBox.png" class="com">
+                                <img src="/img/emptyBox.png" class="com">
+                                <img src="/img/emptyBox.png" class="com">
+                            </div>
+                            <div class="comButtonDiv">
+                                <button class="comButton1">랜덤 넣기</button>
+                                <button class="comButton2">비우기</button>
+                            </div>
                         </div>
                     </div>
                     <div class="listDiv">

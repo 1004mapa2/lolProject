@@ -26,4 +26,9 @@ public class LolController {
     public void getChampionId(){
         lolService.insertChampionId();
     }
+
+    @GetMapping("/4")
+    public void changeStatus(){
+        lolService.resetSummonerStatus();
+    }
 }

@@ -22,8 +22,8 @@ public class LolService {
     private final String apiKey = "";
     private final LolMapper mapper;
     private final WebClient.Builder builder = WebClient.builder(); //url 호출할 때마다 필요해서 메모리 절약을 위해 생성
-    private String startTime = "1698094800";
-    private String endTime = "1698181200";
+    private String startTime = "1698354000";
+    private String endTime = "1698440400";
     private static List<String> tier = new ArrayList<>(Arrays.asList("CHALLENGER", "GRANDMASTER", "MASTER"));
 
     public LolService(LolMapper mapper) {
@@ -188,6 +188,10 @@ public class LolService {
             e.printStackTrace();
         } //end try-catch
     } //end method
+
+    public void resetSummonerStatus(){
+        mapper.resetSummonerStatus();
+    }
 
     /*-- 메서드 추출 --*/
     private static int countCheck(int count) {
