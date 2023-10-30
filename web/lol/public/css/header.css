@@ -1,3 +1,14 @@
+.selectChampion {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0);
+    transition: background-color 0.3s ease-in-out;
+    pointer-events: none;
+}
+
 .headerDiv {
     display: flex;
     position: relative;
@@ -6,24 +17,15 @@
     width: 100%;
 }
 
-.logo {
-    position: absolute;
-    width: 200px;
-    height: 80px;
-    z-index: 1;
-    margin-right: 800px;
-    top: 15px;
-}
-
 .backImage {
     width: 100%;
-    height: 150px;
-    opacity: 0.8;
+    height: 300px;
+    /* opacity: 0.8; */
 }
 
 .blackBar {
     position: absolute;
-    top: 110px;
+    top: 260px;
     left: 0;
     width: 100%;
     height: 40px;
@@ -33,7 +35,7 @@
 
 .headerList {
     width: 1050px;
-    height: 150px;
+    height: 300px;
     display: flex;
     position: absolute;
     align-items: flex-end;

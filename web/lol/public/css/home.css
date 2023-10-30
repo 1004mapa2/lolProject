@@ -72,9 +72,6 @@ img {
     height: 50px;
 }
 
-/* imgC {
-} */
-
 .championColumnDiv {
     display: flex;
     justify-content: space-between;
@@ -99,9 +96,14 @@ img {
     height: 2000px;
 }
 
+.useSticky {
+    top: 0;
+    position: sticky;
+}
+
 .positionName {
     display: flex;
-    background-color: #FFFFFF;
+    background-color: #9A73B5;
 }
 
 .top {
@@ -125,11 +127,8 @@ img {
 }
 
 .comDiv {
-    background-color: #61398F;
+    background-color: #9A73B5;
     display: flex;
-    position: sticky;
-    top: 200px;
-    
 }
 
 .comImg {
@@ -137,6 +136,7 @@ img {
     width: 400px;
     justify-content: space-between;
     margin-left: 10px;
+    z-index: 1;
 }
 
 .comButtonDiv {
@@ -166,8 +166,9 @@ img {
 
 .listDiv {
     display: flex;
-    background-color: #8B5FBF;
+    background-color: #a786be;
     height: 40px;
+    border-bottom: 2px solid #000000;
 }
 
 .choiceList {
@@ -175,7 +176,6 @@ img {
     justify-content: space-around;
     align-items: center;
     width: 300px;
-    background-color: #8B5FBF;
 }
 
 .tierP {

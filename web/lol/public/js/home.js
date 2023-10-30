@@ -1,3 +1,5 @@
+let dragged;
+
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelector('#tab1').style.color = '#DA81F5';
     ALLTIER받아오기();
@@ -27,7 +29,7 @@ function CHAMPIONNAME받아오기(value) {
             } else {
                 data.forEach(function (item) {
                     var 열 =
-                        `<li><img src="/img/${item.ChampionEngName}.png"></li>`;
+                        `<li><img src="/img/${item.ChampionEngName}.png" class="champImg"></li>`;
                     document.querySelector('main ul').insertAdjacentHTML('beforeend', 열);
                 })
             }
@@ -47,8 +49,8 @@ document.querySelector('main ul').addEventListener('click', function (event) {
 
 document.querySelector('main ul').addEventListener('mouseover', function (event) {
     if (event.target.tagName === 'IMG') {
-        event.target.style.width = '70px';
-        event.target.style.height = '70px';
+        event.target.style.width = '55px';
+        event.target.style.height = '55px';
         event.target.style.transition = 'all 0.3s';
     }
 })
@@ -60,6 +62,36 @@ document.querySelector('main ul').addEventListener('mouseout', function (event) 
     }
 })
 
+/**
+ * 드래그 로직
+ */
+document.addEventListener("dragstart", function (event) {
+    dragged = event.target;
+})
+
+document.addEventListener("dragover", function (event) {
+    event.preventDefault();
+}, false)
+
+document.addEventListener("dragstart", function () {
+    document.querySelector('.selectChampion').style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+})
+
+document.addEventListener("dragend", function () {
+    document.querySelector('.selectChampion').style.backgroundColor = 'rgba(0, 0, 0, 0)';
+})
+
+document.addEventListener("drop", function (event) {
+    event.preventDefault();
+    if (event.target.classList.contains("com")) {
+        var store = event.target.src;
+        event.target.src = dragged.src;
+        if (dragged.classList.contains("com")) {
+            dragged.src = store;
+        }
+        ALLTIER받아오기();
+    }
+})
 
 
 // rightDiv
@@ -142,19 +174,25 @@ function 조합박스(click_src) {
             }
         }
     }
+    ALLTIER받아오기();
+}
 
-    if (list[list.length - 1].src != empty) {
-        ALLTIER받아오기();
+
+/**
+ * 클릭으로 챔피언 빼기
+ */
+document.querySelector('.comImg').addEventListener('click', function (event) {
+    if (event.target.tagName == 'IMG') {
+        event.target.src = "/img/emptyBox.png";
     }
-}
+    ALLTIER받아오기();
+})
 
 
-function 빼기(id) {
-    document.getElementById(id).src = "/img/emptyBox.png";
-}
-
-
-function 랜덤() {
+/**
+ * 랜덤 넣기
+ */
+document.querySelector('.comButton1').addEventListener('click', function () {
     var empty = "http://localhost:3000/img/emptyBox.png";
     const list = document.querySelector('.comImg').querySelectorAll('img');
     for (let i = 0; i < list.length; i++) {
@@ -163,17 +201,16 @@ function 랜덤() {
             break;
         }
     }
-
-    if (list[list.length - 1].src != empty) {
-        ALLTIER받아오기();
-    }
-}
+})
 
 
-function 비우기() {
+/**
+ * 조합 박스 비우기
+ */
+document.querySelector('.comButton2').addEventListener('click', function () {
     const list = document.querySelector('.comImg').querySelectorAll('img');
     for (let i = 0; i < list.length; i++) {
         list[i].src = "/img/emptyBox.png";
     }
     ALLTIER받아오기();
-}
+})
