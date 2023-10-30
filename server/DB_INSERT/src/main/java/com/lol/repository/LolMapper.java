@@ -34,6 +34,8 @@ public interface LolMapper {
 
     public void insertChampionNameDto(ChampionNameDto championNameDto);
 
+    public void resetSummonerStatus();
+
     public Optional<CombinationDto> checkCombination(CombinationDto combinationDto);
 
     public void insertCombinationDto(CombinationDto combinationDto);

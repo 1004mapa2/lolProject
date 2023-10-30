@@ -66,6 +66,15 @@
         SELECT ID FROM CHAMPIONNAME WHERE ID= #{championId}
     </select>
 
+    <insert id="insertChampionNameDto" parameterType="com.lol.dto.ChampionNameDto">
+        INSERT INTO CHAMPIONNAME(ID, CHAMPIONENGNAME, CHAMPIONKORNAME)
+        VALUES(#{id}, #{championEngName}, #{championKorName})
+    </insert>
+
+    <update id="resetSummonerStatus">
+        UPDATE SUMMONERLIST SET STATUS= 'X'
+    </update>
+
     <select id="checkCombination" resultType="com.lol.dto.CombinationDto">
         SELECT ID FROM COMSAVE WHERE TOPNAME= #{topName} AND JUNGLENAME= #{jungleName} AND MIDDLENAME= #{middleName} AND BOTTOMNAME= #{bottomName} AND UTILITYNAME= #{utilityName}
     </select>
