@@ -8,6 +8,10 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + "/src/home.html");
 });
 
+app.get('/detail', (req, res) => {
+    res.sendFile(__dirname + "/src/detail.html");
+})
+
 app.listen(port, () => {
     console.log(`${port} 열었따`);
 });
