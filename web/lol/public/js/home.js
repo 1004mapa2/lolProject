@@ -2,10 +2,12 @@ let dragged;
 
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelector('#tab1').style.color = '#DA81F5';
-    ALLTIER받아오기();
+    조합효과불러오기();
     CHAMPIONNAME받아오기(document.querySelector('.searchInput').value);
 })
 
+
+// leftDiv 시작
 function CHAMPIONNAME받아오기(value) {
     fetch('http://localhost:8081/2', {
         method: 'POST',
@@ -28,8 +30,12 @@ function CHAMPIONNAME받아오기(value) {
                 document.querySelector('main ul').insertAdjacentHTML('beforeend', 없음);
             } else {
                 data.forEach(function (item) {
+                    var span크기 = item.ChampionKorName.length * 15;
                     var 열 =
-                        `<li><img src="/img/${item.ChampionEngName}.png" class="champImg"></li>`;
+                        `<li>
+                        <img src="/img/${item.ChampionEngName}.png">
+                        <span style="width: ${span크기}px;" class="korNameBox">${item.ChampionKorName}</span>
+                        </li>`;
                     document.querySelector('main ul').insertAdjacentHTML('beforeend', 열);
                 })
             }
@@ -52,6 +58,7 @@ document.querySelector('main ul').addEventListener('mouseover', function (event)
         event.target.style.width = '55px';
         event.target.style.height = '55px';
         event.target.style.transition = 'all 0.3s';
+        event.target.parentNode.querySelector('span').style.opacity = 1;
     }
 })
 
@@ -59,6 +66,7 @@ document.querySelector('main ul').addEventListener('mouseout', function (event) 
     if (event.target.tagName === 'IMG') {
         event.target.style.width = '50px';
         event.target.style.height = '50px';
+        event.target.parentNode.querySelector('span').style.opacity = 0;
     }
 })
 
@@ -89,20 +97,17 @@ document.addEventListener("drop", function (event) {
         if (dragged.classList.contains("com")) {
             dragged.src = store;
         }
-        ALLTIER받아오기();
+        조합효과불러오기();
     }
 })
+/**
+ * 드래그 로직 끝
+ */
+
+// leftDiv 끝
 
 
 // rightDiv
-document.querySelector('.sortP').addEventListener('input', function () {
-    ALLTIER받아오기();
-})
-
-document.querySelector('.tierP').addEventListener('input', function () {
-    ALLTIER받아오기();
-})
-
 function ALLTIER받아오기() {
     const dataToSend = {};
     sortValue = document.querySelector('.sortP').value;
@@ -159,6 +164,7 @@ function ALLTIER받아오기() {
                 document.querySelector('.resultComBox').insertAdjacentHTML('beforeend', 열);
             });
         })
+        document.querySelector('.resultComBox').style.opacity = 1;
 }
 
 function 조합박스(click_src) {
@@ -174,9 +180,8 @@ function 조합박스(click_src) {
             }
         }
     }
-    ALLTIER받아오기();
+    조합효과불러오기();
 }
-
 
 /**
  * 클릭으로 챔피언 빼기
@@ -185,9 +190,8 @@ document.querySelector('.comImg').addEventListener('click', function (event) {
     if (event.target.tagName == 'IMG') {
         event.target.src = "/img/emptyBox.png";
     }
-    ALLTIER받아오기();
+    조합효과불러오기();
 })
-
 
 /**
  * 랜덤 넣기
@@ -203,7 +207,6 @@ document.querySelector('.comButton1').addEventListener('click', function () {
     }
 })
 
-
 /**
  * 조합 박스 비우기
  */
@@ -212,5 +215,29 @@ document.querySelector('.comButton2').addEventListener('click', function () {
     for (let i = 0; i < list.length; i++) {
         list[i].src = "/img/emptyBox.png";
     }
-    ALLTIER받아오기();
+    조합효과불러오기();
 })
+
+/**
+ * 픽 횟수 순, 승률 순 정렬
+ */
+document.querySelector('.sortP').addEventListener('input', function () {
+    조합효과불러오기();
+})
+
+/**
+ * 티어 순 정렬
+ */
+document.querySelector('.tierP').addEventListener('input', function () {
+    조합효과불러오기();
+})
+
+/**
+ * 효과 함수
+ */
+function 조합효과불러오기(){
+    document.querySelector('.resultComBox').style.opacity = 0;
+    setTimeout(function(){
+        ALLTIER받아오기();
+    }, 500);
+}

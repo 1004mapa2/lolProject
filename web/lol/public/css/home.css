@@ -65,6 +65,7 @@ main ul {
 
 main li {
     width: 60px;
+    position: relative;
 }
 
 img {
@@ -78,6 +79,16 @@ img {
     margin-bottom: 15px;
 }
 
+.korNameBox {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    font-size: 15px;
+    border-radius: 5px;
+    z-index: 1;
+    opacity: 0;
+    background-color: #9A73B5;
+}
 /* ---leftDiv 끝--- */
 
 
@@ -199,11 +210,15 @@ img {
     font-weight: bold;
 }
 
+.resultComBox {
+    opacity: 1;
+    transition: all 0.5s;
+}
+
 .resultCom {
     display: flex;
     margin-top: 20px;
     background-color: #FFFFFF;
-
 }
 
 .littleSpace {
