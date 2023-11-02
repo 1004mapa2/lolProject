@@ -145,7 +145,9 @@ function ALLTIER받아오기() {
             data.forEach(function (item) {
                 var 열 =
                     `<div class="resultCom">
+                        <input type="hidden" value="${item.comsaveId}">
                         <div class="littleSpace"></div>
+                        <div class="clickBox"></div>
                         <div class="totalBox">
                             <div class="championComBox">
                                 <img src="/img/${item.topName}.png">
@@ -164,7 +166,7 @@ function ALLTIER받아오기() {
                 document.querySelector('.resultComBox').insertAdjacentHTML('beforeend', 열);
             });
         })
-        document.querySelector('.resultComBox').style.opacity = 1;
+    document.querySelector('.resultComBox').style.opacity = 1;
 }
 
 function 조합박스(click_src) {
@@ -235,9 +237,31 @@ document.querySelector('.tierP').addEventListener('input', function () {
 /**
  * 효과 함수
  */
-function 조합효과불러오기(){
+function 조합효과불러오기() {
     document.querySelector('.resultComBox').style.opacity = 0;
-    setTimeout(function(){
+    setTimeout(function () {
         ALLTIER받아오기();
     }, 500);
 }
+
+document.querySelector('.resultComBox').addEventListener('mouseover', function (event) {
+
+    if(event.target.classList.contains("clickBox")){
+        event.target.parentNode.querySelector('.totalBox').style.backgroundColor = '#8B5FBF';
+    }
+})
+
+document.querySelector('.resultComBox').addEventListener('mouseout', function(event){
+    if(event.target.classList.contains("clickBox")){
+        event.target.parentNode.querySelector('.totalBox').style.backgroundColor = '#FFFFFF';
+    }
+})
+
+document.querySelector('.resultComBox').addEventListener('click', function(event){
+    if(event.target.classList.contains("clickBox")){
+        var comsaveId = event.target.parentNode.querySelector('input').value;
+        var tier = document.querySelector('.tierP').value;
+        var detailURL = "/detail?comsaveId=" + comsaveId + "&tier=" + tier;
+        window.location.href = detailURL;
+    }
+})
