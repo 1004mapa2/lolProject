@@ -12,4 +12,8 @@ public interface LolMapper {
     public List<AllTierDto> getAllTierDtos(ReceiveDto receiveDto);
 
     public List<ChampionNameDto> getChampionNameDtos(String input);
+
+    public AllTierDto getSelectComsave(String tier, String comsaveId);
+
+    public List<AllTierDto> getLoseComsave(String tier, String comsaveId);
 }

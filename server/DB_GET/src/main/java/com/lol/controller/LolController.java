@@ -6,10 +6,7 @@ import com.lol.dto.ChampionNameDto;
 import com.lol.dto.ReceiveDto;
 import com.lol.service.LolService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,6 +31,15 @@ public class LolController {
         String reData = gson.fromJson(data, String.class);
         List<ChampionNameDto> championNameInfo = lolService.getChampionNameInfo(reData);
         String json = gson.toJson(championNameInfo);
+
+        return json;
+    }
+
+    @GetMapping("/3")
+    public String getDetailInfo(@RequestParam("comsaveId") String comsaveId, @RequestParam("tier") String tier){
+        Gson gson = new Gson();
+        List<AllTierDto> detailInfo = lolService.getDetailInfo(comsaveId, tier);
+        String json = gson.toJson(detailInfo);
 
         return json;
     }

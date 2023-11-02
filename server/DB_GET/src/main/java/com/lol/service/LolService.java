@@ -39,4 +39,12 @@ public class LolService {
 
         return mapper.getChampionNameDtos(data);
     }
+
+    public List<AllTierDto> getDetailInfo(String comsaveId, String tier) {
+        List<AllTierDto> loseComsave = mapper.getLoseComsave(tier, comsaveId);
+        AllTierDto selectComsave = mapper.getSelectComsave(tier, comsaveId);
+        loseComsave.add(0, selectComsave);
+
+        return loseComsave;
+    }
 }

@@ -35,4 +35,15 @@
         </where>
         ORDER BY CHAMPIONKORNAME
     </select>
+
+    <select id="getSelectComsave" parameterType="string" resultType="com.lol.dto.AllTierDto">
+        SELECT * FROM ALLTIER WHERE TIER= #{tier} AND COMSAVEID= #{comsaveId}
+    </select>
+
+    <select id="getLoseComsave" parameterType="string" resultType="com.lol.dto.AllTierDto">
+        SELECT TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME, COMSAVEID, COUNT(*) AS LOSECOUNT
+        FROM ORIGINAL
+        WHERE MATCHID IN (SELECT MATCHID FROM ORIGINAL WHERE COMSAVEID= #{comsaveId} AND TIER= #{tier} AND WIN= 'false') AND WIN= 'true'
+        GROUP BY TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME, COMSAVEID
+    </select>
 </mapper>
