@@ -10,6 +10,14 @@ app.get('/', (req, res) => {
 
 app.get('/detail', (req, res) => {
     res.sendFile(__dirname + "/src/detail.html");
+});
+
+app.get('/login', (req, res) => {
+    res.sendFile(__dirname + "/src/login.html");
+})
+
+app.get('/membership', (req, res) => {
+    res.sendFile(__dirname + "/src/membership.html");
 })
 
 app.listen(port, () => {
