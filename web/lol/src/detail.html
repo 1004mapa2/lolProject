@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/detail.css">
 </head>
+
 <body style="margin: 0;">
     <header>
         <div class="headerDiv">
@@ -15,7 +18,7 @@
                 <div class="tabBar">
                     <nav>
                         <ul>
-                            <li><a href="" id="tab1">조합 분석</a></li>
+                            <li><a href="/" id="tab1">조합 분석</a></li>
                             <li><a href="" id="tab2">커뮤니티</a></li>
                             <li><a href="" id="tab3">굿즈샵</a></li>
                         </ul>
@@ -25,6 +28,28 @@
             </div>
         </div>
     </header>
+    <main>
+        <div class="container">
+            <div style="height: 20px; min-width: 1050px;"></div>
+            <div style="font-size: 20px;">내가 선택한 조합</div>
+            <div class="selectComDiv">
+                <div class="championComBox">
+                    <img src="/img/Aatrox.png">
+                    <img src="/img/Aatrox.png">
+                    <img src="/img/Aatrox.png">
+                    <img src="/img/Aatrox.png">
+                    <img src="/img/Aatrox.png">
+                </div>
+                <div class="definitionBox">
+                    <a>1</a>
+                    <a>1</a>
+                </div>
+            </div>
+            <div style="font-size: 20px;">진 조합</div>
+            <div class="loseComListDiv"></div>
+        </div>
+    </main>
     <script src="/js/detail.js"></script>
 </body>
+
 </html>

@@ -1,0 +1,51 @@
+main {
+    min-width: 1050px;
+    height: 2050px;
+    background-color: #F5F3F7;
+}
+
+.container {
+    width: 1050px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+img {
+    width: 50px;
+    height: 50px;
+}
+
+.selectComDiv {
+    display: flex;
+    align-items: center;
+    height: 100px;
+    background-color: cadetblue;
+}
+
+.championComBox {
+    display: flex;
+    justify-content: space-between;
+    width: 500px;
+    height: 50px;
+}
+
+.definitionBox {
+    display: flex;
+    width: 300px;
+    height: 50px;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.loseComListDiv {
+    background-color: chartreuse;
+}
+
+.loseComDiv {
+    display: flex;
+    align-items: center;
+    height: 100px;
+    background-color: chocolate;
+}
