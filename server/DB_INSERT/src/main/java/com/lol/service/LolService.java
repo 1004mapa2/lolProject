@@ -4,10 +4,19 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.lol.dto.*;
+import com.lol.dto.ChampionNameDto;
+import com.lol.dto.CombinationDto;
+import com.lol.dto.OriginalDto;
+import com.lol.dto.SummonerDto;
 import com.lol.repository.LolMapper;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.io.FileReader;
 import java.io.Reader;
@@ -15,16 +24,17 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class LolService {
 
-    private final String apiKey = "";
+    private static String apiKey = "";
     private final LolMapper mapper;
-    private final WebClient.Builder builder = WebClient.builder(); //url 호출할 때마다 필요해서 메모리 절약을 위해 생성
-    private String startTime = "1696431600";
-    private String endTime = "1696798800";
-    private static List<String> tier = new ArrayList<>(Arrays.asList("CHALLENGER", "GRANDMASTER", "MASTER"));
+    private final WebClient.Builder builder = WebClient.builder();
+    private final String startTime = "1693494000"; //9월 1일 0시
+    private final String endTime = "1695999600"; //9월 30일 0시
+    private final static List<String> tier = new ArrayList<>(Arrays.asList("CHALLENGER", "GRANDMASTER", "MASTER", "DIAMOND"));
 
     public LolService(LolMapper mapper) {
         this.mapper = mapper;
@@ -66,6 +76,9 @@ public class LolService {
         int id = 1;
         int count = 0;
         while (true) {
+            if(id == 2){
+                break;
+            }
             Optional<SummonerDto> userInfo = mapper.checkSummonerList(id);
             if (userInfo.isPresent() && userInfo.get().getStatus().equals("X")) {
                 /**
@@ -189,8 +202,35 @@ public class LolService {
         } //end try-catch
     } //end method
 
-    public void resetSummonerStatus(){
+    public void resetSummonerStatus() {
         mapper.resetSummonerStatus();
+    }
+
+    public static void updateAPIKEY() {
+        try {
+            String url = "https://developer.riotgames.com/";
+            System.setProperty("webdriver.chrome.driver", "C:\\chromedriver-win64\\chromedriver.exe");
+
+            Runtime.getRuntime().exec("C:/Program Files/Google/Chrome/Application/chrome.exe --remote-debugging-port=9222 --user-data-dir=\"C:/Selenium/ChromeData\"");
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("-remote-allow-origins=*");
+            options.setExperimentalOption("debuggerAddress", "127.0.0.1:9222");
+            System.setProperty("webdriver.http.factory", "jdk-http-client");
+            WebDriver driver = new ChromeDriver(options);
+            driver.get(url);
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+            WebElement iframe = driver.findElement(By.xpath("/html/body/div[2]/div/form/div[3]/div/div[3]/div[2]/div[1]/div/div/iframe"));
+            driver.switchTo().frame(iframe);
+            driver.findElement(By.className("recaptcha-checkbox-border")).click();
+            driver.switchTo().defaultContent();
+            Thread.sleep(5000);
+            driver.findElement(By.name("confirm_action")).click();
+            WebElement newKeyBox = driver.findElement((By.id("apikey")));
+            String newKey = newKeyBox.getAttribute("value");
+            apiKey = newKey;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /*-- 메서드 추출 --*/
@@ -250,12 +290,33 @@ public class LolService {
     }
 
     private static String getGsonData(String url, WebClient.Builder builder) {
-        String data = builder.build()
-                .get()
-                .uri(url)
-                .retrieve()
-                .bodyToMono(String.class)
-                .block();
+        String data = "";
+        try {
+            data = builder.build()
+                    .get()
+                    .uri(url)
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .block();
+        } catch (WebClientResponseException e) {
+            if (e.getRawStatusCode() == 401 || e.getRawStatusCode() == 403) {
+                updateAPIKEY();
+                try {
+                    Thread.sleep(30000);
+                } catch(Exception e1) {
+                    e.printStackTrace();
+                }
+                String cutStr = "?api_key=";
+                int i = url.indexOf(cutStr);
+                String substring = url.substring(0, i + cutStr.length());
+                String fixUrl = substring + apiKey;
+
+                return builder.build().get().uri(fixUrl).retrieve().bodyToMono(String.class).block();
+            } else {
+                System.out.println("오류");
+                throw e;
+            }
+        }
         return data;
     }
 }
