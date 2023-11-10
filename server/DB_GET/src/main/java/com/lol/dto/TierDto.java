@@ -3,7 +3,7 @@ package com.lol.dto;
 import lombok.Data;
 
 @Data
-public class AllTierDto {
+public class TierDto {
 
     private int comsaveId;
     private String topName;

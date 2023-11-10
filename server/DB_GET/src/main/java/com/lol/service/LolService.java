@@ -1,6 +1,6 @@
 package com.lol.service;
 
-import com.lol.dto.AllTierDto;
+import com.lol.dto.TierDto;
 import com.lol.dto.ChampionNameDto;
 import com.lol.dto.ReceiveDto;
 import com.lol.repository.LolMapper;
@@ -15,7 +15,7 @@ public class LolService {
 
     private final LolMapper mapper;
 
-    public List<AllTierDto> getAllTierInfo(ReceiveDto receiveDto) {
+    public List<TierDto> getTierInfo(ReceiveDto receiveDto) {
         if (receiveDto.getChampionName1().equals("random") || receiveDto.getChampionName1().equals("emptyBox")) {
             receiveDto.setChampionName1(null);
         }
@@ -32,7 +32,11 @@ public class LolService {
             receiveDto.setChampionName5(null);
         }
 
-        return mapper.getAllTierDtos(receiveDto);
+        if(receiveDto.getTier().equals("ALLTIER")){
+            return mapper.getAllTierDtos(receiveDto);
+        } else {
+            return mapper.getEachTierDtos(receiveDto);
+        }
     }
 
     public List<ChampionNameDto> getChampionNameInfo(String data) {
@@ -40,9 +44,16 @@ public class LolService {
         return mapper.getChampionNameDtos(data);
     }
 
-    public List<AllTierDto> getDetailInfo(String comsaveId, String tier) {
-        List<AllTierDto> loseComsave = mapper.getLoseComsave(tier, comsaveId);
-        AllTierDto selectComsave = mapper.getSelectComsave(tier, comsaveId);
+    public List<TierDto> getDetailInfo(String comsaveId, String tier) {
+        List<TierDto> loseComsave;
+        TierDto selectComsave;
+        if(tier.equals("ALLTIER")){
+            loseComsave = mapper.getAlltierLoseComsave(comsaveId);
+            selectComsave = mapper.getAlltierSelectComsave(comsaveId);
+        } else {
+            loseComsave = mapper.getLoseComsave(tier, comsaveId);
+            selectComsave = mapper.getSelectComsave(tier, comsaveId);
+        }
         loseComsave.add(0, selectComsave);
 
         return loseComsave;

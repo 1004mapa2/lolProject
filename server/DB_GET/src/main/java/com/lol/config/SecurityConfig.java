@@ -21,7 +21,7 @@ public class SecurityConfig {
         http
                 .csrf().disable() //JWT 토큰을 사용하면 비활성화
                 .authorizeRequests()
-//                .antMatchers("/3/**").authenticated()
+                .antMatchers("/3/**").authenticated()
                 .anyRequest().permitAll();
 
         return http.build();

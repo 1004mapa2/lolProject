@@ -2,6 +2,7 @@ package com.lol.controller;
 
 import com.lol.service.LolService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,19 +17,16 @@ public class LolController {
         lolService.insertDB_userInfo();
     }
 
+    @Scheduled(fixedDelay = 5000)
     @GetMapping("/2")
     public void getGame() {
         lolService.insertDB_matchInfo();
-        lolService.moveDB_originalToTier();
+        lolService.moveDB_each_tier_total();
+        lolService.moveDB_all_tier_total();
     }
 
     @GetMapping("/3")
     public void getChampionId(){
         lolService.insertChampionId();
-    }
-
-    @GetMapping("/4")
-    public void changeStatus(){
-        lolService.resetSummonerStatus();
     }
 }

@@ -32,8 +32,8 @@ public class LolService {
     private static String apiKey = "";
     private final LolMapper mapper;
     private final WebClient.Builder builder = WebClient.builder();
-    private final String startTime = "1693494000"; //9월 1일 0시
-    private final String endTime = "1695999600"; //9월 30일 0시
+    private int startTime = 1691420400; //8월 8일 0시
+    private int endTime = 1692025200; //8월 15일 0시
     private final static List<String> tier = new ArrayList<>(Arrays.asList("CHALLENGER", "GRANDMASTER", "MASTER", "DIAMOND"));
 
     public LolService(LolMapper mapper) {
@@ -76,9 +76,6 @@ public class LolService {
         int id = 1;
         int count = 0;
         while (true) {
-            if(id == 2){
-                break;
-            }
             Optional<SummonerDto> userInfo = mapper.checkSummonerList(id);
             if (userInfo.isPresent() && userInfo.get().getStatus().equals("X")) {
                 /**
@@ -149,7 +146,7 @@ public class LolService {
                                 setDataAndInsertDB(tier, matchId, formatGameTime, formatNowTime, originalDto2, combinationDto2);
                             }
                         } //end for(match)
-                    }
+                    } //end if
                 } //end for(matchList)
                 SummonerDto summonerDto = new SummonerDto();
                 summonerDto.setId(id);
@@ -161,17 +158,32 @@ public class LolService {
             } //end if(userInfo)
             id++;
         } //end while
+        resetSummonerStatus(); //소환사 status X로 초기화
+        updateTimeStamp(); //일주일 늘리기
     } //end method
 
-    public void moveDB_originalToTier() {
-        //테이블 삭제 후 다시 생성
-        mapper.deleteAlltier();
-        mapper.deleteAlltierSeq();
-        mapper.createAlltier();
-        mapper.createAlltierSeq();
-        for (String tierName : tier) {
-            mapper.moveTier(tierName);
+    public void moveDB_each_tier_total() {
+        //삭제
+        mapper.delete_each_tier_total();
+        mapper.delete_each_tier_total_sequence();
+        //생성
+        mapper.create_each_tier_total();
+        mapper.create_each_tier_total_sequence();
+        //옮기기
+        for(String tierName : tier){
+            mapper.move_each_tier_total(tierName);
         }
+    } //end method
+
+    public void moveDB_all_tier_total() {
+        //삭제
+        mapper.delete_all_tier_total();
+        mapper.delete_all_tier_total_sequence();
+        //생성
+        mapper.create_all_tier_total();
+        mapper.create_all_tier_total_sequence();
+        //옮기기
+        mapper.move_all_tier_total();
     } //end method
 
     public void insertChampionId() {
@@ -203,7 +215,16 @@ public class LolService {
     } //end method
 
     public void resetSummonerStatus() {
-        mapper.resetSummonerStatus();
+        Optional<List<SummonerDto>> summonerDtos = mapper.checkSummonerStatus();
+        if (summonerDtos.isEmpty()) {
+            mapper.resetSummonerStatus();
+        } else {
+            try {
+                throw new Exception("전체 스캔 안함");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public static void updateAPIKEY() {
@@ -218,19 +239,36 @@ public class LolService {
             System.setProperty("webdriver.http.factory", "jdk-http-client");
             WebDriver driver = new ChromeDriver(options);
             driver.get(url);
-            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-            WebElement iframe = driver.findElement(By.xpath("/html/body/div[2]/div/form/div[3]/div/div[3]/div[2]/div[1]/div/div/iframe"));
-            driver.switchTo().frame(iframe);
-            driver.findElement(By.className("recaptcha-checkbox-border")).click();
-            driver.switchTo().defaultContent();
-            Thread.sleep(5000);
-            driver.findElement(By.name("confirm_action")).click();
-            WebElement newKeyBox = driver.findElement((By.id("apikey")));
-            String newKey = newKeyBox.getAttribute("value");
-            apiKey = newKey;
+            if(driver.findElement(By.className("admin-title")).getAttribute("innerHTML").equals("Login")){ //로그인을 해야 된다면
+                driver.findElement(By.className("admin-title")).click();
+                driver.findElement(By.xpath("//*[@id=\"root\"]/div/main/div/form/div/div/div[2]/button")).click();
+
+                driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+                WebElement iframe = driver.findElement(By.xpath("/html/body/div[2]/div/form/div[3]/div/div[3]/div[2]/div[1]/div/div/iframe"));
+                driver.switchTo().frame(iframe);
+                driver.findElement(By.className("recaptcha-checkbox-border")).click();
+                driver.switchTo().defaultContent();
+                Thread.sleep(5000);
+                driver.findElement(By.name("confirm_action")).click();
+                WebElement newKeyBox = driver.findElement((By.id("apikey")));
+                String newKey = newKeyBox.getAttribute("value");
+                apiKey = newKey;
+                driver.close();
+            } else {
+                driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+                WebElement newKeyBox = driver.findElement((By.id("apikey")));
+                String newKey = newKeyBox.getAttribute("value");
+                apiKey = newKey;
+                driver.close();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void updateTimeStamp() {
+        startTime += 604800;
+        endTime += 604800;
     }
 
     /*-- 메서드 추출 --*/
@@ -266,7 +304,6 @@ public class LolService {
             originalDto.setUtilityName(championName);
             combinationDto.setUtilityName(championName);
         } else {
-            System.out.println("오류");
             return true;
         }
         return false;
@@ -299,12 +336,12 @@ public class LolService {
                     .bodyToMono(String.class)
                     .block();
         } catch (WebClientResponseException e) {
-            if (e.getRawStatusCode() == 401 || e.getRawStatusCode() == 403) {
+            if (e.getRawStatusCode() == 401 || e.getRawStatusCode() == 403) { //인증이 만료된 경우
                 updateAPIKEY();
                 try {
                     Thread.sleep(30000);
-                } catch(Exception e1) {
-                    e.printStackTrace();
+                } catch (Exception e1) {
+                    e1.printStackTrace();
                 }
                 String cutStr = "?api_key=";
                 int i = url.indexOf(cutStr);
@@ -312,9 +349,14 @@ public class LolService {
                 String fixUrl = substring + apiKey;
 
                 return builder.build().get().uri(fixUrl).retrieve().bodyToMono(String.class).block();
+            } else if(e.getRawStatusCode() == 500 || e.getRawStatusCode() == 503 || e.getRawStatusCode() == 429) { //서버 쪽 문제 or 요청 초과
+                try {
+                    Thread.sleep(10000);
+                } catch (Exception e2) {
+                    e2.printStackTrace();
+                }
             } else {
-                System.out.println("오류");
-                throw e;
+                e.printStackTrace();
             }
         }
         return data;

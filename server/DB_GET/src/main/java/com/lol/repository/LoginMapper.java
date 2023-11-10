@@ -7,4 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface LoginMapper {
 
     public void registerUser(UserDto userDto);
+
+    public UserDto findByUsername(String username);
 }

@@ -4,8 +4,31 @@
 
 <mapper namespace="com.lol.repository.LolMapper">
 
-    <select id="getAllTierDtos" parameterType="com.lol.dto.ReceiveDto" resultType="com.lol.dto.AllTierDto">
-        SELECT * FROM ALLTIER
+    <select id="getAllTierDtos" parameterType="com.lol.dto.ReceiveDto" resultType="com.lol.dto.TierDto">
+        SELECT * FROM ALL_TIER_TOTAL
+
+    <where>
+        <if test="championName1 != null">
+            AND TOPNAME= #{championName1}
+        </if>
+        <if test="championName2 != null">
+            AND JUNGLENAME= #{championName2}
+        </if>
+        <if test="championName3 != null">
+            AND MIDDLENAME= #{championName3}
+        </if>
+        <if test="championName4 != null">
+            AND BOTTOMNAME= #{championName4}
+        </if>
+        <if test="championName5 != null">
+            AND UTILITYNAME= #{championName5}
+        </if>
+    </where>
+        ORDER BY ${sort} DESC FETCH FIRST 15 ROWS ONLY
+    </select>
+
+    <select id="getEachTierDtos" parameterType="com.lol.dto.ReceiveDto" resultType="com.lol.dto.TierDto">
+        SELECT * FROM EACH_TIER_TOTAL
         WHERE TIER= #{tier}
 
         <if test="championName1 != null">
@@ -36,14 +59,25 @@
         ORDER BY CHAMPIONKORNAME
     </select>
 
-    <select id="getSelectComsave" parameterType="string" resultType="com.lol.dto.AllTierDto">
-        SELECT * FROM ALLTIER WHERE TIER= #{tier} AND COMSAVEID= #{comsaveId}
+    <select id="getAlltierLoseComsave" parameterType="string" resultType="com.lol.dto.TierDto">
+        SELECT TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME, COMSAVEID, COUNT(*) AS LOSECOUNT
+        FROM ORIGINAL
+        WHERE MATCHID IN (SELECT MATCHID FROM ORIGINAL WHERE COMSAVEID= #{comsaveId} AND WIN= 'false') AND WIN= 'true'
+        GROUP BY TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME, COMSAVEID
     </select>
 
-    <select id="getLoseComsave" parameterType="string" resultType="com.lol.dto.AllTierDto">
+    <select id="getAlltierSelectComsave" parameterType="string" resultType="com.lol.dto.TierDto">
+        SELECT * FROM ALL_TIER_TOTAL WHERE COMSAVEID= #{comsaveId}
+    </select>
+
+    <select id="getLoseComsave" parameterType="string" resultType="com.lol.dto.TierDto">
         SELECT TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME, COMSAVEID, COUNT(*) AS LOSECOUNT
         FROM ORIGINAL
         WHERE MATCHID IN (SELECT MATCHID FROM ORIGINAL WHERE COMSAVEID= #{comsaveId} AND TIER= #{tier} AND WIN= 'false') AND WIN= 'true'
         GROUP BY TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME, COMSAVEID
+    </select>
+
+    <select id="getSelectComsave" parameterType="string" resultType="com.lol.dto.TierDto">
+        SELECT * FROM EACH_TIER_TOTAL WHERE TIER= #{tier} AND COMSAVEID= #{comsaveId}
     </select>
 </mapper>

@@ -1,7 +1,7 @@
 package com.lol.controller;
 
 import com.google.gson.Gson;
-import com.lol.dto.AllTierDto;
+import com.lol.dto.TierDto;
 import com.lol.dto.ChampionNameDto;
 import com.lol.dto.ReceiveDto;
 import com.lol.service.LolService;
@@ -16,16 +16,16 @@ import java.util.List;
 public class LolController {
 
     private final LolService lolService;
-    @PostMapping("/1")
-    public String getAllTierInfo(@RequestBody ReceiveDto data){
+    @PostMapping("/getTierInfo")
+    public String getTierInfo(@RequestBody ReceiveDto data){
         Gson gson = new Gson();
-        List<AllTierDto> allTierInfo = lolService.getAllTierInfo(data);
-        String json = gson.toJson(allTierInfo);
+        List<TierDto> TierInfo = lolService.getTierInfo(data);
+        String json = gson.toJson(TierInfo);
 
         return json;
     }
 
-    @PostMapping("/2")
+    @PostMapping("/getChampionNameInfo")
     public String getChampionNameInfo(@RequestBody String data){
         Gson gson = new Gson();
         String reData = gson.fromJson(data, String.class);
@@ -35,10 +35,10 @@ public class LolController {
         return json;
     }
 
-    @GetMapping("/3")
+    @GetMapping("/getDetailInfo")
     public String getDetailInfo(@RequestParam("comsaveId") String comsaveId, @RequestParam("tier") String tier){
         Gson gson = new Gson();
-        List<AllTierDto> detailInfo = lolService.getDetailInfo(comsaveId, tier);
+        List<TierDto> detailInfo = lolService.getDetailInfo(comsaveId, tier);
         String json = gson.toJson(detailInfo);
 
         return json;
