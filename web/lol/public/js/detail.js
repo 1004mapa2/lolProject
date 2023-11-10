@@ -9,7 +9,7 @@ function 파라미터보내기() {
     const urlParams = new URLSearchParams(window.location.search);
     comsaveId = urlParams.get('comsaveId');
     tier = urlParams.get('tier');
-    fetch(`http://localhost:8081/3?comsaveId=${comsaveId}&tier=${tier}`)
+    fetch(`http://localhost:8081/getDetailInfo?comsaveId=${comsaveId}&tier=${tier}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('http 오류: ' + response.status);

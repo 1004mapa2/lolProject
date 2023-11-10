@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // leftDiv 시작
 function CHAMPIONNAME받아오기(value) {
-    fetch('http://localhost:8081/2', {
+    fetch('http://localhost:8081/getChampionNameInfo', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -125,7 +125,7 @@ function ALLTIER받아오기() {
     dataToSend.tier = tierValue;
     dataToSend.sort = sortValue;
 
-    fetch('http://localhost:8081/1', {
+    fetch('http://localhost:8081/getTierInfo', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
