@@ -4,12 +4,12 @@
 
 <mapper namespace="com.lol.repository.LolMapper">
     <insert id="insertSummonerDto" parameterType="com.lol.dto.SummonerDto">
-        INSERT INTO SUMMONERLIST(ID, TIER, SUMMONERID, SUMMONERNAME, STATUS)
+        INSERT INTO SUMMONER_INFO(ID, TIER, SUMMONERID, SUMMONERNAME, STATUS)
         VALUES(SUMMONERLIST_AUTOINC.NEXTVAL, #{tier}, #{summonerId}, #{summonerName}, #{status})
     </insert>
 
     <select id="checkSummonerList" parameterType="int" resultType="com.lol.dto.SummonerDto">
-        SELECT SUMMONERID, TIER, STATUS FROM SUMMONERLIST WHERE ID= #{id}
+        SELECT SUMMONERID, TIER, STATUS FROM SUMMONER_INFO WHERE ID= #{id}
     </select>
 
     <select id="checkMatchId" parameterType="string" resultType="com.lol.dto.OriginalDto">
@@ -17,20 +17,20 @@
     </select>
 
     <update id="updateSummonerStatus" parameterType="com.lol.dto.SummonerDto">
-        UPDATE SUMMONERLIST SET STATUS= #{status} WHERE ID= #{id}
+        UPDATE SUMMONER_INFO SET STATUS= #{status} WHERE ID= #{id}
     </update>
 
-<!--    ALLTIER 삭제하고 생성하는 로직 시작-->
-    <delete id="deleteAlltier">
-        DROP TABLE ALLTIER
+<!--    EACH_TIER_TOTAL 삭제하고 생성하는 로직 시작-->
+    <delete id="delete_each_tier_total">
+        DROP TABLE EACH_TIER_TOTAL
     </delete>
 
-    <delete id="deleteAlltierSeq">
-        DROP SEQUENCE ALLTIER_AUTOINC
+    <delete id="delete_each_tier_total_sequence">
+        DROP SEQUENCE EACH_TIER_TOTAL_AUTOINC
     </delete>
 
-    <update id="createAlltier">
-        CREATE TABLE ALLTIER
+    <update id="create_each_tier_total">
+        CREATE TABLE EACH_TIER_TOTAL
         (
             ID NUMBER NOT NULL,
             COMSAVEID NUMBER NOT NULL,
@@ -42,18 +42,17 @@
             UTILITYNAME VARCHAR2(15) NOT NULL,
             WINRATE NUMBER NOT NULL,
             PICKCOUNT NUMBER NOT NULL,
-            CONSTRAINT CH_PK PRIMARY KEY(ID)
+            CONSTRAINT ETT_PK PRIMARY KEY(ID)
         )
     </update>
 
-    <update id="createAlltierSeq">
-        CREATE SEQUENCE ALLTIER_AUTOINC START WITH 1 INCREMENT BY 1 MAXVALUE 500000 NOCYCLE NOCACHE
+    <update id="create_each_tier_total_sequence">
+        CREATE SEQUENCE EACH_TIER_TOTAL_AUTOINC START WITH 1 INCREMENT BY 1 MAXVALUE 1000000 NOCYCLE NOCACHE
     </update>
-<!--    ALLTIER 삭제하고 생성하는 로직 끝-->
 
-    <insert id="moveTier">
-        INSERT INTO ALLTIER(ID, COMSAVEID, TIER, TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME, WINRATE, PICKCOUNT)
-        SELECT ALLTIER_AUTOINC.NEXTVAL, COMSAVEID, TIER, TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME, WINRATE, PICKCOUNT
+    <insert id="move_each_tier_total" parameterType="string">
+        INSERT INTO EACH_TIER_TOTAL(ID, COMSAVEID, TIER, TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME, WINRATE, PICKCOUNT)
+        SELECT EACH_TIER_TOTAL_AUTOINC.NEXTVAL, COMSAVEID, TIER, TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME, WINRATE, PICKCOUNT
         FROM (SELECT COMSAVEID, TIER, TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME,
                      ROUND(COUNT(CASE WHEN WIN = 'true' THEN '1' END) / COUNT(*), 2) AS WINRATE,
                      COUNT(*) AS PICKCOUNT
@@ -61,6 +60,47 @@
               WHERE TIER= #{tierName}
               GROUP BY COMSAVEID, TIER, TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME)
     </insert>
+<!--    EACH_TIER_TOTAL 삭제하고 생성하는 로직 끝-->
+
+<!--    ALL_TIER_TOTAL 삭제하고 생성하는 로직 시작-->
+    <delete id="delete_all_tier_total">
+        DROP TABLE ALL_TIER_TOTAL
+    </delete>
+
+    <delete id="delete_all_tier_total_sequence">
+        DROP SEQUENCE ALL_TIER_TOTAL_AUTOINC
+    </delete>
+
+    <update id="create_all_tier_total">
+        CREATE TABLE ALL_TIER_TOTAL
+        (
+            ID NUMBER NOT NULL,
+            COMSAVEID NUMBER NOT NULL,
+            TOPNAME VARCHAR2(15) NOT NULL,
+            JUNGLENAME VARCHAR2(15) NOT NULL,
+            MIDDLENAME VARCHAR2(15) NOT NULL,
+            BOTTOMNAME VARCHAR2(15) NOT NULL,
+            UTILITYNAME VARCHAR2(15) NOT NULL,
+            WINRATE NUMBER NOT NULL,
+            PICKCOUNT NUMBER NOT NULL,
+            CONSTRAINT ATT_PK PRIMARY KEY(ID)
+        )
+    </update>
+
+    <update id="create_all_tier_total_sequence">
+        CREATE SEQUENCE ALL_TIER_TOTAL_AUTOINC START WITH 1 INCREMENT BY 1 MAXVALUE 1000000 NOCYCLE NOCACHE
+    </update>
+
+    <insert id="move_all_tier_total">
+        INSERT INTO ALL_TIER_TOTAL(ID, COMSAVEID, TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME, WINRATE, PICKCOUNT)
+        SELECT ALL_TIER_TOTAL_AUTOINC.NEXTVAL, COMSAVEID, TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME, WINRATE, PICKCOUNT
+        FROM (SELECT COMSAVEID, TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME,
+                     ROUND(COUNT(CASE WHEN WIN = 'true' THEN '1' END) / COUNT(*), 2) AS WINRATE,
+                     COUNT(*) AS PICKCOUNT
+              FROM ORIGINAL
+              GROUP BY COMSAVEID, TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME)
+    </insert>
+<!--    ALL_TIER_TOTAL 삭제하고 생성하는 로직 끝-->
 
     <select id="checkChampionId" parameterType="int">
         SELECT ID FROM CHAMPIONNAME WHERE ID= #{championId}
@@ -71,26 +111,25 @@
         VALUES(#{id}, #{championEngName}, #{championKorName})
     </insert>
 
+    <select id="checkSummonerStatus" resultType="com.lol.dto.SummonerDto">
+        SELECT * FROM SUMMONER_INFO WHERE STATUS= 'X'
+    </select>
+
     <update id="resetSummonerStatus">
-        UPDATE SUMMONERLIST SET STATUS= 'X'
+        UPDATE SUMMONER_INFO SET STATUS= 'X'
     </update>
 
     <select id="checkCombination" resultType="com.lol.dto.CombinationDto">
-        SELECT ID FROM COMSAVE WHERE TOPNAME= #{topName} AND JUNGLENAME= #{jungleName} AND MIDDLENAME= #{middleName} AND BOTTOMNAME= #{bottomName} AND UTILITYNAME= #{utilityName}
+        SELECT ID FROM COMBINATION_INFO WHERE TOPNAME= #{topName} AND JUNGLENAME= #{jungleName} AND MIDDLENAME= #{middleName} AND BOTTOMNAME= #{bottomName} AND UTILITYNAME= #{utilityName}
     </select>
 
     <insert id="insertCombinationDto" parameterType="com.lol.dto.CombinationDto">
-        INSERT INTO COMSAVE(ID, TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME)
-        VALUES(COMSAVE_AUTOINC.NEXTVAL, #{topName}, #{jungleName}, #{middleName}, #{bottomName}, #{utilityName})
+        INSERT INTO COMBINATION_INFO(ID, TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME)
+        VALUES(COMBINATION_INFO_AUTOINC.NEXTVAL, #{topName}, #{jungleName}, #{middleName}, #{bottomName}, #{utilityName})
     </insert>
 
     <insert id="insertOriginalDto" parameterType="com.lol.dto.OriginalDto">
         INSERT INTO ORIGINAL(ID, GAMETIME, INSERTTIME, TIER, MATCHID, TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME, COMSAVEID, TEAMID, WIN)
         VALUES(ORIGINAL_AUTOINC.NEXTVAL, #{gameTime}, #{insertTime}, #{tier}, #{matchId}, #{topName}, #{jungleName}, #{middleName}, #{bottomName}, #{utilityName}, #{comSaveId}, #{teamId}, #{win})
-    </insert>
-
-    <insert id="championNameDto" parameterType="com.lol.dto.ChampionNameDto">
-        INSERT INTO CHAMPIONNAME(ID, CHAMPIONENGNAME, CHAMPIONKORNAME)
-        VALUES(#{id}, #{ChampionEngName}, #{ChampionKorName})
     </insert>
 </mapper>
