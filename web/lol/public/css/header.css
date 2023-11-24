@@ -60,14 +60,15 @@ header ul {
     font-weight: bold;
     margin-block: 0;
     padding-inline: 0;
-    width: 350px;
+    width: 450px;
     justify-content: space-around;
 }
 
 .loginDiv {
     display: flex;
-    width: 700px;
+    width: 600px;
     font-size: 20px;
+    color: #FFFFFF;
     font-weight: bold;
     justify-content: flex-end;
 }

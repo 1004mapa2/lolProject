@@ -1,7 +1,16 @@
 document.querySelector('.submitButton').addEventListener('click', function(){
-    fetch('http://localhost:8081/5', {
+    const dataToSend = {
+        "username" : document.querySelectorAll('input')[0].value,
+        "password" : document.querySelectorAll('input')[1].value,
+        "role" : document.querySelectorAll('input')[2].value
+    }
+    
+    fetch('http://localhost:8081/api/registerUser', {
         method: 'POST',
-        body: new FormData(document.getElementById('formId'))
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dataToSend)
     })
         .then(response => {
             if (response.ok) {
