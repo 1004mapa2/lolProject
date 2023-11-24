@@ -1,9 +1,9 @@
 package com.lol.controller;
 
 import com.google.gson.Gson;
-import com.lol.dto.TierDto;
 import com.lol.dto.ChampionNameDto;
 import com.lol.dto.ReceiveDto;
+import com.lol.dto.TierDto;
 import com.lol.service.LolService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class LolController {
 
     private final LolService lolService;

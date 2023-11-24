@@ -9,8 +9,8 @@
         VALUES(USERACCOUNT_AUTOINC.NEXTVAL, #{username}, #{password}, #{role})
     </insert>
 
-    <select id="findByUsername" resultType="com.lol.dto.UserDto">
-        SELECT * FROM USERACCOUNT
+    <select id="findByUsername" resultType="com.lol.dto.UserDto" parameterType="string">
+        SELECT * FROM USERACCOUNT WHERE USERNAME= #{username}
     </select>
 
 </mapper>

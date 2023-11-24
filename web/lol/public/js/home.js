@@ -3,6 +3,7 @@ let dragged;
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelector('#tab1').style.color = '#DA81F5';
     조합효과불러오기();
+    엑세스토큰검증();
     CHAMPIONNAME받아오기(document.querySelector('.searchInput').value);
 })
 
@@ -246,22 +247,113 @@ function 조합효과불러오기() {
 
 document.querySelector('.resultComBox').addEventListener('mouseover', function (event) {
 
-    if(event.target.classList.contains("clickBox")){
+    if (event.target.classList.contains("clickBox")) {
         event.target.parentNode.querySelector('.totalBox').style.backgroundColor = '#8B5FBF';
     }
 })
 
-document.querySelector('.resultComBox').addEventListener('mouseout', function(event){
-    if(event.target.classList.contains("clickBox")){
+document.querySelector('.resultComBox').addEventListener('mouseout', function (event) {
+    if (event.target.classList.contains("clickBox")) {
         event.target.parentNode.querySelector('.totalBox').style.backgroundColor = '#FFFFFF';
     }
 })
 
-document.querySelector('.resultComBox').addEventListener('click', function(event){
-    if(event.target.classList.contains("clickBox")){
+document.querySelector('.resultComBox').addEventListener('click', function (event) {
+    if (event.target.classList.contains("clickBox")) {
         var comsaveId = event.target.parentNode.querySelector('input').value;
         var tier = document.querySelector('.tierP').value;
         var detailURL = "/detail?comsaveId=" + comsaveId + "&tier=" + tier;
         window.location.href = detailURL;
+    }
+})
+
+document.querySelector('.test1').addEventListener('click', function () {
+    fetch('http://localhost:8081/api/user', {
+        method: 'GET',
+        headers: {
+            'Authorization': localStorage.getItem('jwtToken')
+        }
+    })
+        .then(response => {
+            alert(response.status);
+        })
+})
+
+document.querySelector('.test2').addEventListener('click', function () {
+    fetch('http://localhost:8081/api/manager', {
+        method: 'GET',
+        headers: {
+            'Authorization': localStorage.getItem('jwtToken')
+        }
+    })
+        .then(response => {
+            alert(response.status);
+        })
+})
+
+document.querySelector('.test3').addEventListener('click', function () {
+    fetch('http://localhost:8081/api/admin', {
+        method: 'GET',
+        headers: {
+            'Authorization': localStorage.getItem('jwtToken')
+        }
+    })
+        .then(response => {
+            alert(response.status);
+        })
+})
+
+function 엑세스토큰검증() {
+    if (localStorage.getItem('jwtToken') != "null") {
+        fetch('http://localhost:8081/api/init', {
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('jwtToken'),
+            },
+            credentials: 'include'
+        })
+            .then(response => {
+                if (response.status == 200) {
+                    document.querySelector('.loginDiv').innerHTML = '로그아웃';
+                } else {
+                    const token = response.headers.get('Authorization');
+                    localStorage.setItem('jwtToken', token);
+                    재검증();
+                }
+            })
+    } else {
+        document.querySelector('.loginDiv').innerHTML = '로그인';
+    }
+}
+
+function 재검증() {
+    fetch('http://localhost:8081/api/refresh', {
+        method: 'GET',
+        headers: {
+            'Authorization': localStorage.getItem('jwtToken'),
+        },
+        credentials: 'include'
+    })
+        .then(response => {
+            if (response.status == 200) {
+                document.querySelector('.loginDiv').innerHTML = '로그아웃';
+            } else {
+                document.querySelector('.loginDiv').innerHTML = '로그인';
+            }
+        })
+
+}
+
+document.querySelector('.loginDiv').addEventListener('click', function () {
+    if (this.innerHTML == '로그인') {
+        window.location.href = "/login";
+    } else {
+        fetch('http://localhost:8081/api/logout', {
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('jwtToken')
+            }
+        })
+        location.reload();
     }
 })

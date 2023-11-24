@@ -5,7 +5,7 @@
 <mapper namespace="com.lol.repository.LolMapper">
     <insert id="insertSummonerDto" parameterType="com.lol.dto.SummonerDto">
         INSERT INTO SUMMONER_INFO(ID, TIER, SUMMONERID, SUMMONERNAME, STATUS)
-        VALUES(SUMMONERLIST_AUTOINC.NEXTVAL, #{tier}, #{summonerId}, #{summonerName}, #{status})
+        VALUES(SUMMONER_INFO_AUTOINC.NEXTVAL, #{tier}, #{summonerId}, #{summonerName}, #{status})
     </insert>
 
     <select id="checkSummonerList" parameterType="int" resultType="com.lol.dto.SummonerDto">
@@ -47,7 +47,7 @@
     </update>
 
     <update id="create_each_tier_total_sequence">
-        CREATE SEQUENCE EACH_TIER_TOTAL_AUTOINC START WITH 1 INCREMENT BY 1 MAXVALUE 1000000 NOCYCLE NOCACHE
+        CREATE SEQUENCE EACH_TIER_TOTAL_AUTOINC START WITH 1 INCREMENT BY 1 MAXVALUE 5000000 NOCYCLE NOCACHE
     </update>
 
     <insert id="move_each_tier_total" parameterType="string">
@@ -88,7 +88,7 @@
     </update>
 
     <update id="create_all_tier_total_sequence">
-        CREATE SEQUENCE ALL_TIER_TOTAL_AUTOINC START WITH 1 INCREMENT BY 1 MAXVALUE 1000000 NOCYCLE NOCACHE
+        CREATE SEQUENCE ALL_TIER_TOTAL_AUTOINC START WITH 1 INCREMENT BY 1 MAXVALUE 5000000 NOCYCLE NOCACHE
     </update>
 
     <insert id="move_all_tier_total">

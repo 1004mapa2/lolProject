@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{#_csrf}}token{{/_csrf}}">
     <title>Document</title>
 </head>
 <body>
     <div>로그인 페이지</div>
-    <form>
-        <input type="text" name="username" placeholder="아이디를 입력하세요"/><br/>
-        <input type="password" name="password" placeholder="비밀번호를 입력하세요"/><br/>
-        <button>로그인</button>
-    </form>
+    <input type="text" name="username" class="userId" placeholder="아이디를 입력하세요"/><br/>
+    <input type="password" name="password" class="userPassword" placeholder="비밀번호를 입력하세요"/><br/>
+    <button type="button" class="submitButton">로그인</button>
     <a href="/membership">회원가입</a>
+    <script src="/js/login.js"></script>
 </body>
 </html>
