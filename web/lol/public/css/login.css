@@ -1,0 +1,76 @@
+.container {
+    width: 500px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+body {
+    height: 100%;
+    background-color: #F5F3F7;
+}
+
+input {
+    height: 40px;
+    font-size: 15px;
+    border: 1px solid #dadada;
+}
+
+/* button:hover {
+    cursor: pointer;
+    background-color: #8B5FBF;
+} */
+
+.loginText {
+    font-size: 30px;
+    /* 폰트 바꾸기 */
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.errorMessage {
+    font-size: 15px;
+    color: #de283b;
+    margin-bottom: 20px;
+    display: none;
+}
+
+.loginButton {
+    height: 40px;
+    font-size: 20px;
+    color: #FFFFFF;
+    background-color: #848484;
+    border: none;
+    transition: all 0.5s;
+}
+
+.loginButton:hover {
+    cursor: pointer;
+}
+
+.aTagDiv {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    margin-left: 125px;
+}
+
+.aTag {
+    text-decoration: none;
+    color: #000000;
+    font-size: 17px;
+}
+
+.between_aTag {
+    margin-left: 20px;
+    margin-right: 20px;
+    display: flex;
+    width: 2px;
+    height: 10px;
+    background-color: #dadada;
+}
+
+.errorFont {
+    font-size: 15px;
+}

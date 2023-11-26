@@ -41,7 +41,7 @@
     align-items: flex-end;
 }
 
-a {
+header a {
     text-decoration: none; /*밑줄 지우기*/
     color: #FFFFFF;
 }

@@ -304,7 +304,9 @@ document.querySelector('.test3').addEventListener('click', function () {
 })
 
 function 엑세스토큰검증() {
-    if (localStorage.getItem('jwtToken') != "null") {
+    var jwtToken = localStorage.getItem('jwtToken');
+    
+    if (jwtToken != "null" && jwtToken != null) {
         fetch('http://localhost:8081/api/init', {
             method: 'GET',
             headers: {
@@ -354,6 +356,7 @@ document.querySelector('.loginDiv').addEventListener('click', function () {
                 'Authorization': localStorage.getItem('jwtToken')
             }
         })
+        localStorage.removeItem('jwtToken');
         location.reload();
     }
 })

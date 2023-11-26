@@ -4,14 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/login.css">
 </head>
-<body>
-    <div>회원가입 페이지</div>
-    <input type="text" name="username" placeholder="아이디를 입력하세요"/><br/>
-    <input type="password" name="password" placeholder="비밀번호를 입력하세요"/><br/>
-    <input type="text" name="role" placeholder="권한"/>
-    <button type="button" class="submitButton">회원가입</button>
-
-    <script src="/js/membership.js"></script>
+<body style="margin: 0;">
+    <header>
+        <div class="headerDiv">
+            <img class="backImage" src="/img/backImage2.jpg">
+            <div class="blackBar"></div>
+            <div class="headerList">
+                <div class="tabBar">
+                    <nav>
+                        <ul>
+                            <li><a href="/" id="tab1">조합 분석</a></li>
+                            <li><a href="" id="tab2">커뮤니티</a></li>
+                            <li><a href="" id="tab3">굿즈샵</a></li>
+                        </ul>
+                    </nav>
+                    <div class="loginDiv"><a href="">로그인</a></div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <div class="loginText">새로운 ID 생성</div>
+            <div>아이디</div>
+            <input type="text" name="username" class="usernameInput" placeholder="아이디를 입력하세요" />
+            <div class="idErrorMessage errorFont"></div><br />
+            <div>비밀번호</div>
+            <input type="password" name="password" class="password1Input" placeholder="비밀번호를 입력하세요" />
+            <div class="password1ErrorMessage errorFont"></div><br />
+            <div>비밀번호 확인</div>
+            <input type="password" name="password" class="password2Input" placeholder="비밀번호를 재입력하세요" />
+            <div class="password2ErrorMessage errorFont"></div><br />
+            <input type="button" class="loginButton" value="회원가입"/>
+        </div>
+        <script src="/js/membership.js"></script>
+    </main>
 </body>
 </html>
