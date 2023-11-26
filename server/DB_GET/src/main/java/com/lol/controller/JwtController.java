@@ -23,6 +23,13 @@ public class JwtController {
         loginService.registerUser(userDto);
     }
 
+    @PostMapping("/usernameDuplicateCheck")
+    public int usernameDuplicateCheck(@RequestBody UserDto userDto) {
+        int result = loginService.usernameDuplicateCheck(userDto.getUsername());
+
+        return result;
+    }
+
     @PostMapping("/login")
     public void login() {
     }
