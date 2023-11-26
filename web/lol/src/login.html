@@ -1,17 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{#_csrf}}token{{/_csrf}}">
     <title>Document</title>
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/login.css">
 </head>
-<body>
-    <div>로그인 페이지</div>
-    <input type="text" name="username" class="userId" placeholder="아이디를 입력하세요"/><br/>
-    <input type="password" name="password" class="userPassword" placeholder="비밀번호를 입력하세요"/><br/>
-    <button type="button" class="submitButton">로그인</button>
-    <a href="/membership">회원가입</a>
-    <script src="/js/login.js"></script>
+
+<body style="margin: 0;">
+    <header>
+        <div class="headerDiv">
+            <img class="backImage" src="/img/backImage2.jpg">
+            <div class="blackBar"></div>
+            <div class="headerList">
+                <div class="tabBar">
+                    <nav>
+                        <ul>
+                            <li><a href="/" id="tab1">조합 분석</a></li>
+                            <li><a href="" id="tab2">커뮤니티</a></li>
+                            <li><a href="" id="tab3">굿즈샵</a></li>
+                        </ul>
+                    </nav>
+                    <div class="loginDiv"><a href="">로그인</a></div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <div class="loginText">로그인 하세요.</div>
+            <div>아이디</div>
+            <input type="text" name="username" class="username" placeholder="아이디를 입력하세요" /><br />
+            <div>비밀번호</div>
+            <input type="password" name="password" class="password" placeholder="비밀번호를 입력하세요" /><br />
+            <div class="errorMessage">아이디 또는 비밀번호를 다시 입력해주세요.</div>
+            <input style="background-color: #9A73B5;" type="button" class="loginButton" value="로그인"/>
+        
+            <div class="aTagDiv">
+                <a href="" class="aTag">비밀번호 찾기</a>
+                <div class="between_aTag"></div>
+                <a href="/membership" class="aTag">회원가입</a>
+            </div>
+        </div>
+        <script src="/js/login.js"></script>
+    </main>
 </body>
+
 </html>

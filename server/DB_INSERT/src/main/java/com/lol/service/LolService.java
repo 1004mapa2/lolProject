@@ -32,8 +32,8 @@ public class LolService {
     private static String apiKey = "";
     private final LolMapper mapper;
     private final WebClient.Builder builder = WebClient.builder();
-    private int startTime = 1687359600; //6월 22일 0시
-    private int endTime = 1687964400; //6월 28일 0시
+    private int startTime = 1698764400; //11월 1일 0시
+    private int endTime = 1699369200; //11월 8일 0시
     private final static List<String> tier = new ArrayList<>(Arrays.asList("CHALLENGER", "GRANDMASTER", "MASTER", "DIAMOND"));
 
     public LolService(LolMapper mapper) {
