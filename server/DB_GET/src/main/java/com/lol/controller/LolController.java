@@ -1,11 +1,11 @@
 package com.lol.controller;
 
 import com.google.gson.Gson;
-import com.lol.dto.ChampionNameDto;
-import com.lol.dto.ReceiveDto;
-import com.lol.dto.TierDto;
+import com.lol.dto.*;
 import com.lol.service.LolService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,6 +39,20 @@ public class LolController {
         Gson gson = new Gson();
         List<TierDto> detailInfo = lolService.getDetailInfo(comsaveId, tier);
         String json = gson.toJson(detailInfo);
+
+        return json;
+    }
+
+    @PostMapping("/saveComment")
+    public void saveComment(@RequestBody Combination_CommentDto commentDto, Authentication authentication) {
+        lolService.saveComment(commentDto, authentication);
+    }
+
+    @PostMapping("/getComment")
+    public String getComment(@RequestBody Combination_CommentDto commentDto) {
+        Gson gson = new Gson();
+        List<Combination_Comment> commentList = lolService.getComment(commentDto);
+        String json = gson.toJson(commentList);
 
         return json;
     }

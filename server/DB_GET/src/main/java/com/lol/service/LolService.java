@@ -1,12 +1,13 @@
 package com.lol.service;
 
-import com.lol.dto.TierDto;
-import com.lol.dto.ChampionNameDto;
-import com.lol.dto.ReceiveDto;
+import com.lol.dto.*;
 import com.lol.repository.LolMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -57,5 +58,24 @@ public class LolService {
         loseComsave.add(0, selectComsave);
 
         return loseComsave;
+    }
+
+    public void saveComment(Combination_CommentDto commentDto, Authentication authentication) {
+        Combination_Comment combinationComment = new Combination_Comment();
+        combinationComment.setContent(commentDto.getContent());
+        combinationComment.setComsaveId(commentDto.getComsaveId());
+        combinationComment.setUsername(authentication.getName());
+
+        LocalDateTime now = LocalDateTime.now();
+        String formatNowTime = now.format(DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm"));
+        combinationComment.setWriteTime(formatNowTime);
+        mapper.saveComment(combinationComment);
+    }
+
+    public List<Combination_Comment> getComment(Combination_CommentDto commentDto) {
+        int comsaveId = commentDto.getComsaveId();
+        List<Combination_Comment> commentList = mapper.getComment(comsaveId);
+
+        return commentList;
     }
 }

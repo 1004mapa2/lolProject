@@ -1,5 +1,6 @@
 package com.lol.repository;
 
+import com.lol.dto.Combination_Comment;
 import com.lol.dto.TierDto;
 import com.lol.dto.ChampionNameDto;
 import com.lol.dto.ReceiveDto;
@@ -22,4 +23,8 @@ public interface LolMapper {
     public List<TierDto> getLoseComsave(String tier, String comsaveId);
 
     public TierDto getSelectComsave(String tier, String comsaveId);
+
+    public void saveComment(Combination_Comment combinationComment);
+
+    public List<Combination_Comment> getComment(int comsaveId);
 }

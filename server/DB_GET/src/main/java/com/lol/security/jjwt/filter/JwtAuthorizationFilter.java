@@ -70,6 +70,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 Token token = redisRepository.findById(refresh).orElse(null);
                 token.setAccessToken("Bearer " + accessToken);
                 redisRepository.save(token);
+
+                setAuthenticationToContext(claims);
             }
         } catch (JwtException e) {
             request.setAttribute("exception", e);
