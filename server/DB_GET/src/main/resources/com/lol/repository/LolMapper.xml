@@ -80,4 +80,13 @@
     <select id="getSelectComsave" parameterType="string" resultType="com.lol.dto.TierDto">
         SELECT * FROM EACH_TIER_TOTAL WHERE TIER= #{tier} AND COMSAVEID= #{comsaveId}
     </select>
+
+    <insert id="saveComment" parameterType="com.lol.dto.Combination_Comment">
+        INSERT INTO COMBINATION_COMMENT(ID, COMSAVEID, USERNAME, CONTENT, WRITETIME)
+        VALUES(COMBINATION_COMMENT_AUTOINC.NEXTVAL, #{comsaveId}, #{username}, #{content}, #{writeTime})
+    </insert>
+
+    <select id="getComment" parameterType="int" resultType="com.lol.dto.Combination_Comment">
+        SELECT * FROM COMBINATION_COMMENT WHERE COMSAVEID= #{comsaveId} ORDER BY WRITETIME DESC
+    </select>
 </mapper>
