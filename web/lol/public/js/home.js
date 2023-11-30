@@ -315,12 +315,14 @@ function 엑세스토큰검증() {
             credentials: 'include'
         })
             .then(response => {
-                if (response.status == 200) {
-                    document.querySelector('.loginDiv').innerHTML = '로그아웃';
-                } else {
+                if(response.headers.get('Authorization') != null){
                     const token = response.headers.get('Authorization');
                     localStorage.setItem('jwtToken', token);
-                    재검증();
+                    document.querySelector('.loginDiv').innerHTML = '로그아웃';
+                    document.querySelector('.myPage').style.display = 'block';
+                } else {
+                    document.querySelector('.loginDiv').innerHTML = '로그아웃';
+                    document.querySelector('.myPage').style.display = 'block';
                 }
             })
     } else {
@@ -328,27 +330,9 @@ function 엑세스토큰검증() {
     }
 }
 
-function 재검증() {
-    fetch('http://localhost:8081/api/refresh', {
-        method: 'GET',
-        headers: {
-            'Authorization': localStorage.getItem('jwtToken'),
-        },
-        credentials: 'include'
-    })
-        .then(response => {
-            if (response.status == 200) {
-                document.querySelector('.loginDiv').innerHTML = '로그아웃';
-            } else {
-                document.querySelector('.loginDiv').innerHTML = '로그인';
-            }
-        })
-
-}
-
 document.querySelector('.loginDiv').addEventListener('click', function () {
     if (this.innerHTML == '로그인') {
-        window.location.href = "/login";
+        this.href = 'login';
     } else {
         fetch('http://localhost:8081/api/logout', {
             method: 'GET',

@@ -23,30 +23,30 @@
                             <li><a href="" id="tab3">굿즈샵</a></li>
                         </ul>
                     </nav>
-                    <div class="loginDiv"><a href="">로그인</a></div>
+                    <div class="loginDiv"><a href="/login"></a></div>
                 </div>
             </div>
         </div>
     </header>
     <main>
+        <div style="height: 20px; min-width: 1050px;"></div>
         <div class="container">
-            <div style="height: 20px; min-width: 1050px;"></div>
-            <div style="font-size: 20px;">내가 선택한 조합</div>
-            <div class="selectComDiv">
-                <div class="championComBox">
-                    <img src="/img/Aatrox.png">
-                    <img src="/img/Aatrox.png">
-                    <img src="/img/Aatrox.png">
-                    <img src="/img/Aatrox.png">
-                    <img src="/img/Aatrox.png">
-                </div>
-                <div class="definitionBox">
-                    <a>1</a>
-                    <a>1</a>
+            <div class="leftDiv">
+                <div class="titleText">내가 선택한 조합</div>
+                <div class="pickComBox"></div>
+                <div class="leftMiddle"></div>
+                <div class="leftBoard">
+                    <div class="sample">
+                        <textarea class="commentText" rows="10" cols="65" placeholder="내용을 입력하세요."></textarea>
+                        <input type="button" class="commentButton" value="작성">
+                    </div>
+                    <div class="commentContainer"></div>
                 </div>
             </div>
-            <div style="font-size: 20px;">진 조합</div>
-            <div class="loseComListDiv"></div>
+            <div class="rightDiv">
+                <div class="titleText">진 조합</div>
+                <div class="loseComBox"></div>
+            </div>
         </div>
     </main>
     <script src="/js/detail.js"></script>

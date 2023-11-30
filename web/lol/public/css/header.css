@@ -64,11 +64,22 @@ header ul {
     justify-content: space-around;
 }
 
-.loginDiv {
+.userContainer {
     display: flex;
+    justify-content: flex-end;
     width: 600px;
+}
+
+.myPage {
+    display: none;
     font-size: 20px;
     color: #FFFFFF;
     font-weight: bold;
-    justify-content: flex-end;
+}
+
+.loginDiv {
+    /* width: 100px; */
+    font-size: 20px;
+    color: #FFFFFF;
+    font-weight: bold;
 }
