@@ -1,3 +1,5 @@
+// const url = 'http://localhost:8081';
+const url = 'http://3.34.99.97:8081';
 document.addEventListener("DOMContentLoaded", function () {
     엑세스토큰검증();
     댓글불러오기();
@@ -8,7 +10,7 @@ async function 엑세스토큰검증() {
     var jwtToken = localStorage.getItem('jwtToken');
 
     if (jwtToken != "null" && jwtToken != null) {
-        await fetch('http://localhost:8081/api/init', {
+        await fetch(url + '/api/init', {
             method: 'GET',
             headers: {
                 'Authorization': localStorage.getItem('jwtToken'),
@@ -35,7 +37,7 @@ document.querySelector('.loginDiv').addEventListener('click', function () {
     if (this.innerHTML == '로그인') {
         window.location.href = "/login";
     } else {
-        fetch('http://localhost:8081/api/logout', {
+        fetch(url + '/api/logout', {
             method: 'GET',
             headers: {
                 'Authorization': localStorage.getItem('jwtToken')
@@ -50,7 +52,7 @@ function 파라미터보내기() {
     const urlParams = new URLSearchParams(window.location.search);
     var comsaveId = urlParams.get('comsaveId');
     var tier = urlParams.get('tier');
-    fetch(`http://localhost:8081/getDetailInfo?comsaveId=${comsaveId}&tier=${tier}`)
+    fetch(url + `/getDetailInfo?comsaveId=${comsaveId}&tier=${tier}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('http 오류: ' + response.status);
@@ -118,7 +120,7 @@ async function 댓글저장() {
         content: document.querySelector('.commentText').value,
         comsaveId: urlParams.get('comsaveId')
     }
-    await fetch('http://localhost:8081/saveComment', {
+    await fetch(url + '/saveComment', {
         method: 'POST',
         headers: {
             'Authorization': localStorage.getItem('jwtToken'),
@@ -139,7 +141,7 @@ async function 댓글불러오기() {
         comsaveId: urlParams.get('comsaveId'),
         page: urlParams.get('page')
     }
-    await fetch('http://localhost:8081/getComment', {
+    await fetch(url + '/getComment', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -235,7 +237,7 @@ function 티어바꾸기(comsaveIdValue, tierValue) {
         comsaveId: comsaveIdValue,
         tier: tierValue
     }
-    fetch('http://localhost:8081/getDetailInfoDynamic', {
+    fetch(url + '/getDetailInfoDynamic', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

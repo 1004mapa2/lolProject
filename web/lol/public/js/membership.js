@@ -1,3 +1,6 @@
+// const url = 'http://localhost:8081';
+const url = 'http://3.34.99.97:8081';
+
 document.querySelector('.usernameInput').addEventListener('blur', function () {
     //fetch로 db에서 같은 아이디가 있는지 체크
     var errMsg = document.querySelector('.idErrorMessage');
@@ -8,7 +11,7 @@ document.querySelector('.usernameInput').addEventListener('blur', function () {
         const username = {
             "username": document.querySelector('.usernameInput').value
         }
-        fetch('http://localhost:8081/api/usernameDuplicateCheck', {
+        fetch(url + '/api/usernameDuplicateCheck', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -110,7 +113,7 @@ function 회원가입() {
             "password": document.querySelectorAll('input')[1].value
         }
 
-        fetch('http://localhost:8081/api/registerUser', {
+        fetch(url + '/api/registerUser', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

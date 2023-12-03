@@ -1,3 +1,6 @@
+// const url = 'http://localhost:8081';
+const url = 'http://3.34.99.97:8081';
+
 document.addEventListener("DOMContentLoaded", function () {
     엑세스토큰검증();
 })
@@ -6,7 +9,7 @@ function 엑세스토큰검증() {
     var jwtToken = localStorage.getItem('jwtToken');
     
     if (jwtToken != "null" && jwtToken != null) {
-        fetch('http://localhost:8081/api/init', {
+        fetch(url + '/api/init', {
             method: 'GET',
             headers: {
                 'Authorization': localStorage.getItem('jwtToken'),
@@ -30,7 +33,7 @@ function 엑세스토큰검증() {
 }
 
 document.querySelector('.loginDiv').addEventListener('click', function () {
-        fetch('http://localhost:8081/api/logout', {
+        fetch(url + '/api/logout', {
             method: 'GET',
             headers: {
                 'Authorization': localStorage.getItem('jwtToken')

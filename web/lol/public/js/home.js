@@ -1,3 +1,6 @@
+// const url = 'http://localhost:8081';
+const url = 'http://3.34.99.97:8081';
+const clientUrl = 'http://3.34.99.97:3000';
 let dragged;
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -9,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // leftDiv 시작
 function CHAMPIONNAME받아오기(value) {
-    fetch('http://localhost:8081/getChampionNameInfo', {
+    fetch(url + '/getChampionNameInfo', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -120,12 +123,12 @@ function ALLTIER받아오기() {
     }
     var championNameData = document.querySelector('.comImg').querySelectorAll('img');
     championNameData.forEach(function (data, i) {
-        dataToSend[`championName${i + 1}`] = data.src.replace('http://localhost:3000/img/', '').replace('.png', '');
+        dataToSend[`championName${i + 1}`] = data.src.replace(clientUrl + '/img/', '').replace('.png', '');
     })
     dataToSend.tier = tierValue;
     dataToSend.sort = sortValue;
 
-    fetch('http://localhost:8081/getTierInfo', {
+    fetch(url + '/getTierInfo', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -170,7 +173,7 @@ function ALLTIER받아오기() {
 }
 
 function 조합박스(click_src) {
-    var empty = "http://localhost:3000/img/emptyBox.png";
+    var empty = clientUrl + "/img/emptyBox.png";
     const list = document.querySelector('.comImg').querySelectorAll('img');
 
     for (let i = 0; i < list.length; i++) {
@@ -199,7 +202,7 @@ document.querySelector('.comImg').addEventListener('click', function (event) {
  * 랜덤 넣기
  */
 document.querySelector('.comButton1').addEventListener('click', function () {
-    var empty = "http://localhost:3000/img/emptyBox.png";
+    var empty = clientUrl + "/img/emptyBox.png";
     const list = document.querySelector('.comImg').querySelectorAll('img');
     for (let i = 0; i < list.length; i++) {
         if (list[i].src == empty) {
@@ -306,7 +309,7 @@ function 엑세스토큰검증() {
     var jwtToken = localStorage.getItem('jwtToken');
 
     if (jwtToken != "null" && jwtToken != null) {
-        fetch('http://localhost:8081/api/init', {
+        fetch(url + '/api/init', {
             method: 'GET',
             headers: {
                 'Authorization': localStorage.getItem('jwtToken'),
@@ -331,7 +334,7 @@ function 엑세스토큰검증() {
 
 document.querySelector('.loginDiv').addEventListener('click', function () {
     if (this.innerHTML == '로그아웃') {
-        fetch('http://localhost:8081/api/logout', {
+        fetch(url + '/api/logout', {
             method: 'GET',
             headers: {
                 'Authorization': localStorage.getItem('jwtToken')

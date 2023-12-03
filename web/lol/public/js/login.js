@@ -1,3 +1,6 @@
+// const url = 'http://localhost:8081';
+const url = 'http://3.34.99.97:8081';
+
 document.querySelector('.loginButton').addEventListener('click', function () {
     로그인();
 })
@@ -24,7 +27,7 @@ function 로그인() {
             "password": password
         }
 
-        fetch('http://localhost:8081/api/login', {
+        fetch(url + '/api/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
