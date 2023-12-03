@@ -210,10 +210,10 @@ img {
     font-weight: bold;
 }
 
-.resultComBox {
+/* .resultComBox {
     opacity: 1;
     transition: all 0.5s;
-}
+} */
 
 .resultCom {
     position: relative;

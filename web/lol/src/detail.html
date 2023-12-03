@@ -19,11 +19,13 @@
                     <nav>
                         <ul>
                             <li><a href="/" id="tab1">조합 분석</a></li>
-                            <li><a href="" id="tab2">커뮤니티</a></li>
-                            <li><a href="" id="tab3">굿즈샵</a></li>
                         </ul>
                     </nav>
-                    <div class="loginDiv"><a href="/login"></a></div>
+                    <div class="userContainer">
+                        <a href="myPage" class="myPage">마이페이지</a>
+                        <div style="width: 50px;"></div>
+                        <a href="login" class="loginDiv"></a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -32,20 +34,67 @@
         <div style="height: 20px; min-width: 1050px;"></div>
         <div class="container">
             <div class="leftDiv">
-                <div class="titleText">내가 선택한 조합</div>
+                <hr>
                 <div class="pickComBox"></div>
-                <div class="leftMiddle"></div>
-                <div class="leftBoard">
-                    <div class="sample">
-                        <textarea class="commentText" rows="10" cols="65" placeholder="내용을 입력하세요."></textarea>
-                        <input type="button" class="commentButton" value="작성">
+                <hr>
+                <div class="leftDivMiddle">
+                    <div style="width: 20px;"></div>
+                    <div class="leftDivMiddleLeft">
+                        <div class="letter">픽횟수</div>
+                        <div class="pickCountBox"></div>
+                        <div class="letter">승률</div>
+                        <div class="winRateBox"></div>
                     </div>
-                    <div class="commentContainer"></div>
+                    <div style="width: 30px;"></div>
+                    <div class="leftDivMiddleRight">
+                        <div class="letter">티어 선택</div>
+                        <div class="tierRow">
+                            <div class="tierDiv">
+                                <img src="/img/tierImg/CHALLENGER.webp" />
+                                <p>챌린저</p>
+                            </div>
+                            <div class="tierDiv">
+                                <img src="/img/tierImg/GRANDMASTER.webp" />
+                                <p>그랜드마스터</p>
+                            </div>
+                        </div>
+                        <div class="tierRow">
+                            <div class="tierDiv">
+                                <img src="/img/tierImg/MASTER.webp" />
+                                <p>마스터</p>
+                            </div>
+                            <div class="tierDiv">
+                                <img src="/img/tierImg/DIAMOND.webp" />
+                                <p>다이아몬드</p>
+                            </div>
+                        </div>
+                        <div class="allTierDiv">
+                            <img class="allTierImg" src="/img/tierImg/ALLTIER.png" />
+                            <p>모든 티어</p>
+                        </div>
+                    </div>
+                    <div style="width: 20px;"></div>
                 </div>
+                <hr>
             </div>
+            <div class="middleDiv"></div>
             <div class="rightDiv">
-                <div class="titleText">진 조합</div>
-                <div class="loseComBox"></div>
+                <div class="rightDetailDiv">
+                    <hr>
+                    <p class="commentTitle">1줄 댓글</p>
+                    <div class="commentDiv">
+                        <div class="writeBoxDiv">
+                            <div class="writeBox">
+                                <textarea class="commentText" rows="10" cols="65" placeholder="내용을 입력하세요."></textarea>
+                                <input type="button" class="commentButton" value="작성">
+                            </div>
+                        </div>
+                        <div class="commentContainer"></div>
+                    </div>
+                    <div class="pageNumberContainer">
+                        <div class="pageNumberDiv"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>

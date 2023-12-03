@@ -37,12 +37,12 @@ function 로그인() {
                 localStorage.setItem('jwtToken', token);
 
                 if (response.ok) {
-                    console.log(document.referrer);
-                    if(document.referrer && document.referrer != "http://localhost:3000/membership") {
-                        window.location = document.referrer;
-                    } else {
-                        window.location.href = "/";
-                    }
+                    // console.log(document.referrer);
+                    // if(document.referrer && document.referrer != "http://localhost:3000/membership") {
+                    //     window.location = document.referrer;
+                    // } else {
+                        window.location.href = '/';
+                    // }
                 } else {
                     document.querySelector('.errorMessage').style.display = 'block';
                 }

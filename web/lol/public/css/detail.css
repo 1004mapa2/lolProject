@@ -1,7 +1,10 @@
+body {
+    background-color: #F5F3F7;
+}
+
 main {
     min-width: 1050px;
-    height: 2050px;
-    background-color: #F5F3F7;
+    /* height: 2050px; */
 }
 
 .container {
@@ -12,50 +15,160 @@ main {
 }
 
 img {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
 }
 
+p {
+    margin: 0;
+}
+
+main a {
+    text-decoration: none;
+}
+
+main a:link, main a:visited {
+    color: black;
+}
 
 /* ---leftDiv 시작--- */
 .leftDiv {
-    width: 525px;
+    width: 520px;
+    height: 580px;
+    background-color: #FFFFFF;
+    border: 1px solid #D8D8D8;
 }
 
-.titleText {
+hr {
+    width: 90%;
+    border: 1px solid #D8D8D8;
+}
+
+.iconImg {
+    width: 40px;
+    height: 40px;
+}
+
+.iconImgDiv {
     display: flex;
     justify-content: center;
-    font-size: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+}
+
+.pickImg {
+    width: 85px;
+    height: 85px;
 }
 
 .comImgDiv {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
 }
 
-.pickImg {
-    width: 70px;
+.championNameP {
+    margin: 0;
+    text-align: center;
+}
+
+.leftDivMiddle {
+    display: flex;
+}
+
+.leftDivMiddleLeft {
+    width: 100%;
+}
+
+.letter {
+    font-size: 20px;
+    text-align: center;
+}
+
+.pickCountBox {
+    display: flex;
+    height: 90px;
+    border: 1px solid #D8D8D8;
+    color: #2E64FE;
+    font-weight: bold;
+    font-size: 50px;
+    justify-content: center;
+    align-items: center;
+}
+
+.winRateBox {
+    display: flex;
+    height: 90px;
+    border: 1px solid #D8D8D8;
+    color: #FE2E2E;
+    font-weight: bold;
+    font-size: 50px;
+    justify-content: center;
+    align-items: center;
+}
+
+.leftDivMiddleRight {
+    width: 100%;
+    /* background-color:brown; */
+}
+
+.tierRow {
+    display: flex;
+}
+
+.tierDiv {
+    width: 50%;
+    text-align: center;
+    border: 1px solid #D8D8D8;
+}
+
+.tierDiv.backColor {
+    background-color: #F8E0F7;
+}
+
+.allTierDiv {
+    width: 100% - 2px;
+    text-align: center;
+    border: 1px solid #D8D8D8;
+    margin-bottom: 15px;
+}
+
+.allTierDiv.backColor {
+    background-color: #F8E0F7;
+}
+
+.allTierImg {
+    width: 100%;
+}
+
+/* ---middleDiv 시작--- */
+.middleDiv {
+    width: 10px;
+
+}
+
+
+/* ---rightDiv 시작--- */
+.rightDiv {
+    width: 520px;
+}
+
+.rightDetailDiv {
+    background-color: #FFFFFF;
+    border: 1px solid #D8D8D8;
+}
+
+.commentTitle {
+    font-size: 20px;
+    margin-left: 10px;
+}
+
+.writeBoxDiv {
+    display: flex;
+    justify-content: center;
+}
+
+.writeBox {
     height: 70px;
-}
-
-.leftMiddle {
-    width: 525px;
-    height: 100px;
-    background-color: #F5F3F7;
-}
-
-.leftBoard {
-    width: 525px;
-    /* border: 1px solid; */
-    background-color: #BFFF00;
-}
-
-.sample {
-    width: 525px;
-    height: 70px;
-    background-color: #B18904;
-    border: 1px solid;
+    width: 95%;
     display: flex;
 }
 
@@ -63,28 +176,29 @@ img {
     border: none;
     resize: none;
     /*크기 조절 안되게 하기*/
+    border: 1px solid;
 }
 
 .commentButton {
     width: 100px;
     height: 100%;
     padding: 0;
-    border: none;
 }
 
-
-/* ---rightDiv 시작--- */
-.rightDiv {
-    width: 525px;
+.commentDetail {
+    margin-left: 25px;
 }
 
-.loseComImgDiv {
+.pageNumberContainer {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
+    /* background-color: tomato; */
+    justify-content: center;
+    margin-top: 25px;
 }
 
-.loseCount {
-    width: 50px;
+.pageNumberDiv {
+    display: flex;
+    width: 200px;
+    /* background-color: #BFFF00; */
+    justify-content: space-between;
 }
