@@ -1,8 +1,7 @@
 let dragged;
 
 document.addEventListener("DOMContentLoaded", function () {
-    document.querySelector('#tab1').style.color = '#DA81F5';
-    조합효과불러오기();
+    ALLTIER받아오기();
     엑세스토큰검증();
     CHAMPIONNAME받아오기(document.querySelector('.searchInput').value);
 })
@@ -98,7 +97,7 @@ document.addEventListener("drop", function (event) {
         if (dragged.classList.contains("com")) {
             dragged.src = store;
         }
-        조합효과불러오기();
+        ALLTIER받아오기();
     }
 })
 /**
@@ -183,7 +182,7 @@ function 조합박스(click_src) {
             }
         }
     }
-    조합효과불러오기();
+    ALLTIER받아오기();
 }
 
 /**
@@ -193,7 +192,7 @@ document.querySelector('.comImg').addEventListener('click', function (event) {
     if (event.target.tagName == 'IMG') {
         event.target.src = "/img/emptyBox.png";
     }
-    조합효과불러오기();
+    ALLTIER받아오기();
 })
 
 /**
@@ -218,32 +217,32 @@ document.querySelector('.comButton2').addEventListener('click', function () {
     for (let i = 0; i < list.length; i++) {
         list[i].src = "/img/emptyBox.png";
     }
-    조합효과불러오기();
+    ALLTIER받아오기();
 })
 
 /**
  * 픽 횟수 순, 승률 순 정렬
  */
 document.querySelector('.sortP').addEventListener('input', function () {
-    조합효과불러오기();
+    ALLTIER받아오기();
 })
 
 /**
  * 티어 순 정렬
  */
 document.querySelector('.tierP').addEventListener('input', function () {
-    조합효과불러오기();
+    ALLTIER받아오기();
 })
 
 /**
  * 효과 함수
  */
-function 조합효과불러오기() {
-    document.querySelector('.resultComBox').style.opacity = 0;
-    setTimeout(function () {
-        ALLTIER받아오기();
-    }, 500);
-}
+// function 조합효과불러오기() {
+//     document.querySelector('.resultComBox').style.opacity = 0;
+//     setTimeout(function () {
+//         ALLTIER받아오기();
+//     }, 500);
+// }
 
 document.querySelector('.resultComBox').addEventListener('mouseover', function (event) {
 
@@ -262,50 +261,50 @@ document.querySelector('.resultComBox').addEventListener('click', function (even
     if (event.target.classList.contains("clickBox")) {
         var comsaveId = event.target.parentNode.querySelector('input').value;
         var tier = document.querySelector('.tierP').value;
-        var detailURL = "/detail?comsaveId=" + comsaveId + "&tier=" + tier;
+        var detailURL = "/detail?comsaveId=" + comsaveId + "&tier=" + tier + "&page=1";
         window.location.href = detailURL;
     }
 })
 
-document.querySelector('.test1').addEventListener('click', function () {
-    fetch('http://localhost:8081/api/user', {
-        method: 'GET',
-        headers: {
-            'Authorization': localStorage.getItem('jwtToken')
-        }
-    })
-        .then(response => {
-            alert(response.status);
-        })
-})
+// document.querySelector('.test1').addEventListener('click', function () {
+//     fetch('http://localhost:8081/api/user', {
+//         method: 'GET',
+//         headers: {
+//             'Authorization': localStorage.getItem('jwtToken')
+//         }
+//     })
+//         .then(response => {
+//             alert(response.status);
+//         })
+// })
 
-document.querySelector('.test2').addEventListener('click', function () {
-    fetch('http://localhost:8081/api/manager', {
-        method: 'GET',
-        headers: {
-            'Authorization': localStorage.getItem('jwtToken')
-        }
-    })
-        .then(response => {
-            alert(response.status);
-        })
-})
+// document.querySelector('.test2').addEventListener('click', function () {
+//     fetch('http://localhost:8081/api/manager', {
+//         method: 'GET',
+//         headers: {
+//             'Authorization': localStorage.getItem('jwtToken')
+//         }
+//     })
+//         .then(response => {
+//             alert(response.status);
+//         })
+// })
 
-document.querySelector('.test3').addEventListener('click', function () {
-    fetch('http://localhost:8081/api/admin', {
-        method: 'GET',
-        headers: {
-            'Authorization': localStorage.getItem('jwtToken')
-        }
-    })
-        .then(response => {
-            alert(response.status);
-        })
-})
+// document.querySelector('.test3').addEventListener('click', function () {
+//     fetch('http://localhost:8081/api/admin', {
+//         method: 'GET',
+//         headers: {
+//             'Authorization': localStorage.getItem('jwtToken')
+//         }
+//     })
+//         .then(response => {
+//             alert(response.status);
+//         })
+// })
 
 function 엑세스토큰검증() {
     var jwtToken = localStorage.getItem('jwtToken');
-    
+
     if (jwtToken != "null" && jwtToken != null) {
         fetch('http://localhost:8081/api/init', {
             method: 'GET',
@@ -315,7 +314,7 @@ function 엑세스토큰검증() {
             credentials: 'include'
         })
             .then(response => {
-                if(response.headers.get('Authorization') != null){
+                if (response.headers.get('Authorization') != null) {
                     const token = response.headers.get('Authorization');
                     localStorage.setItem('jwtToken', token);
                     document.querySelector('.loginDiv').innerHTML = '로그아웃';
@@ -331,9 +330,7 @@ function 엑세스토큰검증() {
 }
 
 document.querySelector('.loginDiv').addEventListener('click', function () {
-    if (this.innerHTML == '로그인') {
-        this.href = 'login';
-    } else {
+    if (this.innerHTML == '로그아웃') {
         fetch('http://localhost:8081/api/logout', {
             method: 'GET',
             headers: {
@@ -341,6 +338,6 @@ document.querySelector('.loginDiv').addEventListener('click', function () {
             }
         })
         localStorage.removeItem('jwtToken');
-        location.reload();
+        this.href = '/';
     }
 })

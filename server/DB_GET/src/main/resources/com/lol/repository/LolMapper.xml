@@ -59,27 +59,43 @@
         ORDER BY CHAMPIONKORNAME
     </select>
 
-    <select id="getAlltierLoseComsave" parameterType="string" resultType="com.lol.dto.TierDto">
-        SELECT TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME, COMSAVEID, COUNT(*) AS LOSECOUNT
-        FROM ORIGINAL
-        WHERE MATCHID IN (SELECT MATCHID FROM ORIGINAL WHERE COMSAVEID= #{comsaveId} AND WIN= 'false') AND WIN= 'true'
-        GROUP BY TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME, COMSAVEID
+    <select id="getChampionKorName" parameterType="string" resultType="string">
+        SELECT CHAMPIONKORNAME FROM CHAMPIONNAME WHERE CHAMPIONENGNAME= #{championName}
     </select>
 
-    <select id="getAlltierSelectComsave" parameterType="string" resultType="com.lol.dto.TierDto">
+    <select id="getDetailInfo" parameterType="int" resultType="com.lol.dto.TierDto">
         SELECT * FROM ALL_TIER_TOTAL WHERE COMSAVEID= #{comsaveId}
     </select>
 
-    <select id="getLoseComsave" parameterType="string" resultType="com.lol.dto.TierDto">
-        SELECT TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME, COMSAVEID, COUNT(*) AS LOSECOUNT
-        FROM ORIGINAL
-        WHERE MATCHID IN (SELECT MATCHID FROM ORIGINAL WHERE COMSAVEID= #{comsaveId} AND TIER= #{tier} AND WIN= 'false') AND WIN= 'true'
-        GROUP BY TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME, COMSAVEID
+    <select id="getDetailInfo_tier" resultType="com.lol.dto.TierDto">
+        SELECT * FROM EACH_TIER_TOTAL WHERE COMSAVEID= #{comsaveId} AND TIER= #{tier}
     </select>
 
-    <select id="getSelectComsave" parameterType="string" resultType="com.lol.dto.TierDto">
-        SELECT * FROM EACH_TIER_TOTAL WHERE TIER= #{tier} AND COMSAVEID= #{comsaveId}
+    <select id="getChampionNames" parameterType="int" resultType="com.lol.dto.ChampionsDto">
+        SELECT TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME FROM COMBINATION_INFO WHERE ID= #{comsaveId}
     </select>
+
+<!--    <select id="getAlltierLoseComsave" parameterType="string" resultType="com.lol.dto.TierDto">-->
+<!--        SELECT TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME, COMSAVEID, COUNT(*) AS LOSECOUNT-->
+<!--        FROM ORIGINAL-->
+<!--        WHERE MATCHID IN (SELECT MATCHID FROM ORIGINAL WHERE COMSAVEID= #{comsaveId} AND WIN= 'false') AND WIN= 'true'-->
+<!--        GROUP BY TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME, COMSAVEID-->
+<!--    </select>-->
+
+<!--    <select id="getAlltierSelectComsave" parameterType="string" resultType="com.lol.dto.TierDto">-->
+<!--        SELECT * FROM ALL_TIER_TOTAL WHERE COMSAVEID= #{comsaveId}-->
+<!--    </select>-->
+
+<!--    <select id="getLoseComsave" parameterType="string" resultType="com.lol.dto.TierDto">-->
+<!--        SELECT TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME, COMSAVEID, COUNT(*) AS LOSECOUNT-->
+<!--        FROM ORIGINAL-->
+<!--        WHERE MATCHID IN (SELECT MATCHID FROM ORIGINAL WHERE COMSAVEID= #{comsaveId} AND TIER= #{tier} AND WIN= 'false') AND WIN= 'true'-->
+<!--        GROUP BY TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME, COMSAVEID-->
+<!--    </select>-->
+
+<!--    <select id="getSelectComsave" parameterType="string" resultType="com.lol.dto.TierDto">-->
+<!--        SELECT * FROM EACH_TIER_TOTAL WHERE TIER= #{tier} AND COMSAVEID= #{comsaveId}-->
+<!--    </select>-->
 
     <insert id="saveComment" parameterType="com.lol.dto.Combination_Comment">
         INSERT INTO COMBINATION_COMMENT(ID, COMSAVEID, USERNAME, CONTENT, WRITETIME)
@@ -87,6 +103,10 @@
     </insert>
 
     <select id="getComment" parameterType="int" resultType="com.lol.dto.Combination_Comment">
-        SELECT * FROM COMBINATION_COMMENT WHERE COMSAVEID= #{comsaveId} ORDER BY WRITETIME DESC
+        SELECT * FROM COMBINATION_COMMENT WHERE COMSAVEID= #{comsaveId} ORDER BY ID DESC OFFSET #{page} ROWS FETCH NEXT #{numberOfPage} ROWS ONLY
+    </select>
+
+    <select id="getMaxPage" parameterType="int" resultType="int">
+        SELECT COUNT(*) FROM COMBINATION_COMMENT WHERE COMSAVEID= #{comsaveId}
     </select>
 </mapper>

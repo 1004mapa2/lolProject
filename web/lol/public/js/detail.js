@@ -1,7 +1,6 @@
-document.addEventListener("DOMContentLoaded", async function () {
-    document.querySelector('#tab1').style.color = '#DA81F5';
-    await 엑세스토큰검증();
-    await 댓글불러오기();
+document.addEventListener("DOMContentLoaded", function () {
+    엑세스토큰검증();
+    댓글불러오기();
     파라미터보내기();
 })
 
@@ -30,39 +29,7 @@ async function 엑세스토큰검증() {
     }
 }
 
-async function 댓글불러오기() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const dataToSend = {
-        comsaveId: urlParams.get('comsaveId')
-    }
-    fetch('http://localhost:8081/getComment', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(dataToSend)
-    })
-        .then(response => {
 
-            return response.json();
-        })
-        .then(data => {
-            document.querySelector('.commentContainer').innerHTML = "";
-            for (let i = 0; i < data.length; i++) {
-                var 게시글 =
-                    `
-                <div>
-                        <div>${data[i].username}</div>
-                        <div>${data[i].content}</div>
-                        <div>${data[i].writeTime}</div>
-                        <hr/>
-                    </div>
-                    `
-                document.querySelector('.commentContainer').insertAdjacentHTML('beforeend', 게시글);
-            }
-            console.log(data);
-        })
-}
 
 document.querySelector('.loginDiv').addEventListener('click', function () {
     if (this.innerHTML == '로그인') {
@@ -81,8 +48,8 @@ document.querySelector('.loginDiv').addEventListener('click', function () {
 
 function 파라미터보내기() {
     const urlParams = new URLSearchParams(window.location.search);
-    comsaveId = urlParams.get('comsaveId');
-    tier = urlParams.get('tier');
+    var comsaveId = urlParams.get('comsaveId');
+    var tier = urlParams.get('tier');
     fetch(`http://localhost:8081/getDetailInfo?comsaveId=${comsaveId}&tier=${tier}`)
         .then(response => {
             if (!response.ok) {
@@ -91,34 +58,50 @@ function 파라미터보내기() {
             return response.json();
         })
         .then(data => {
-            var 원본조합 =
+            var 선택조합 =
                 `
                 <div class="comImgDiv">
-                    <img class="pickImg" src="/img/${data[0].topName}.png">
-                    <img class="pickImg" src="/img/${data[0].jungleName}.png">
-                    <img class="pickImg" src="/img/${data[0].middleName}.png">
-                    <img class="pickImg" src="/img/${data[0].bottomName}.png">
-                    <img class="pickImg" src="/img/${data[0].utilityName}.png">
-                </div>
-                <div>픽횟수: ${data[0].pickCount}</div>
-                <div>승률: ${data[0].winRate}</div>
-                `
-            document.querySelector('.pickComBox').insertAdjacentHTML('afterbegin', 원본조합);
-
-            for (let i = 1; i < data.length; i++) {
-                var 진조합 =
-                    `
-                    <div class="loseComImgDiv">
-                    <img src="/img/${data[i].topName}.png">
-                    <img src="/img/${data[i].jungleName}.png">
-                    <img src="/img/${data[i].middleName}.png">
-                    <img src="/img/${data[i].bottomName}.png">
-                    <img src="/img/${data[i].utilityName}.png">
-                    <a class="loseCount">${data[i].loseCount}</a>
+                    <div>
+                        <div class="iconImgDiv">
+                            <img class="iconImg" src="/img/positionImg/topIcon.png"/>
+                        </div>
+                        <img class="pickImg" src="/img/${data.topName}.png"/>
+                        <p class="championNameP">${data.championKorNames[0]}</p>
                     </div>
-                    `
-                document.querySelector('.loseComBox').insertAdjacentHTML('afterbegin', 진조합);
-            }
+                    <div>
+                        <div class="iconImgDiv">
+                            <img class="iconImg" src="/img/positionImg/jungleIcon.png"/>
+                        </div>
+                        <img class="pickImg" src="/img/${data.jungleName}.png"/>
+                        <p class="championNameP">${data.championKorNames[1]}</p>
+                    </div>
+                    <div>
+                        <div class="iconImgDiv">
+                            <img class="iconImg" src="/img/positionImg/middleIcon.png"/>
+                        </div>
+                        <img class="pickImg" src="/img/${data.middleName}.png"/>
+                        <p class="championNameP">${data.championKorNames[2]}</p>
+                    </div>
+                    <div>
+                        <div class="iconImgDiv">
+                            <img class="iconImg" src="/img/positionImg/bottomIcon.png"/>
+                        </div>
+                        <img class="pickImg" src="/img/${data.bottomName}.png"/>
+                        <p class="championNameP">${data.championKorNames[3]}</p>
+                    </div>
+                    <div>
+                        <div class="iconImgDiv">
+                            <img class="iconImg" src="/img/positionImg/utilityIcon.png"/>
+                        </div>
+                        <img class="pickImg" src="/img/${data.utilityName}.png"/>
+                        <p class="championNameP">${data.championKorNames[4]}</p>
+                    </div>
+                </div>
+                `
+            document.querySelector('.pickComBox').insertAdjacentHTML('afterbegin', 선택조합);
+
+            document.querySelector('.pickCountBox').innerHTML = data.pickCount;
+            document.querySelector('.winRateBox').innerHTML = data.winRate + '%';
         })
 }
 
@@ -144,7 +127,7 @@ async function 댓글저장() {
         body: JSON.stringify(dataToSend)
     })
         .then(response => {
-            if(response.status == 401) {
+            if (response.status == 401) {
                 alert('로그인 하세요');
             }
         })
@@ -153,7 +136,8 @@ async function 댓글저장() {
 async function 댓글불러오기() {
     const urlParams = new URLSearchParams(window.location.search);
     const dataToSend = {
-        comsaveId: urlParams.get('comsaveId')
+        comsaveId: urlParams.get('comsaveId'),
+        page: urlParams.get('page')
     }
     await fetch('http://localhost:8081/getComment', {
         method: 'POST',
@@ -168,17 +152,104 @@ async function 댓글불러오기() {
         })
         .then(data => {
             document.querySelector('.commentContainer').innerHTML = "";
-            for (let i = 0; i < data.length; i++) {
-                var 게시글 =
-                    `
+            document.querySelector('.pageNumberDiv').innerHTML = "";
+            if (data.page == 0) {
+                var 메시지 =
+                `
                 <div>
-                        <div>${data[i].username}</div>
-                        <div>${data[i].content}</div>
-                        <div>${data[i].writeTime}</div>
+                    댓글이 없습니다.
+                </div>
+                `
+                document.querySelector('.commentContainer').insertAdjacentHTML('beforeend', 메시지);
+            } else {
+                for (let i = 1; i <= data.page; i++) {
+                    var 페이지갯수 =
+                        `
+                        <a href="/detail?comsaveId=${data.comsaveId}&tier=ALLTIER&page=${i}">${i}</a>
+                        `
+                    document.querySelector('.pageNumberDiv').insertAdjacentHTML('beforeend', 페이지갯수);
+                }
+                for (let i = 0; i < data.commentList.length; i++) {
+                    var 게시글 =
+                        `
+                        <div class="commentDetail">
+                            <div style="color: #848484">${data.commentList[i].username}</div>
+                            <div>${data.commentList[i].content}</div>
+                            <div style="margin-top: 20px;">${data.commentList[i].writeTime}</div>
+                        </div>
                         <hr/>
-                    </div>
-                    `
-                document.querySelector('.commentContainer').insertAdjacentHTML('beforeend', 게시글);
+                        `
+                    document.querySelector('.commentContainer').insertAdjacentHTML('beforeend', 게시글);
+                }
             }
+        })
+}
+
+document.querySelectorAll('.tierDiv').forEach(function (element) {
+    element.addEventListener('mouseover', function () {
+        this.classList.add('backColor');
+    })
+})
+
+document.querySelectorAll('.tierDiv').forEach(function (element) {
+    element.addEventListener('mouseout', function () {
+        this.classList.remove('backColor');
+    })
+})
+
+document.querySelector('.allTierDiv').addEventListener('mouseover', function () {
+    this.classList.add('backColor');
+})
+
+document.querySelector('.allTierDiv').addEventListener('mouseout', function () {
+    this.classList.remove('backColor');
+})
+
+document.querySelectorAll('.tierDiv').forEach(function (element) {
+    const urlParams = new URLSearchParams(window.location.search);
+    var comsaveId = urlParams.get('comsaveId');
+    var tier = "";
+    element.addEventListener('click', function () {
+        if (this.querySelector('p').innerHTML == '챌린저') {
+            tier = "CHALLENGER";
+        } else if (this.querySelector('p').innerHTML == '그랜드마스터') {
+            tier = "GRANDMASTER";
+        } else if (this.querySelector('p').innerHTML == '마스터') {
+            tier = "MASTER";
+        } else if (this.querySelector('p').innerHTML == '다이아몬드') {
+            tier = "DIAMOND";
+        }
+        티어바꾸기(comsaveId, tier);
+    })
+})
+
+document.querySelector('.allTierDiv').addEventListener('click', function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    var comsaveId = urlParams.get('comsaveId');
+    var tier = "ALLTIER";
+    티어바꾸기(comsaveId, tier);
+})
+
+function 티어바꾸기(comsaveIdValue, tierValue) {
+    var dataToSend = {
+        comsaveId: comsaveIdValue,
+        tier: tierValue
+    }
+    fetch('http://localhost:8081/getDetailInfoDynamic', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dataToSend)
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('http 오류: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            document.querySelector('.pickCountBox').innerHTML = data.pickCount;
+            document.querySelector('.winRateBox').innerHTML = data.winRate + '%';
         })
 }

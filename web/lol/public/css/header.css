@@ -60,14 +60,13 @@ header ul {
     font-weight: bold;
     margin-block: 0;
     padding-inline: 0;
-    width: 450px;
-    justify-content: space-around;
+    width: 350px;
 }
 
 .userContainer {
     display: flex;
     justify-content: flex-end;
-    width: 600px;
+    width: 700px;
 }
 
 .myPage {

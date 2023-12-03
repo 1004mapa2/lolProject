@@ -35,9 +35,19 @@ public class LolController {
     }
 
     @GetMapping("/getDetailInfo")
-    public String getDetailInfo(@RequestParam("comsaveId") String comsaveId, @RequestParam("tier") String tier){
+    public String getDetailInfo(@RequestParam("comsaveId") int comsaveId, @RequestParam("tier") String tier){
         Gson gson = new Gson();
-        List<TierDto> detailInfo = lolService.getDetailInfo(comsaveId, tier);
+        TierDto detailInfo = lolService.getDetailInfo(comsaveId, tier);
+        detailInfo.setChampionKorNames(lolService.get5ChampionName(comsaveId));
+        String json = gson.toJson(detailInfo);
+
+        return json;
+    }
+
+    @PostMapping("/getDetailInfoDynamic")
+    public String getDetailInfoDynamic(@RequestBody DetailDto detailDto){
+        Gson gson = new Gson();
+        TierDto detailInfo = lolService.getDetailInfo(detailDto.getComsaveId(), detailDto.getTier());
         String json = gson.toJson(detailInfo);
 
         return json;
@@ -51,8 +61,8 @@ public class LolController {
     @PostMapping("/getComment")
     public String getComment(@RequestBody Combination_CommentDto commentDto) {
         Gson gson = new Gson();
-        List<Combination_Comment> commentList = lolService.getComment(commentDto);
-        String json = gson.toJson(commentList);
+        Combination_CommentDto commentData = lolService.getComment(commentDto);
+        String json = gson.toJson(commentData);
 
         return json;
     }

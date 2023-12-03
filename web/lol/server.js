@@ -20,6 +20,10 @@ app.get('/membership', (req, res) => {
     res.sendFile(__dirname + "/src/membership.html");
 })
 
+app.get('/myPage', (req, res) => {
+    res.sendFile(__dirname + "/src/myPage.html");
+})
+
 app.listen(port, () => {
     console.log(`${port} 열었따`);
 });

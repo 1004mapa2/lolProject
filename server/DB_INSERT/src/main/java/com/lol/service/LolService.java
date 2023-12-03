@@ -32,8 +32,8 @@ public class LolService {
     private static String apiKey = "";
     private final LolMapper mapper;
     private final WebClient.Builder builder = WebClient.builder();
-    private int startTime = 1699369200; //11월 8일 0시
-    private int endTime = 1699974000; //11월 15일 0시
+    private int startTime = 1699974000; //11월 15일 0시
+    private int endTime = 1700578800; //11월 22일 0시
     private final static List<String> tier = new ArrayList<>(Arrays.asList("CHALLENGER", "GRANDMASTER", "MASTER", "DIAMOND"));
 
     public LolService(LolMapper mapper) {
@@ -258,8 +258,9 @@ public class LolService {
                 driver.findElement(By.className("admin-title")).click();
                 driver.findElement(By.xpath("//*[@id=\"root\"]/div/main/div/form")).click();
                 driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-                driver.findElement(By.xpath("//*[@id=\"root\"]/div/main/div/form/div/div/div[1]/div[4]/button[2]")).click();
-                driver.findElement(By.xpath("//*[@id=\"view_container\"]/div/div/div[2]/div/div[1]/div/form/span/section/div/div/div/div/ul/li[1]/div/div[1]")).click();
+                driver.findElement(By.xpath("//*[@id=\"root\"]/div/main/div/form/div/div/div[1]/div[4]/div[2]/button")).click();
+                driver.findElement(By.xpath("//*[@id=\"view_container\"]/div/div/div[2]/div/div[1]/div/form/span/section/div/div/div/div/ul/li[1]/div/div[1]/div")).click();
+//                driver.findElement(By.xpath("//*[@id=\"view_container\"]/div/div/div[2]/div/div[1]/div/form/span/section/div/div/div/div/ul/li[1]/div/div[1]")).click();
 
                 expiredKey(driver);
             } else {
