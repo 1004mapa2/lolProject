@@ -1,0 +1,113 @@
+main {
+    min-width: 1050px;
+    height: 1000px;
+    background-color: #F5F3F7;
+}
+
+li {
+    list-style: none;
+}
+
+ul {
+    padding: 0;
+    margin: 10px 10px;
+}
+
+p {
+    margin: 0;
+}
+
+hr {
+    border: 1px solid #D8D8D8;
+    /* margin: 0; */
+}
+
+main a {
+    text-decoration: none;
+}
+
+main a:link,
+main a:visited {
+    color: black;
+}
+
+.container {
+    width: 1050px;
+    margin: 0 auto;
+    /* display: flex;
+    justify-content: center; */
+    background-color: #FFFFFF;
+}
+
+.upperDiv {
+    display: flex;
+    justify-content: space-between;
+    margin: 0px 15px 0px 15px;
+}
+
+.commentImg {
+    width: 30px;
+    height: 30px;
+}
+
+.lowerDiv {
+    display: flex;
+    justify-content: space-between;
+    margin: 0px 15px 0px 15px;
+}
+
+.lowerLeft {
+    width: 400px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.commentCount {
+    width: 30px;
+    text-align: center;
+}
+
+.writingBar {
+    display: flex;
+    /* background-color: #A901DB; */
+    justify-content: end;
+}
+
+.writingButton {
+    display: block;
+    margin-right: 10px;
+    width: 100px;
+    height: 30px;
+    font-size: 20px;
+    /* border: 1px solid; */
+}
+
+.functionBar {
+    margin-top: 10px;
+    display: flex;
+    /* background-color: #298A08; */
+    justify-content: end;
+}
+
+.searchInput {}
+
+.searchButton {
+    width: 50px;
+    height: 35px;
+    margin-right: 10px;
+}
+
+.pageNumberBar {
+    display: flex;
+    justify-content: center;
+    height: 50px;
+    /* background-color: #DF7401; */
+}
+
+.pageNumberDiv {
+    display: flex;
+    width: 200px;
+    /* background-color: #BFFF00; */
+    justify-content: space-between;
+    align-items: center;
+}

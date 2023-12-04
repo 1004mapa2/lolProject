@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lol.repository.BoardMapper">
+    <select id="getBoardList" parameterType="int" resultType="com.lol.domain.Board">
+        SELECT * FROM BOARD ORDER BY ID DESC OFFSET #{startNumber} ROWS FETCH NEXT #{numberOfPage} ROWS ONLY
+    </select>
+
+    <select id="postBoard" parameterType="com.lol.domain.Board">
+        INSERT INTO BOARD(ID, TITLE, CONTENT, WRITER, WRITETIME, VIEWCOUNT, LIKECOUNT)
+        VALUES(BOARD_AUTOINC.NEXTVAL, #{title}, #{content}, #{writer}, #{writeTime}, #{viewCount}, #{likeCount})
+    </select>
+
+<!--    <select id="getTitleBoard" resultType="com.lol.domain.Board">-->
+<!--        SELECT * FROM BOARD WHERE TITLE= #{inputText}-->
+<!--    </select>-->
+
+<!--    <select id="getWriterBoard" resultType="com.lol.domain.Board">-->
+<!--        SELECT * FROM BOARD WHERE WRITER= #{inputText}-->
+<!--    </select>-->
+
+    <select id="getMaxPage" resultType="int">
+        SELECT COUNT(*) FROM BOARD
+    </select>
+
+<!--    <select id="getMaxPageTitle" parameterType="String" resultType="int">-->
+<!--        SELECT COUNT(*) FROM BOARD WHERE TITLE= #{inputText}-->
+<!--    </select>-->
+
+<!--    <select id="getMaxPageWriter" parameterType="String" resultType="int">-->
+<!--        SELECT COUNT(*) FROM BOARD WHERE WRITER= #{inputText}-->
+<!--    </select>-->
+</mapper>

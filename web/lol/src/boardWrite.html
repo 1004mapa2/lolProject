@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="css/header.css">
-    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/boardWrite.css">
 </head>
+
 <body style="margin: 0;">
     <header>
         <div class="headerDiv">
@@ -16,7 +18,7 @@
                 <div class="tabBar">
                     <nav>
                         <ul>
-                            <li><a href="/" id="tab1">조합 분석</a></li>
+                            <li><a href="/">조합 분석</a></li>
                             <li style="width: 50px;"></li>
                             <li><a href="board?page=1">커뮤니티</a></li>
                         </ul>
@@ -24,7 +26,7 @@
                     <div class="userContainer">
                         <a href="myPage" class="myPage">마이페이지</a>
                         <div style="width: 50px;"></div>
-                        <a href="login" class="loginDiv">로그인</a>
+                        <a href="login" class="loginDiv"></a>
                     </div>
                 </div>
             </div>
@@ -32,19 +34,21 @@
     </header>
     <main>
         <div class="container">
-            <div class="loginText">새로운 ID 생성</div>
-            <div>아이디</div>
-            <input type="text" name="username" class="usernameInput" placeholder="아이디를 입력하세요" />
-            <div class="idErrorMessage errorFont"></div><br />
-            <div>비밀번호</div>
-            <input type="password" name="password" class="password1Input" placeholder="비밀번호를 입력하세요" />
-            <div class="password1ErrorMessage errorFont"></div><br />
-            <div>비밀번호 확인</div>
-            <input type="password" name="password" class="password2Input" placeholder="비밀번호를 재입력하세요" />
-            <div class="password2ErrorMessage errorFont"></div><br />
-            <input type="button" class="loginButton" value="회원가입"/>
+            <div class="titleDiv">
+                <input class="titleText" type="text" placeholder="제목을 입력하세요."/>
+            </div>
+            <div class="contentDiv">
+                <textarea class="contentText" rows="20" cols="69" placeholder="내용을 입력하세요."></textarea>
+            </div>
+            <div class="buttonContainer">
+                <div class="buttonDiv">
+                    <input class="cencelButton" type="button" value="취소"/>
+                    <input class="postButton" type="button" value="등록"/>
+                </div>
+            </div>
         </div>
     </main>
-    <script src="/js/membership.js"></script>
+    <script src="/js/boardWrite.js"></script>
 </body>
+
 </html>
