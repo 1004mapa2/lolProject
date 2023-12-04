@@ -173,7 +173,6 @@ hr {
 }
 
 .commentText {
-    border: none;
     resize: none;
     /*크기 조절 안되게 하기*/
     border: 1px solid;
@@ -194,6 +193,7 @@ hr {
     /* background-color: tomato; */
     justify-content: center;
     margin-top: 25px;
+    margin-bottom: 20px;
 }
 
 .pageNumberDiv {

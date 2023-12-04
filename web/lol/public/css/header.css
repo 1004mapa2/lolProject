@@ -46,11 +46,14 @@ header a {
     color: #FFFFFF;
 }
 
-
+header nav {
+    width: 350px;
+}
 
 .tabBar {
     display: flex;
     margin-bottom: 5px;
+    width: 100%;
 }
 
 header ul {
@@ -60,7 +63,7 @@ header ul {
     font-weight: bold;
     margin-block: 0;
     padding-inline: 0;
-    width: 350px;
+    /* width: 350px; */
 }
 
 .userContainer {
