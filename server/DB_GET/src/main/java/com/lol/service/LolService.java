@@ -96,7 +96,7 @@ public class LolService {
         int comsaveId = commentDto.getComsaveId();
 
         List<Combination_Comment> commentList = mapper.getComment(comsaveId, page, numberOfPage);
-        int maxPage = (int) Math.ceil((double) mapper.getMaxPage(comsaveId) / 5);
+        int maxPage = (int) Math.ceil((double) mapper.getMaxPage(comsaveId) / numberOfPage);
         commentDto.setCommentList(commentList);
         commentDto.setPage(maxPage);
 
