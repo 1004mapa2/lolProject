@@ -1,5 +1,5 @@
-// const url = 'http://localhost:8081';
-const url = 'http://3.34.99.97:8081';
+const url = 'http://localhost:8081';
+// const url = 'http://3.34.99.97:8081';
 
 document.querySelector('.loginButton').addEventListener('click', function () {
     로그인();
