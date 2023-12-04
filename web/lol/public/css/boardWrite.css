@@ -1,0 +1,68 @@
+main {
+    min-width: 1050px;
+    height: 1000px;
+    background-color: #F5F3F7;
+}
+
+input::placeholder {
+    font-size: 20px;
+}
+
+textarea::placeholder {
+    font-size: 20px;
+}
+
+.container {
+    width: 1050px;
+    margin: 0 auto;
+    /* display: flex;
+    justify-content: center; */
+    background-color: #FFFFFF;
+}
+
+.titleDiv {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+.titleText {
+    width: 700px;
+    height: 40px;
+    font-size: 20px;
+}
+
+.contentDiv {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.contentText {
+    resize: none;
+    font-size: 20px;
+}
+
+.buttonContainer {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.buttonDiv {
+    display: flex;
+    justify-content: space-between;
+    width: 200px;
+}
+
+.cencelButton {
+    width: 70px;
+    height: 40px;
+    font-size: 15px;
+}
+
+.postButton {
+    width: 70px;
+    height: 40px;
+    font-size: 15px;
+}

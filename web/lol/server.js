@@ -24,6 +24,18 @@ app.get('/myPage', (req, res) => {
     res.sendFile(__dirname + "/src/myPage.html");
 })
 
+app.get('/board', (req, res) => {
+    res.sendFile(__dirname + "/src/board.html");
+})
+
+app.get('/boardWrite', (req, res) => {
+    res.sendFile(__dirname + "/src/boardWrite.html");
+})
+
+app.get('/boardView', (req, res) => {
+    res.sendFile(__dirname + "/src/boardView.html");
+})
+
 app.listen(port, () => {
     console.log(`${port} 열었따`);
 });
