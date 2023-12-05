@@ -20,20 +20,13 @@ public class BoardController {
     private final BoardService boardService;
 
     @PostMapping("/getBoardList")
-    public PageBoardDto getBoardList(@RequestBody String page) {
+    public PageBoardDto getBoardList(@RequestBody SearchDto searchDto) {
 
-        return boardService.getBoardList(page);
+        return boardService.getBoardList(searchDto);
     }
 
     @PostMapping("/postBoard")
     public void postBoard(@RequestBody PostBoardDto postBoardDto, Authentication authentication) {
         boardService.postBoard(postBoardDto, authentication.getName());
     }
-
-/*    @PostMapping("/getSearchBoard")
-    public List<Board> getSearchBoard(@RequestBody SearchDto searchDto) {
-        List<Board> searchBoard = boardService.getSearchBoard(searchDto);
-
-        return searchBoard;
-    }*/
 }

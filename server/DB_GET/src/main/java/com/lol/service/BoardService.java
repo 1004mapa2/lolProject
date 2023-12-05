@@ -20,12 +20,17 @@ public class BoardService {
 
     private final BoardMapper mapper;
 
-    public PageBoardDto getBoardList(String page) {
-        int intPage = Integer.parseInt(page);
-        int numberOfPage = 10;
-        int startNumber = (intPage - 1) * numberOfPage;
-        List<Board> boardList = mapper.getBoardList(startNumber, numberOfPage);
-        int maxPage = (int) Math.ceil((double) mapper.getMaxPage() / numberOfPage);
+    public PageBoardDto getBoardList(SearchDto searchDto) {
+        searchDto.setNumberOfPage(10); // 1페이지에 10개씩 출력
+        searchDto.setStartNumber((searchDto.getPage() - 1) * searchDto.getNumberOfPage());
+        if(searchDto.getSort() != null && searchDto.getSort().equals("제목")) {
+            searchDto.setSort("TITLE");
+        } else if(searchDto.getSort() != null && searchDto.getSort().equals("작성자")) {
+            searchDto.setSort("WRITER");
+        }
+
+        List<Board> boardList = mapper.getBoardList(searchDto);
+        int maxPage = (int) Math.ceil((double) mapper.getMaxPage(searchDto) / searchDto.getNumberOfPage());
 
         PageBoardDto pageBoardDto = new PageBoardDto();
         pageBoardDto.setBoardList(boardList);
@@ -48,33 +53,4 @@ public class BoardService {
 
         mapper.postBoard(board);
     }
-
-//    public PageBoardDto getSearchBoard(SearchDto searchDto) {
-////        if(searchDto.getInputText().equals("")) {
-////            return mapper.getBoardList();
-////        }
-//
-//        int numberOfPage = 10;
-//        if(searchDto.getSearchSort().equals("제목")) {
-//            int maxPageTitle = (int) Math.ceil((double) mapper.getMaxPageTitle(searchDto.getInputText()) / numberOfPage);
-//            List<Board> titleBoard = mapper.getTitleBoard(searchDto.getInputText());
-//            PageBoardDto pageBoardDto = new PageBoardDto();
-//            pageBoardDto.setBoardList(titleBoard);
-//            pageBoardDto.setMaxPage(maxPageTitle);
-//
-//            return pageBoardDto;
-//
-//        } else if(searchDto.getSearchSort().equals("작성자")) {
-//            int maxPageWriter = mapper.getMaxPageWriter(searchDto.getInputText());
-//            List<Board> writerBoard = mapper.getWriterBoard(searchDto.getInputText());
-//            PageBoardDto pageBoardDto = new PageBoardDto();
-//            pageBoardDto.setBoardList(writerBoard);
-//            pageBoardDto.setMaxPage(maxPageWriter);
-//
-//            return pageBoardDto;
-//        } else {
-//            log.error("정렬 기준이 없음");
-//            return null;
-//        }
-//    }
 }

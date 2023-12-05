@@ -3,8 +3,15 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.lol.repository.BoardMapper">
-    <select id="getBoardList" parameterType="int" resultType="com.lol.domain.Board">
-        SELECT * FROM BOARD ORDER BY ID DESC OFFSET #{startNumber} ROWS FETCH NEXT #{numberOfPage} ROWS ONLY
+    <select id="getBoardList" parameterType="com.lol.dto.board.SearchDto" resultType="com.lol.domain.Board">
+        SELECT * FROM BOARD
+    <where>
+        <if test="keyword != null">
+            AND ${sort} LIKE '%'||#{keyword}||'%'
+        </if>
+    </where>
+
+        ORDER BY ID DESC OFFSET #{startNumber} ROWS FETCH NEXT #{numberOfPage} ROWS ONLY
     </select>
 
     <select id="postBoard" parameterType="com.lol.domain.Board">
@@ -12,23 +19,13 @@
         VALUES(BOARD_AUTOINC.NEXTVAL, #{title}, #{content}, #{writer}, #{writeTime}, #{viewCount}, #{likeCount})
     </select>
 
-<!--    <select id="getTitleBoard" resultType="com.lol.domain.Board">-->
-<!--        SELECT * FROM BOARD WHERE TITLE= #{inputText}-->
-<!--    </select>-->
-
-<!--    <select id="getWriterBoard" resultType="com.lol.domain.Board">-->
-<!--        SELECT * FROM BOARD WHERE WRITER= #{inputText}-->
-<!--    </select>-->
-
     <select id="getMaxPage" resultType="int">
         SELECT COUNT(*) FROM BOARD
+
+        <where>
+            <if test="keyword != null">
+                AND ${sort} LIKE '%'||#{keyword}||'%'
+            </if>
+        </where>
     </select>
-
-<!--    <select id="getMaxPageTitle" parameterType="String" resultType="int">-->
-<!--        SELECT COUNT(*) FROM BOARD WHERE TITLE= #{inputText}-->
-<!--    </select>-->
-
-<!--    <select id="getMaxPageWriter" parameterType="String" resultType="int">-->
-<!--        SELECT COUNT(*) FROM BOARD WHERE WRITER= #{inputText}-->
-<!--    </select>-->
 </mapper>
