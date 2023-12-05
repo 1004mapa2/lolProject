@@ -49,7 +49,7 @@
         ORDER BY ${sort} DESC FETCH FIRST 15 ROWS ONLY
     </select>
 
-    <select id="getChampionNameDtos" parameterType="string" resultType="com.lol.dto.ChampionNameDto">
+    <select id="getChampionNameDtos" parameterType="String" resultType="com.lol.dto.ChampionNameDto">
         SELECT * FROM CHAMPIONNAME
         <where>
             <if test="input != ''">
@@ -59,7 +59,7 @@
         ORDER BY CHAMPIONKORNAME
     </select>
 
-    <select id="getChampionKorName" parameterType="string" resultType="string">
+    <select id="getChampionKorName" parameterType="String" resultType="String">
         SELECT CHAMPIONKORNAME FROM CHAMPIONNAME WHERE CHAMPIONENGNAME= #{championName}
     </select>
 

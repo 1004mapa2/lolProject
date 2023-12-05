@@ -9,7 +9,7 @@
         VALUES(USERACCOUNT_AUTOINC.NEXTVAL, #{username}, #{password}, #{role})
     </insert>
 
-    <select id="findByUsername" resultType="com.lol.dto.UserDto" parameterType="string">
+    <select id="findByUsername" resultType="com.lol.dto.UserDto" parameterType="String">
         SELECT * FROM USERACCOUNT WHERE USERNAME= #{username}
     </select>
 
