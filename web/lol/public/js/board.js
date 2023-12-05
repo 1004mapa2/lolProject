@@ -48,12 +48,18 @@ document.querySelector('.loginDiv').addEventListener('click', function () {
 
 function 게시글불러오기() {
     const urlParams = new URLSearchParams(window.location.search);
+    const dataToSend = {
+        page: urlParams.get('page'),
+        keyword: urlParams.get('keyword'),
+        sort: urlParams.get('sort')
+    }
+
     fetch(url + '/board/getBoardList', {
         method: 'POST',
         headers: {
-            'Content-Type': 'text/plain'
+            'Content-Type': 'application/json'
         },
-        body: urlParams.get('page')
+        body: JSON.stringify(dataToSend)
     })
         .then(response => {
             if (!response.ok) {
@@ -62,8 +68,10 @@ function 게시글불러오기() {
             return response.json();
         })
         .then(data => {
+            console.log(data);
+            var innervalue = "";
             document.querySelector('main ul').insertAdjacentHTML('beforeend', '<hr>');
-            if (data.page == 0) {
+            if (data.maxPage == 0) {
                 var 메시지 =
                     `
                 <div>
@@ -72,12 +80,22 @@ function 게시글불러오기() {
                 `
                 document.querySelector('main ul').insertAdjacentHTML('beforeend', 메시지);
             } else {
-                for (let i = 1; i <= data.maxPage; i++) {
-                    var 페이지갯수 =
-                        `
-                        <a href="/board?page=${i}">${i}</a>
-                        `
-                    document.querySelector('.pageNumberDiv').insertAdjacentHTML('beforeend', 페이지갯수);
+                if (urlParams.get('keyword') == null && urlParams.get('sort') == null) {
+                    for (let i = 1; i <= data.maxPage; i++) {
+                        var 페이지갯수 =
+                            `
+                            <a href="/board?page=${i}">${i}</a>
+                            `
+                        document.querySelector('.pageNumberDiv').insertAdjacentHTML('beforeend', 페이지갯수);
+                    }
+                } else {
+                    for (let i = 1; i <= data.maxPage; i++) {
+                        var 페이지갯수 =
+                            `
+                            <a href="/board?page=${i}&keyword=${urlParams.get('keyword')}&sort=${urlParams.get('sort')}">${i}</a>
+                            `
+                        document.querySelector('.pageNumberDiv').insertAdjacentHTML('beforeend', 페이지갯수);
+                    }
                 }
 
                 data.boardList.forEach(function (item) {
@@ -114,55 +132,17 @@ document.querySelector('.searchButton').addEventListener('click', function () {
     검색();
 })
 
-function 검색() {
-    const dataToSend = {
-        searchSort: document.querySelector('.searchSort').value,
-        inputText: document.querySelector('.searchInput').value
-    };
-
-    fetch(url + '/board/getSearchBoard', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(dataToSend)
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('http 오류: ' + response.status);
-            }
-            return response.json();
-        })
-        .then(data => {
-            document.querySelector('main ul').innerHTML = "";
-            document.querySelector('main ul').insertAdjacentHTML('beforeend', '<hr>');
-            data.forEach(function (item) {
-                var 게시물 =
-                    `
-                    <li class="writeBox">
-                        <div class="upperDiv">
-                            <p>${item.title}</p>
-                            <img class="commentImg" src="/img/말풍선.png">
-                        </div>
-                        <div class="lowerDiv">
-                            <div class="lowerLeft">
-                                <p>${item.writer}</p>
-                                <p>작성일 ${item.writeTime}</p>
-                                <p>조회수 ${item.viewCount}</p>
-                                <p>좋아요 ${item.likeCount}</p>
-                            </div>
-                            <p class="commentCount">0</p>
-                        </div>
-                        <hr>
-                    </li>
-                    `;
-                document.querySelector('main ul').insertAdjacentHTML('beforeend', 게시물);
-            })
-        })
-}
-
 document.querySelector('.searchInput').addEventListener('keyup', function (event) {
     if (event.key === 'Enter') {
         검색();
     }
 })
+
+function 검색() {
+    var keyword = document.querySelector('.searchInput').value;
+    var searchSort = document.querySelector('.searchSort').value;
+    var searchURL = "/board?page=1&keyword=" + keyword + "&sort=" + searchSort;
+    if (keyword != '') {
+        window.location.href = searchURL;
+    }
+}
