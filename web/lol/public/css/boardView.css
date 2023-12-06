@@ -1,0 +1,94 @@
+main {
+    min-width: 1050px;
+    height: 100vh;
+    background-color: #F5F3F7;
+}
+
+.container {
+    width: 1050px;
+    /* height: 1000px; */
+    margin: 0 auto;
+    background-color: #FFFFFF;
+}
+
+p {
+    margin: 0;
+}
+
+hr {
+    border: 1px solid #D8D8D8;
+}
+
+li {
+    list-style: none;
+}
+
+ul {
+    padding: 0;
+    margin: 10px 10px;
+}
+
+.detailDiv {
+    display: flex;
+}
+
+.adjustBoardDiv {
+    display: flex;
+    justify-content: end;
+}
+
+.between_pTag {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 5px;
+    display: flex;
+    width: 2px;
+    height: 10px;
+    background-color: #dadada;
+}
+
+.contentDiv {
+    margin-top: 40px;
+}
+
+.likeButtonDiv {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.likeButton {
+    width: 50px;
+    height: 50px;
+    background-color: cadetblue;
+    text-align: center;
+    border-radius: 30px;
+}
+
+.writeBox {
+    height: 70px;
+    width: 100%;
+    display: flex;
+}
+
+.commentText {
+    resize: none;
+}
+
+.commentButton {
+    width: 100px;
+    height: 100%;
+}
+
+.writerP {
+    color: #848484;
+}
+
+.contentP {
+    margin: 10px 0px 5px 0px;
+}
+
+.writeTimeP {
+    color: #848484;
+    font-size: 15px;
+}

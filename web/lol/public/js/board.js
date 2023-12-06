@@ -2,7 +2,7 @@ const url = 'http://localhost:8081';
 
 document.addEventListener("DOMContentLoaded", function () {
     엑세스토큰검증();
-    게시글불러오기();
+    게시글리스트불러오기();
 })
 
 function 엑세스토큰검증() {
@@ -46,7 +46,7 @@ document.querySelector('.loginDiv').addEventListener('click', function () {
     }
 })
 
-function 게시글불러오기() {
+function 게시글리스트불러오기() {
     const urlParams = new URLSearchParams(window.location.search);
     const dataToSend = {
         page: urlParams.get('page'),
@@ -69,7 +69,6 @@ function 게시글불러오기() {
         })
         .then(data => {
             console.log(data);
-            var innervalue = "";
             document.querySelector('main ul').insertAdjacentHTML('beforeend', '<hr>');
             if (data.maxPage == 0) {
                 var 메시지 =
@@ -102,6 +101,7 @@ function 게시글불러오기() {
                     var 게시물 =
                         `
                         <li class="writeBox">
+                            <input type="hidden" id="boardId" value="${item.id}">
                             <div class="upperDiv">
                                 <p>${item.title}</p>
                                 <img class="commentImg" src="/img/말풍선.png">
@@ -146,3 +146,11 @@ function 검색() {
         window.location.href = searchURL;
     }
 }
+
+document.querySelector('main ul').addEventListener('click', function (event) {
+    if (event.target.classList.contains("upperDiv")) {
+    var boardId = event.target.parentNode.querySelector('input').value;
+    var boardViewURL = "/boardView?boardId=" + boardId;
+    window.location.href = boardViewURL;
+    }
+})
