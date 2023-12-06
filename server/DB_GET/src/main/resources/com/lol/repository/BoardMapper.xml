@@ -28,4 +28,17 @@
             </if>
         </where>
     </select>
+
+    <select id="getBoard" parameterType="int" resultType="com.lol.domain.Board">
+        SELECT * FROM BOARD WHERE ID= #{boardId}
+    </select>
+
+    <select id="getComments" parameterType="int" resultType="com.lol.domain.Board_Comment">
+        SELECT * FROM BOARD_COMMENT WHERE BOARDID= #{boardId} ORDER BY WRITETIME DESC
+    </select>
+
+    <select id="postComment" parameterType="com.lol.domain.Board_Comment">
+        INSERT INTO BOARD_COMMENT(ID, BOARDID, CONTENT, WRITER, WRITETIME)
+        VALUES(BOARD_COMMENT_AUTOINC.NEXTVAL, #{boardId}, #{content}, #{writer}, #{writeTime})
+    </select>
 </mapper>

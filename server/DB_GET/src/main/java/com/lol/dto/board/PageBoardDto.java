@@ -10,4 +10,5 @@ public class PageBoardDto {
 
     private int maxPage;
     private List<Board> boardList;
+    private int viewCount;
 }
