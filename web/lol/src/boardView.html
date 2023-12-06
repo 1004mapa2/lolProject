@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="css/header.css">
-    <link rel="stylesheet" href="css/boardWrite.css">
+    <link rel="stylesheet" href="css/boardView.css">
 </head>
+
 <body style="margin: 0;">
     <header>
         <div class="headerDiv">
@@ -31,6 +33,29 @@
         </div>
     </header>
     <main>
+        <div class="container">
+            <div style="margin: 0px 15px 0px 15px;">
+                <div class="boardHeaderBodyDiv"></div>
+                <div class="likeButtonDiv">
+                    <div class="likeButton">
+                        <p>♡</p>
+                        <p class="likeCountP"></p>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <h3>댓글</h3>
+                        <div class="writeBox">
+                            <textarea class="commentText" rows="5" cols="130" placeholder="내용을 입력하세요."></textarea>
+                            <input class="commentButton" type="button" value="등록">
+                        </div>
+                    </div>
+                </div>
+                <ul></ul>
+            </div>
+        </div>
     </main>
+    <script src="/js/boardView.js"></script>
 </body>
+
 </html>

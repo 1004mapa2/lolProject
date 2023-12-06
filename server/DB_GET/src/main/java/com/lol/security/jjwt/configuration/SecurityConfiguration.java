@@ -55,6 +55,7 @@ public class SecurityConfiguration {
                         .antMatchers("/api/refresh").hasAnyRole("ADMIN", "MANAGER", "USER")
                         .antMatchers("/saveComment").hasAnyRole("ADMIN", "MANAGER", "USER")
                         .antMatchers("/board/postBoard").hasAnyRole("ADMIN", "MANAGER", "USER")
+                        .antMatchers("/board/postComment").hasAnyRole("ADMIN", "MANAGER", "USER")
                         .anyRequest().permitAll()
                 );
 

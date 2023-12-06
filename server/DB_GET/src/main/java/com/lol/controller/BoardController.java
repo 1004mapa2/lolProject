@@ -1,16 +1,10 @@
 package com.lol.controller;
 
-import com.google.gson.Gson;
-import com.lol.domain.Board;
-import com.lol.dto.board.PageBoardDto;
-import com.lol.dto.board.PostBoardDto;
-import com.lol.dto.board.SearchDto;
+import com.lol.dto.board.*;
 import com.lol.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,5 +22,16 @@ public class BoardController {
     @PostMapping("/postBoard")
     public void postBoard(@RequestBody PostBoardDto postBoardDto, Authentication authentication) {
         boardService.postBoard(postBoardDto, authentication.getName());
+    }
+
+    @GetMapping("/getBoard")
+    public BoardViewDto getBoard(@RequestParam("boardId") int boardId) {
+
+        return boardService.getBoard(boardId);
+    }
+
+    @PostMapping("/postComment")
+    public void postComment(@RequestBody PostCommentDto postCommentDto, Authentication authentication) {
+        boardService.postComment(postCommentDto, authentication.getName());
     }
 }

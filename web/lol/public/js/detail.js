@@ -111,7 +111,6 @@ document.querySelector('.commentButton').addEventListener('click', async functio
     await 엑세스토큰검증();
     await 댓글저장();
     await 댓글불러오기();
-    document.querySelector('.commentText').value = '';
 })
 
 async function 댓글저장() {
@@ -129,6 +128,7 @@ async function 댓글저장() {
         body: JSON.stringify(dataToSend)
     })
         .then(response => {
+            document.querySelector('.commentText').value = '';
             if (response.status == 401) {
                 alert('로그인 하세요');
             }
