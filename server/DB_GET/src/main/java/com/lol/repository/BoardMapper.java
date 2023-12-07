@@ -6,6 +6,7 @@ import com.lol.dto.board.SearchDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface BoardMapper {
@@ -21,4 +22,14 @@ public interface BoardMapper {
     public List<Board_Comment> getComments(int boardId);
 
     public void postComment(Board_Comment boardComment);
+
+    public void incViewCount(int boardId);
+
+    public Optional<Integer> findByLike(int boardId, String username);
+
+    public void postLike(int boardId, String username);
+
+    public void updateLike(int boardId, String username, int likeAdjust);
+
+    public int getLike(int boardId);
 }

@@ -56,6 +56,8 @@ public class SecurityConfiguration {
                         .antMatchers("/saveComment").hasAnyRole("ADMIN", "MANAGER", "USER")
                         .antMatchers("/board/postBoard").hasAnyRole("ADMIN", "MANAGER", "USER")
                         .antMatchers("/board/postComment").hasAnyRole("ADMIN", "MANAGER", "USER")
+                        .antMatchers("/board/postLike").hasAnyRole("ADMIN", "MANAGER", "USER")
+                        .antMatchers("/board/getMyLike").hasAnyRole("ADMIN", "MANAGER", "USER")
                         .anyRequest().permitAll()
                 );
 
