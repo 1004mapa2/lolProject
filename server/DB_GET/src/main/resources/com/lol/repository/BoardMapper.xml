@@ -14,10 +14,10 @@
         ORDER BY ID DESC OFFSET #{startNumber} ROWS FETCH NEXT #{numberOfPage} ROWS ONLY
     </select>
 
-    <select id="postBoard" parameterType="com.lol.domain.Board">
-        INSERT INTO BOARD(ID, TITLE, CONTENT, WRITER, WRITETIME, VIEWCOUNT, LIKECOUNT)
-        VALUES(BOARD_AUTOINC.NEXTVAL, #{title}, #{content}, #{writer}, #{writeTime}, #{viewCount}, #{likeCount})
-    </select>
+    <insert id="postBoard" parameterType="com.lol.domain.Board">
+        INSERT INTO BOARD(ID, TITLE, CONTENT, WRITER, WRITETIME, VIEWCOUNT)
+        VALUES(BOARD_AUTOINC.NEXTVAL, #{title}, #{content}, #{writer}, #{writeTime}, #{viewCount})
+    </insert>
 
     <select id="getMaxPage" resultType="int">
         SELECT COUNT(*) FROM BOARD
@@ -37,8 +37,29 @@
         SELECT * FROM BOARD_COMMENT WHERE BOARDID= #{boardId} ORDER BY WRITETIME DESC
     </select>
 
-    <select id="postComment" parameterType="com.lol.domain.Board_Comment">
-        INSERT INTO BOARD_COMMENT(ID, BOARDID, CONTENT, WRITER, WRITETIME)
-        VALUES(BOARD_COMMENT_AUTOINC.NEXTVAL, #{boardId}, #{content}, #{writer}, #{writeTime})
+    <insert id="postComment" parameterType="com.lol.domain.Board_Comment">
+        INSERT INTO BOARD_COMMENT(ID, BOARDID, CONTENT, USERNAME, WRITETIME)
+        VALUES(BOARD_COMMENT_AUTOINC.NEXTVAL, #{boardId}, #{content}, #{username}, #{writeTime})
+    </insert>
+
+    <update id="incViewCount" parameterType="int">
+        UPDATE BOARD SET VIEWCOUNT = VIEWCOUNT + 1 WHERE ID= #{boardId}
+    </update>
+
+    <select id="findByLike">
+        SELECT LIKEEXIST FROM BOARD_LIKE WHERE BOARDID= #{boardId} AND USERNAME= #{username}
+    </select>
+
+    <insert id="postLike">
+        INSERT INTO BOARD_LIKE(ID, BOARDID, USERNAME, LIKEEXIST)
+        VALUES(BOARD_LIKE_AUTOINC.NEXTVAL, #{boardId}, #{username}, 1)
+    </insert>
+
+    <update id="updateLike">
+        UPDATE BOARD_LIKE SET LIKEEXIST= #{likeAdjust} WHERE BOARDID= #{boardId} AND USERNAME= #{username}
+    </update>
+
+    <select id="getLike" parameterType="int" resultType="int">
+        SELECT COUNT(*) FROM BOARD_LIKE WHERE BOARDID= #{boardId} AND LIKEEXIST= 1
     </select>
 </mapper>

@@ -65,6 +65,10 @@ ul {
     border-radius: 30px;
 }
 
+.likeButton:hover {
+    cursor: pointer;
+}
+
 .writeBox {
     height: 70px;
     width: 100%;

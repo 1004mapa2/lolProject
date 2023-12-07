@@ -111,7 +111,7 @@ function 게시글리스트불러오기() {
                                     <p>${item.writer}</p>
                                     <p>작성일 ${item.writeTime}</p>
                                     <p>조회수 ${item.viewCount}</p>
-                                    <p>좋아요 ${item.likeCount}</p>
+                                    <p>좋아요</p>
                                 </div>
                                 <p class="commentCount">0</p>
                             </div>

@@ -1,8 +1,9 @@
 const url = 'http://localhost:8081';
 
-document.addEventListener("DOMContentLoaded", function () {
-    엑세스토큰검증();
-    게시글불러오기();
+document.addEventListener("DOMContentLoaded", async function () {
+    await 엑세스토큰검증();
+    await 게시글불러오기();
+    await 좋아요불러오기();
 })
 
 document.querySelector('.loginDiv').addEventListener('click', function () {
@@ -24,6 +25,12 @@ document.querySelector('.commentButton').addEventListener('click', async functio
     await 게시글불러오기();
 })
 
+document.querySelector('.likeButton').addEventListener('click', async function () {
+    await 엑세스토큰검증();
+    await 좋아요저장();
+    await 좋아요불러오기();
+})
+
 async function 엑세스토큰검증() {
     var jwtToken = localStorage.getItem('jwtToken');
 
@@ -31,7 +38,7 @@ async function 엑세스토큰검증() {
         await fetch(url + '/api/init', {
             method: 'GET',
             headers: {
-                'Authorization': localStorage.getItem('jwtToken'),
+                'Authorization': jwtToken,
             },
             credentials: 'include'
         })
@@ -54,29 +61,29 @@ async function 엑세스토큰검증() {
 async function 댓글저장() {
     const urlParams = new URLSearchParams(window.location.search);
     const dataToSend = {
-        boardId : urlParams.get('boardId'),
-        content : document.querySelector('.commentText').value
+        boardId: urlParams.get('boardId'),
+        content: document.querySelector('.commentText').value
     }
     await fetch(url + '/board/postComment', {
         method: 'POST',
         headers: {
-            'Content-Type' : 'application/json',
+            'Content-Type': 'application/json',
             'Authorization': localStorage.getItem('jwtToken')
         },
-        credentials: 'include',
         body: JSON.stringify(dataToSend)
     })
-    .then(response => {
-        document.querySelector('.commentText').value = '';
-        if (response.status == 401) {
-            alert('로그인 하세요');
-        }
-    })
+        .then(response => {
+            document.querySelector('.commentText').value = '';
+            if (response.status == 401) {
+                alert('로그인 하세요');
+            }
+        })
 }
 
 async function 게시글불러오기() {
     await fetch(url + '/board/getBoard' + window.location.search, {
-        method: 'GET'
+        method: 'GET',
+        credentials: 'include'
     })
         .then(response => {
             if (!response.ok) {
@@ -85,7 +92,6 @@ async function 게시글불러오기() {
             return response.json();
         })
         .then(data => {
-            document.querySelector('.likeCountP').innerHTML = data.board.likeCount;
             document.querySelector('.boardHeaderBodyDiv').innerHTML = "";
             document.querySelector('main ul').innerHTML = "";
 
@@ -109,7 +115,7 @@ async function 게시글불러오기() {
                     <p>${data.board.content}</p>
                 </div>
                 `;
-                document.querySelector('.boardHeaderBodyDiv').insertAdjacentHTML('beforeend', 게시판내용);
+            document.querySelector('.boardHeaderBodyDiv').insertAdjacentHTML('beforeend', 게시판내용);
 
 
 
@@ -117,7 +123,7 @@ async function 게시글불러오기() {
                 var 댓글 =
                     `
                 <li>
-                    <p class="writerP">${item.writer}</p>
+                    <p class="writerP">${item.username}</p>
                     <p class="contentP">${item.content}</p>
                     <p class="writeTimeP">${item.writeTime}</p>
                     <hr>
@@ -125,5 +131,54 @@ async function 게시글불러오기() {
                 `;
                 document.querySelector('main ul').insertAdjacentHTML('beforeend', 댓글);
             })
+        })
+}
+
+async function 좋아요저장() {
+    await fetch(url + '/board/postLike' + window.location.search, {
+        method: 'GET',
+        headers: {
+            'Authorization': localStorage.getItem('jwtToken')
+        }
+    })
+        .then(response => {
+            if (response.status == 401) {
+                alert('로그인 하세요');
+            }
+        })
+}
+
+async function 좋아요불러오기() {
+    await fetch(url + '/board/getLike' + window.location.search, {
+        method: 'GET'
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('http 오류: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            document.querySelector('.likeCountP').innerHTML = data;
+        })
+    
+    await fetch(url + '/board/getMyLike' + window.location.search, {
+        method: 'GET',
+        headers: {
+            'Authorization': localStorage.getItem('jwtToken')
+        }
+    })
+        .then(response => {
+            if (response.status == 401) {
+                document.querySelector('.likeShapeP'). innerHTML = '♡';
+            }
+            return response.json();
+        })
+        .then(data => {
+            if(data == 1) {
+                document.querySelector('.likeShapeP'). innerHTML = '♥';
+            } else {
+                document.querySelector('.likeShapeP'). innerHTML = '♡';
+            }
         })
 }
