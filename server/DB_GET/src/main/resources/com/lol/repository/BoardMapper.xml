@@ -39,6 +39,14 @@
         SELECT * FROM BOARD WHERE ID= #{boardId}
     </select>
 
+    <delete id="deleteBoard" parameterType="int">
+        DELETE FROM BOARD WHERE ID= #{boardId}
+    </delete>
+
+    <update id="updateBoard" parameterType="com.lol.dto.board.PostBoardDto">
+        UPDATE BOARD SET TITLE= #{title}, CONTENT= #{content} WHERE ID= #{boardId}
+    </update>
+
     <select id="getComments" parameterType="int" resultType="com.lol.domain.Board_Comment">
         SELECT * FROM BOARD_COMMENT WHERE BOARDID= #{boardId} ORDER BY WRITETIME DESC
     </select>

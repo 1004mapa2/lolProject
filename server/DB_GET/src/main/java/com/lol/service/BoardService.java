@@ -70,6 +70,15 @@ public class BoardService {
         return boardViewDto;
     }
 
+    public void deleteBoard(int boardId) {
+        mapper.deleteBoard(boardId);
+    }
+
+    public void updateBoard(int boardId, PostBoardDto postBoardDto) {
+        postBoardDto.setBoardId(boardId);
+        mapper.updateBoard(postBoardDto);
+    }
+
     public void postComment(PostCommentDto postCommentDto, String username) {
         Board_Comment boardComment = new Board_Comment();
         LocalDateTime now = LocalDateTime.now();

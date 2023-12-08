@@ -33,6 +33,17 @@ public class BoardController {
         return boardService.getBoard(boardId, req, res);
     }
 
+    @DeleteMapping("/deleteBoard/{boardId}")
+    public void deleteBoard(@PathVariable int boardId) {
+        boardService.deleteBoard(boardId);
+    }
+
+    @PatchMapping("/updateBoard/{boardId}")
+    public void updateBoard(@PathVariable int boardId, @RequestBody PostBoardDto postBoardDto) {
+        boardService.updateBoard(boardId, postBoardDto);
+
+    }
+
     @PostMapping("/postComment")
     public void postComment(@RequestBody PostCommentDto postCommentDto, Authentication authentication) {
         boardService.postComment(postCommentDto, authentication.getName());
