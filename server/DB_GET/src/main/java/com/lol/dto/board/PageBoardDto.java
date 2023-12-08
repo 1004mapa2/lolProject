@@ -1,6 +1,5 @@
 package com.lol.dto.board;
 
-import com.lol.domain.Board;
 import lombok.Data;
 
 import java.util.List;
@@ -9,5 +8,5 @@ import java.util.List;
 public class PageBoardDto {
 
     private int maxPage;
-    private List<Board> boardList;
+    private List<BoardListAllInfoDto> boardList;
 }

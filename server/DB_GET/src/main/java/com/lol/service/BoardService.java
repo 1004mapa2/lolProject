@@ -33,12 +33,12 @@ public class BoardService {
             searchDto.setSort("WRITER");
         }
 
-        List<Board> boardList = mapper.getBoardList(searchDto);
+        List<BoardListAllInfoDto> boardList = mapper.getBoardList(searchDto);
         int maxPage = (int) Math.ceil((double) mapper.getMaxPage(searchDto) / searchDto.getNumberOfPage());
 
         PageBoardDto pageBoardDto = new PageBoardDto();
-        pageBoardDto.setBoardList(boardList);
         pageBoardDto.setMaxPage(maxPage);
+        pageBoardDto.setBoardList(boardList);
 
         return pageBoardDto;
     }
