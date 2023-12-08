@@ -36,6 +36,10 @@ app.get('/boardView', (req, res) => {
     res.sendFile(__dirname + "/src/boardView.html");
 })
 
+app.get('/boardUpdate', (req, res) => {
+    res.sendFile(__dirname + "/src/boardUpdate.html");
+})
+
 app.listen(port, () => {
     console.log(`${port} 열었따`);
 });

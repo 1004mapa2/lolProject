@@ -3,6 +3,7 @@ package com.lol.repository;
 import com.lol.domain.Board;
 import com.lol.domain.Board_Comment;
 import com.lol.dto.board.BoardListAllInfoDto;
+import com.lol.dto.board.PostBoardDto;
 import com.lol.dto.board.SearchDto;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -19,6 +20,10 @@ public interface BoardMapper {
     public int getMaxPage(SearchDto searchDto);
 
     public Board getBoard(int boardId);
+
+    public void deleteBoard(int boardId);
+
+    public void updateBoard(PostBoardDto postBoardDto);
 
     public List<Board_Comment> getComments(int boardId);
 
