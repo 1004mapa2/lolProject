@@ -37,6 +37,14 @@ ul {
     justify-content: end;
 }
 
+.boardUpdate:hover {
+    cursor: pointer;
+}
+
+.boardDelete:hover {
+    cursor: pointer;
+}
+
 .between_pTag {
     margin-left: 20px;
     margin-right: 20px;

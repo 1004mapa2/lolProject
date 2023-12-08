@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/boardWrite.css">
+</head>
+
+<body style="margin: 0;">
+    <header>
+        <div class="headerDiv">
+            <img class="backImage" src="/img/backImage2.jpg">
+            <div class="blackBar"></div>
+            <div class="headerList">
+                <div class="tabBar">
+                    <nav>
+                        <ul>
+                            <li><a href="/">조합 분석</a></li>
+                            <li style="width: 50px;"></li>
+                            <li><a href="board?page=1">커뮤니티</a></li>
+                        </ul>
+                    </nav>
+                    <div class="userContainer">
+                        <a href="myPage" class="myPage">마이페이지</a>
+                        <div style="width: 50px;"></div>
+                        <a href="login" class="loginDiv"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <div class="titleDiv">
+                <input class="titleText" type="text" placeholder="제목을 입력하세요."/>
+            </div>
+            <div class="contentDiv">
+                <textarea class="contentText" rows="20" cols="69" placeholder="내용을 입력하세요."></textarea>
+            </div>
+            <div class="buttonContainer">
+                <div class="buttonDiv">
+                    <input class="cencelButton" type="button" value="취소"/>
+                    <input class="postButton" type="button" value="수정"/>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="/js/boardUpdate.js"></script>
+</body>
+
+</html>

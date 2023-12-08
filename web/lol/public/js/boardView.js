@@ -31,6 +31,15 @@ document.querySelector('.likeButton').addEventListener('click', async function (
     await 좋아요불러오기();
 })
 
+document.querySelector('.boardHeaderBodyDiv').addEventListener('click', function (event) {
+    if (event.target.classList.contains('boardUpdate')) {
+        게시글수정();
+    }
+    if (event.target.classList.contains('boardDelete')) {
+        게시글삭제();
+    }
+})
+
 async function 엑세스토큰검증() {
     var jwtToken = localStorage.getItem('jwtToken');
 
@@ -92,6 +101,7 @@ async function 게시글불러오기() {
             return response.json();
         })
         .then(data => {
+            console.log(data);
             document.querySelector('.boardHeaderBodyDiv').innerHTML = "";
             document.querySelector('main ul').innerHTML = "";
 
@@ -107,9 +117,9 @@ async function 게시글불러오기() {
                 </div>
                 <hr>
                 <div class="adjustBoardDiv">
-                    <p>게시글 수정</p>
+                    <p class="boardUpdate">게시글 수정</p>
                     <div class="between_pTag"></div>
-                    <p>게시글 삭제</p>
+                    <p class="boardDelete">게시글 삭제</p>
                 </div>
                 <div class="contentDiv">
                     <p>${data.board.content}</p>
@@ -161,7 +171,7 @@ async function 좋아요불러오기() {
         .then(data => {
             document.querySelector('.likeCountP').innerHTML = data;
         })
-    
+
     await fetch(url + '/board/getMyLike' + window.location.search, {
         method: 'GET',
         headers: {
@@ -170,15 +180,35 @@ async function 좋아요불러오기() {
     })
         .then(response => {
             if (response.status == 401) {
-                document.querySelector('.likeShapeP'). innerHTML = '♡';
+                document.querySelector('.likeShapeP').innerHTML = '♡';
             }
             return response.json();
         })
         .then(data => {
-            if(data == 1) {
-                document.querySelector('.likeShapeP'). innerHTML = '♥';
+            if (data == 1) {
+                document.querySelector('.likeShapeP').innerHTML = '♥';
             } else {
-                document.querySelector('.likeShapeP'). innerHTML = '♡';
+                document.querySelector('.likeShapeP').innerHTML = '♡';
+            }
+        })
+}
+
+function 게시글수정() {
+    window.location.href = 'boardUpdate' + window.location.search;
+}
+
+function 게시글삭제() {
+    const urlParams = new URLSearchParams(window.location.search);
+    var boardId = urlParams.get('boardId');
+    fetch(url + '/board/deleteBoard/' + boardId, {
+        method: 'DELETE'
+    })
+        .then(response => {
+            if (!response.ok) {
+                alert('게시글을 삭제할 권한이 없습니다.');
+                throw new Error('http 오류: ' + response.status);
+            } else {
+                window.location.href = '/board?page=1';
             }
         })
 }
