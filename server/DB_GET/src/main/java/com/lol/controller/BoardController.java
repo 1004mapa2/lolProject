@@ -4,6 +4,7 @@ import com.lol.dto.board.*;
 import com.lol.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,7 +43,7 @@ public class BoardController {
     @GetMapping("/checkUser")
     public int checkUser(@RequestParam int boardId, Authentication authentication) {
 
-        return boardService.checkUser(boardId, authentication.getName());
+        return boardService.checkUser(boardId, authentication);
     }
 
     @DeleteMapping("/deleteBoard/{boardId}")
