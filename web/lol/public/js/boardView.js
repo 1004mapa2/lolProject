@@ -2,8 +2,8 @@ const url = 'http://localhost:8081';
 
 document.addEventListener("DOMContentLoaded", async function () {
     await 엑세스토큰검증();
-    await 게시글불러오기();
-    await 좋아요불러오기();
+    게시글불러오기();
+    좋아요불러오기();
 })
 
 document.querySelector('.loginDiv').addEventListener('click', function () {
@@ -22,24 +22,28 @@ document.querySelector('.loginDiv').addEventListener('click', function () {
 document.querySelector('.commentButton').addEventListener('click', async function () {
     await 엑세스토큰검증();
     await 댓글저장();
-    await 게시글불러오기();
+    게시글불러오기();
 })
 
 document.querySelector('.likeButton').addEventListener('click', async function () {
     await 엑세스토큰검증();
     await 좋아요저장();
-    await 좋아요불러오기();
+    좋아요불러오기();
 })
 
-document.querySelector('.boardHeaderBodyDiv').addEventListener('click', function (event) {
+document.querySelector('.boardHeaderBodyDiv').addEventListener('click', async function (event) {
     if (event.target.classList.contains('boardUpdate')) {
         게시글수정();
     }
     if (event.target.classList.contains('boardDelete')) {
+        await 엑세스토큰검증();
         게시글삭제();
     }
 })
 
+/**
+ * 함수 시작
+ */
 async function 엑세스토큰검증() {
     var jwtToken = localStorage.getItem('jwtToken');
 
@@ -67,32 +71,10 @@ async function 엑세스토큰검증() {
     }
 }
 
-async function 댓글저장() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const dataToSend = {
-        boardId: urlParams.get('boardId'),
-        content: document.querySelector('.commentText').value
-    }
-    await fetch(url + '/board/postComment', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': localStorage.getItem('jwtToken')
-        },
-        body: JSON.stringify(dataToSend)
-    })
-        .then(response => {
-            document.querySelector('.commentText').value = '';
-            if (response.status == 401) {
-                alert('로그인 하세요');
-            }
-        })
-}
-
 async function 게시글불러오기() {
     await fetch(url + '/board/getBoard' + window.location.search, {
         method: 'GET',
-        credentials: 'include'
+        credentials: 'include' //쿠키를 받아와야 되기 때문에 추가
     })
         .then(response => {
             if (!response.ok) {
@@ -101,7 +83,6 @@ async function 게시글불러오기() {
             return response.json();
         })
         .then(data => {
-            console.log(data);
             document.querySelector('.boardHeaderBodyDiv').innerHTML = "";
             document.querySelector('main ul').innerHTML = "";
 
@@ -109,7 +90,7 @@ async function 게시글불러오기() {
                 `
                 <h2>${data.board.title}</h2>
                 <div>
-                    <p>${data.board.writer}</p>
+                    <p class="writerP">${data.board.writer}</p>
                     <div class="detailDiv">
                     <p>${data.board.writeTime}</p>
                     <div style="width: 50px;"></div>
@@ -142,24 +123,31 @@ async function 게시글불러오기() {
                 document.querySelector('main ul').insertAdjacentHTML('beforeend', 댓글);
             })
         })
+        권한체크();
 }
 
-async function 좋아요저장() {
-    await fetch(url + '/board/postLike' + window.location.search, {
+function 권한체크() {
+    fetch(url + '/board/checkUser' + window.location.search, {
         method: 'GET',
         headers: {
             'Authorization': localStorage.getItem('jwtToken')
         }
     })
         .then(response => {
-            if (response.status == 401) {
-                alert('로그인 하세요');
+            if (!response.ok) {
+                throw new Error('http 오류: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data == 1) {
+                document.querySelector('.adjustBoardDiv').style.display = 'flex';
             }
         })
 }
 
-async function 좋아요불러오기() {
-    await fetch(url + '/board/getLike' + window.location.search, {
+function 좋아요불러오기() {
+    fetch(url + '/board/getLike' + window.location.search, {
         method: 'GET'
     })
         .then(response => {
@@ -172,7 +160,7 @@ async function 좋아요불러오기() {
             document.querySelector('.likeCountP').innerHTML = data;
         })
 
-    await fetch(url + '/board/getMyLike' + window.location.search, {
+    fetch(url + '/board/getMyLike' + window.location.search, {
         method: 'GET',
         headers: {
             'Authorization': localStorage.getItem('jwtToken')
@@ -193,6 +181,42 @@ async function 좋아요불러오기() {
         })
 }
 
+async function 좋아요저장() {
+    await fetch(url + '/board/postLike' + window.location.search, {
+        method: 'GET',
+        headers: {
+            'Authorization': localStorage.getItem('jwtToken')
+        }
+    })
+        .then(response => {
+            if (response.status == 401) {
+                alert('로그인 하세요');
+            }
+        })
+}
+
+async function 댓글저장() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const dataToSend = {
+        boardId: urlParams.get('boardId'),
+        content: document.querySelector('.commentText').value
+    }
+    await fetch(url + '/board/postComment', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem('jwtToken')
+        },
+        body: JSON.stringify(dataToSend)
+    })
+        .then(response => {
+            document.querySelector('.commentText').value = '';
+            if (response.status == 401) {
+                alert('로그인 하세요');
+            }
+        })
+}
+
 function 게시글수정() {
     window.location.href = 'boardUpdate' + window.location.search;
 }
@@ -201,7 +225,10 @@ function 게시글삭제() {
     const urlParams = new URLSearchParams(window.location.search);
     var boardId = urlParams.get('boardId');
     fetch(url + '/board/deleteBoard/' + boardId, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+            'Authorization': localStorage.getItem('jwtToken')
+        }
     })
         .then(response => {
             if (!response.ok) {

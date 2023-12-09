@@ -1,10 +1,36 @@
 const url = 'http://localhost:8081';
 
-document.addEventListener("DOMContentLoaded", async function () {
-    await 엑세스토큰검증();
-    await 글데이터불러오기();
+document.addEventListener("DOMContentLoaded", function () {
+    엑세스토큰검증();
+    글데이터불러오기();
 })
 
+document.querySelector('.loginDiv').addEventListener('click', function () {
+    if (this.innerHTML == '로그아웃') {
+        fetch(url + '/api/logout', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('jwtToken')
+            }
+        })
+        localStorage.removeItem('jwtToken');
+        this.href = '/';
+    }
+})
+
+document.querySelector('.cencelButton').addEventListener('click', function () {
+    window.location.href = '/boardView' + window.location.search;
+})
+
+document.querySelector('.postButton').addEventListener('click', async function () {
+    await 엑세스토큰검증();
+    권한체크();
+})
+
+/**
+ * 함수 시작
+ */
 async function 엑세스토큰검증() {
     var jwtToken = localStorage.getItem('jwtToken');
 
@@ -32,31 +58,8 @@ async function 엑세스토큰검증() {
     }
 }
 
-document.querySelector('.loginDiv').addEventListener('click', function () {
-    if (this.innerHTML == '로그아웃') {
-        fetch(url + '/api/logout', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': localStorage.getItem('jwtToken')
-            }
-        })
-        localStorage.removeItem('jwtToken');
-        this.href = '/';
-    }
-})
-
-document.querySelector('.cencelButton').addEventListener('click', function () {
-    window.location.href = '/boardView' + window.location.search;
-})
-
-document.querySelector('.postButton').addEventListener('click', async function () {
-    await 엑세스토큰검증();
-    await 글수정하기();
-})
-
-async function 글데이터불러오기() {
-    await fetch(url + '/board/getBoard' + window.location.search, {
+function 글데이터불러오기() {
+    fetch(url + '/board/getBoardUpdateData' + window.location.search, {
         method: 'GET'
     })
         .then(response => {
@@ -66,12 +69,34 @@ async function 글데이터불러오기() {
             return response.json();
         })
         .then(data => {
-            document.querySelector('.titleText').value = data.board.title;
-            document.querySelector('.contentText').value = data.board.content;
+            document.querySelector('.titleText').value = data.title;
+            document.querySelector('.contentText').value = data.content;
         })
 }
 
-async function 글수정하기() {
+function 권한체크() {
+    fetch(url + '/board/checkUser' + window.location.search, {
+        method: 'GET',
+        headers: {
+            'Authorization': localStorage.getItem('jwtToken')
+        }
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('http 오류: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data == 1) {
+                글수정하기();
+            } else {
+                alert('정보 불일치로 수정 불가');
+            }
+        })
+}
+
+function 글수정하기() {
     const dataToSend = {
         title: document.querySelector('.titleText').value,
         content: document.querySelector('.contentText').value
@@ -79,7 +104,7 @@ async function 글수정하기() {
     const urlParams = new URLSearchParams(window.location.search);
     var boardId = urlParams.get('boardId');
 
-    await fetch(url + '/board/updateBoard/' + boardId, {
+    fetch(url + '/board/updateBoard/' + boardId, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',

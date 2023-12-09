@@ -1,10 +1,48 @@
 const url = 'http://localhost:8081';
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
+    await 게시글리스트불러오기();
     엑세스토큰검증();
-    게시글리스트불러오기();
 })
 
+document.querySelector('.loginDiv').addEventListener('click', function () {
+    if (this.innerHTML == '로그아웃') {
+        fetch(url + '/api/logout', {
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('jwtToken')
+            }
+        })
+        localStorage.removeItem('jwtToken');
+        this.href = '/';
+    }
+})
+
+document.querySelector('.writingButton').addEventListener('click', function () {
+    window.location.href = "boardWrite";
+})
+
+document.querySelector('.searchButton').addEventListener('click', function () {
+    검색();
+})
+
+document.querySelector('.searchInput').addEventListener('keyup', function (event) {
+    if (event.key === 'Enter') {
+        검색();
+    }
+})
+
+document.querySelector('main ul').addEventListener('click', function (event) {
+    if (event.target.classList.contains("upperDiv")) {
+    var boardId = event.target.parentNode.querySelector('input').value;
+    var boardViewURL = "/boardView?boardId=" + boardId;
+    window.location.href = boardViewURL;
+    }
+})
+
+/**
+ * 함수 시작
+ */
 function 엑세스토큰검증() {
     var jwtToken = localStorage.getItem('jwtToken');
 
@@ -33,20 +71,7 @@ function 엑세스토큰검증() {
     }
 }
 
-document.querySelector('.loginDiv').addEventListener('click', function () {
-    if (this.innerHTML == '로그아웃') {
-        fetch(url + '/api/logout', {
-            method: 'GET',
-            headers: {
-                'Authorization': localStorage.getItem('jwtToken')
-            }
-        })
-        localStorage.removeItem('jwtToken');
-        this.href = '/';
-    }
-})
-
-function 게시글리스트불러오기() {
+async function 게시글리스트불러오기() {
     const urlParams = new URLSearchParams(window.location.search);
     const dataToSend = {
         page: urlParams.get('page'),
@@ -54,7 +79,7 @@ function 게시글리스트불러오기() {
         sort: urlParams.get('sort')
     }
 
-    fetch(url + '/board/getBoardList', {
+    await fetch(url + '/board/getBoardList', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -68,7 +93,6 @@ function 게시글리스트불러오기() {
             return response.json();
         })
         .then(data => {
-            console.log(data);
             document.querySelector('main ul').insertAdjacentHTML('beforeend', '<hr>');
             if (data.maxPage == 0) {
                 var 메시지 =
@@ -124,20 +148,6 @@ function 게시글리스트불러오기() {
         })
 }
 
-document.querySelector('.writingButton').addEventListener('click', function () {
-    window.location.href = "boardWrite";
-})
-
-document.querySelector('.searchButton').addEventListener('click', function () {
-    검색();
-})
-
-document.querySelector('.searchInput').addEventListener('keyup', function (event) {
-    if (event.key === 'Enter') {
-        검색();
-    }
-})
-
 function 검색() {
     var keyword = document.querySelector('.searchInput').value;
     var searchSort = document.querySelector('.searchSort').value;
@@ -146,11 +156,3 @@ function 검색() {
         window.location.href = searchURL;
     }
 }
-
-document.querySelector('main ul').addEventListener('click', function (event) {
-    if (event.target.classList.contains("upperDiv")) {
-    var boardId = event.target.parentNode.querySelector('input').value;
-    var boardViewURL = "/boardView?boardId=" + boardId;
-    window.location.href = boardViewURL;
-    }
-})
