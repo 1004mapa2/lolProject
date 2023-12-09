@@ -39,6 +39,10 @@
         SELECT * FROM BOARD WHERE ID= #{boardId}
     </select>
 
+    <select id="getBoardUpdateData" parameterType="int" resultType="com.lol.dto.board.PostBoardDto">
+        SELECT TITLE, CONTENT FROM BOARD WHERE ID= #{boardId}
+    </select>
+
     <delete id="deleteBoard" parameterType="int">
         DELETE FROM BOARD WHERE ID= #{boardId}
     </delete>
