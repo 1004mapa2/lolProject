@@ -7,6 +7,7 @@ import com.lol.repository.BoardMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Cookie;
@@ -27,10 +28,20 @@ public class BoardService {
     public PageBoardDto getBoardList(SearchDto searchDto) {
         searchDto.setNumberOfPage(10); // 1페이지에 10개씩 출력
         searchDto.setStartNumber((searchDto.getPage() - 1) * searchDto.getNumberOfPage());
-        if (searchDto.getSort() != null && searchDto.getSort().equals("제목")) {
-            searchDto.setSort("TITLE");
-        } else if (searchDto.getSort() != null && searchDto.getSort().equals("작성자")) {
-            searchDto.setSort("WRITER");
+        if (searchDto.getSearchSort() != null && searchDto.getSearchSort().equals("제목")) {
+            searchDto.setSearchSort("TITLE");
+        } else if (searchDto.getSearchSort() != null && searchDto.getSearchSort().equals("작성자")) {
+            searchDto.setSearchSort("WRITER");
+        }
+
+        if(searchDto.getSort().equals("최신글순")) {
+            searchDto.setSort("WRITETIME");
+        } else if (searchDto.getSort().equals("조회순")) {
+            searchDto.setSort("VIEWCOUNT");
+        } else if (searchDto.getSort().equals("좋아요순")) {
+            searchDto.setSort("LIKECOUNT");
+        } else if (searchDto.getSort().equals("댓글순")) {
+            searchDto.setSort("COMMENTCOUNT");
         }
 
         List<BoardListAllInfoDto> boardList = mapper.getBoardList(searchDto);
@@ -75,9 +86,15 @@ public class BoardService {
         return mapper.getBoardUpdateData(boardId);
     }
 
-    public int checkUser(int boardId, String username) {
+    public int checkUser(int boardId, Authentication authentication) {
+        for (GrantedAuthority authority : authentication.getAuthorities()) {
+            if(authority.getAuthority().equals("ROLE_ADMIN")) {
+                return 1;
+            }
+        }
+
         String writerName = mapper.getBoard(boardId).getWriter();
-        if(writerName.equals(username)) {
+        if (writerName.equals(authentication.getName())) {
             return 1;
         } else {
             return 0;
@@ -115,7 +132,7 @@ public class BoardService {
         if (myLike.isEmpty()) {
             return 0;
         } else {
-            if(myLike.get() == 1) {
+            if (myLike.get() == 1) {
                 return 1;
             } else {
                 return 0;

@@ -40,6 +40,10 @@ document.querySelector('main ul').addEventListener('click', function (event) {
     }
 })
 
+document.querySelector('.sort').addEventListener('input', function () {
+    게시글리스트불러오기();
+})
+
 /**
  * 함수 시작
  */
@@ -76,9 +80,9 @@ async function 게시글리스트불러오기() {
     const dataToSend = {
         page: urlParams.get('page'),
         keyword: urlParams.get('keyword'),
-        sort: urlParams.get('sort')
+        sort: document.querySelector('.sort').value,
+        searchSort: urlParams.get('searchSort')
     }
-
     await fetch(url + '/board/getBoardList', {
         method: 'POST',
         headers: {
@@ -93,6 +97,8 @@ async function 게시글리스트불러오기() {
             return response.json();
         })
         .then(data => {
+            document.querySelector('main ul').innerHTML = '';
+            document.querySelector('.pageNumberDiv').innerHTML = '';
             document.querySelector('main ul').insertAdjacentHTML('beforeend', '<hr>');
             if (data.maxPage == 0) {
                 var 메시지 =
@@ -151,7 +157,8 @@ async function 게시글리스트불러오기() {
 function 검색() {
     var keyword = document.querySelector('.searchInput').value;
     var searchSort = document.querySelector('.searchSort').value;
-    var searchURL = "/board?page=1&keyword=" + keyword + "&sort=" + searchSort;
+
+    var searchURL = "/board?page=1&keyword=" + keyword + "&searchSort=" + searchSort;
     if (keyword != '') {
         window.location.href = searchURL;
     }

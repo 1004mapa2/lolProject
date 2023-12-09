@@ -13,11 +13,11 @@
                  LEFT JOIN BOARD_COMMENT Y ON X.ID = Y.BOARDID
         <where>
             <if test="keyword != null">
-                AND ${sort} LIKE '%'||#{keyword}||'%'
+                AND ${searchSort} LIKE '%'||#{keyword}||'%'
             </if>
         </where>
         GROUP BY X.ID, X.TITLE, X.CONTENT, X.WRITER, X.WRITETIME, X.VIEWCOUNT, X.LIKECOUNT, Y.BOARDID
-        ORDER BY ID DESC OFFSET #{startNumber} ROWS FETCH NEXT #{numberOfPage} ROWS ONLY
+        ORDER BY ${sort} DESC OFFSET #{startNumber} ROWS FETCH NEXT #{numberOfPage} ROWS ONLY
     </select>
 
     <insert id="postBoard" parameterType="com.lol.domain.Board">
@@ -30,7 +30,7 @@
 
         <where>
             <if test="keyword != null">
-                AND ${sort} LIKE '%'||#{keyword}||'%'
+                AND ${searchSort} LIKE '%'||#{keyword}||'%'
             </if>
         </where>
     </select>
