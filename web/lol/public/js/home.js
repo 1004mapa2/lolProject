@@ -114,8 +114,8 @@ document.addEventListener("drop", function (event) {
 // rightDiv
 function ALLTIER받아오기() {
     const dataToSend = {};
-    sortValue = document.querySelector('.sortP').value;
-    tierValue = document.querySelector('.tierP').value;
+    var sortValue = document.querySelector('.sortP').value;
+    var tierValue = document.querySelector('.tierP').value;
 
     if (sortValue == '승률 순') {
         sortValue = 'WINRATE';
