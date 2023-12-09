@@ -33,6 +33,18 @@ public class BoardController {
         return boardService.getBoard(boardId, req, res);
     }
 
+    @GetMapping("/getBoardUpdateData")
+    public PostBoardDto getBoardUpdateData(@RequestParam("boardId") int boardId) {
+
+        return boardService.getBoardUpdateData(boardId);
+    }
+
+    @GetMapping("/checkUser")
+    public int checkUser(@RequestParam int boardId, Authentication authentication) {
+
+        return boardService.checkUser(boardId, authentication.getName());
+    }
+
     @DeleteMapping("/deleteBoard/{boardId}")
     public void deleteBoard(@PathVariable int boardId) {
         boardService.deleteBoard(boardId);
@@ -41,7 +53,6 @@ public class BoardController {
     @PatchMapping("/updateBoard/{boardId}")
     public void updateBoard(@PathVariable int boardId, @RequestBody PostBoardDto postBoardDto) {
         boardService.updateBoard(boardId, postBoardDto);
-
     }
 
     @PostMapping("/postComment")
@@ -57,6 +68,7 @@ public class BoardController {
 
     @GetMapping("/getMyLike")
     public int getMyLike(@RequestParam("boardId") int boardId, Authentication authentication) {
+
         return boardService.getMyLike(boardId, authentication.getName());
     }
 

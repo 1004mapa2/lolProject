@@ -70,6 +70,20 @@ public class BoardService {
         return boardViewDto;
     }
 
+    public PostBoardDto getBoardUpdateData(int boardId) {
+
+        return mapper.getBoardUpdateData(boardId);
+    }
+
+    public int checkUser(int boardId, String username) {
+        String writerName = mapper.getBoard(boardId).getWriter();
+        if(writerName.equals(username)) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
     public void deleteBoard(int boardId) {
         mapper.deleteBoard(boardId);
     }

@@ -33,7 +33,7 @@ ul {
 }
 
 .adjustBoardDiv {
-    display: flex;
+    display: none;
     justify-content: end;
 }
 

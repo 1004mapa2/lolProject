@@ -21,6 +21,8 @@ public interface BoardMapper {
 
     public Board getBoard(int boardId);
 
+    public PostBoardDto getBoardUpdateData(int boardId);
+
     public void deleteBoard(int boardId);
 
     public void updateBoard(PostBoardDto postBoardDto);

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 public class JwtController {
 
     private final LoginService loginService;
-    private final RedisRepository redisRepository;
+//    private final RedisRepository redisRepository;
 
     @PostMapping("/registerUser")
     public void join(@RequestBody UserDto userDto) {
@@ -48,18 +48,14 @@ public class JwtController {
     public void test() {
     }
 
-    @GetMapping("/refresh")
-    public void refresh() {
-    }
-
     @GetMapping("/logout")
     public void logout(HttpServletRequest request) {
         loginService.logout(request);
     }
 
-    @GetMapping("/getToken")
-    public String getToken() {
-        String tokens = redisRepository.findAll().toString();
-        return tokens;
-    }
+//    @GetMapping("/getToken")
+//    public String getToken() {
+//        String tokens = redisRepository.findAll().toString();
+//        return tokens;
+//    }
 }
