@@ -10,5 +10,7 @@ public interface LoginMapper {
 
     public void registerUser(UserDto userDto);
 
-    public Optional<UserDto> findByUsername(String username);
+    public Optional<UserDto> findByUser(String username);
+
+    public void updateUser(String newPassword, String username);
 }

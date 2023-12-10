@@ -1,9 +1,11 @@
 package com.lol.controller;
 
 import com.lol.dto.UserDto;
+import com.lol.dto.user.UserUpdateDto;
 import com.lol.repository.RedisRepository;
 import com.lol.service.LoginService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,10 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 public class JwtController {
 
     private final LoginService loginService;
-//    private final RedisRepository redisRepository;
 
     @PostMapping("/registerUser")
-    public void join(@RequestBody UserDto userDto) {
+    public void registerUser(@RequestBody UserDto userDto) {
         loginService.registerUser(userDto);
     }
 
@@ -32,20 +33,8 @@ public class JwtController {
     public void login() {
     }
 
-    @GetMapping("/user")
-    public void user() {
-    }
-
-    @GetMapping("/manager")
-    public void manager() {
-    }
-
-    @GetMapping("/admin")
-    public void admin() {
-    }
-
     @GetMapping("/init")
-    public void test() {
+    public void init() {
     }
 
     @GetMapping("/logout")
@@ -53,9 +42,16 @@ public class JwtController {
         loginService.logout(request);
     }
 
-//    @GetMapping("/getToken")
-//    public String getToken() {
-//        String tokens = redisRepository.findAll().toString();
-//        return tokens;
-//    }
+    @GetMapping("/getMyPage")
+    public String getMyPage(Authentication authentication) {
+        if(authentication != null) {
+            return authentication.getName();
+        }
+        return null;
+    }
+
+    @PostMapping("/updateUser")
+    public int updateUser(@RequestBody UserUpdateDto userUpdateDto, Authentication authentication) {
+        return loginService.updateUser(userUpdateDto, authentication.getName());
+    }
 }

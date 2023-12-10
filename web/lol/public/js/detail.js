@@ -34,9 +34,7 @@ async function 엑세스토큰검증() {
 
 
 document.querySelector('.loginDiv').addEventListener('click', function () {
-    if (this.innerHTML == '로그인') {
-        window.location.href = "/login";
-    } else {
+    if (this.innerHTML == '로그아웃') {
         fetch(url + '/api/logout', {
             method: 'GET',
             headers: {
@@ -44,7 +42,7 @@ document.querySelector('.loginDiv').addEventListener('click', function () {
             }
         })
         localStorage.removeItem('jwtToken');
-        location.reload();
+        this.href = '/';
     }
 })
 

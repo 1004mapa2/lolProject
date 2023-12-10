@@ -2,6 +2,7 @@ package com.lol.service;
 
 import com.lol.dto.Token;
 import com.lol.dto.UserDto;
+import com.lol.dto.user.UserUpdateDto;
 import com.lol.repository.LoginMapper;
 import com.lol.repository.RedisRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,7 @@ public class LoginService {
     }
 
     public int usernameDuplicateCheck(String username) {
-        Optional<UserDto> userDto = mapper.findByUsername(username);
+        Optional<UserDto> userDto = mapper.findByUser(username);
         if (userDto.isPresent()) {
             return 1;
         } else {
@@ -41,6 +42,16 @@ public class LoginService {
         Token token = redisRepository.findByAccessToken(jws).orElseGet(() -> null);
         if (token != null) {
             redisRepository.delete(token);
+        }
+    }
+
+    public int updateUser(UserUpdateDto userUpdateDto, String username) {
+        if (passwordEncoder.matches(userUpdateDto.getOriginalPassword(), mapper.findByUser(username).get().getPassword())) {
+            String encryptedPassword = passwordEncoder.encode(userUpdateDto.getNewPassword());
+            mapper.updateUser(encryptedPassword, username);
+            return 1;
+        } else {
+            return 0;
         }
     }
 }

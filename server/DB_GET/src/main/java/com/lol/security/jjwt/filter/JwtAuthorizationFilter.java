@@ -82,7 +82,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     private void setAuthenticationToContext(Map<String, Object> claims) {
         String username = (String) claims.get("username");
-        Optional<UserDto> optionalUserDto = mapper.findByUsername(username);
+        Optional<UserDto> optionalUserDto = mapper.findByUser(username);
         UserDto userDto = optionalUserDto.orElseThrow(() -> new NullPointerException());
         CustomUserDetails customUserDetails = new CustomUserDetails(userDto);
         Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, customUserDetails.getAuthorities());
