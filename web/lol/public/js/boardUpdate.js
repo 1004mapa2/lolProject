@@ -44,8 +44,8 @@ async function 엑세스토큰검증() {
         })
             .then(response => {
                 if (response.headers.get('Authorization') != null) {
-                    const token = response.headers.get('Authorization');
-                    localStorage.setItem('jwtToken', token);
+                    jwtToken = response.headers.get('Authorization');
+                    localStorage.setItem('jwtToken', jwtToken);
                     document.querySelector('.loginDiv').innerHTML = '로그아웃';
                     document.querySelector('.myPage').style.display = 'block';
                 } else {

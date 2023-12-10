@@ -1,6 +1,10 @@
 package com.lol.repository;
 
-import com.lol.dto.*;
+import com.lol.domain.ChampionName;
+import com.lol.domain.Combination_Comment;
+import com.lol.dto.detail.ChampionsDto;
+import com.lol.dto.main.ReceiveDto;
+import com.lol.dto.main.TierDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -11,7 +15,7 @@ public interface LolMapper {
 
     public List<TierDto> getEachTierDtos(ReceiveDto receiveDto);
 
-    public List<ChampionNameDto> getChampionNameDtos(String input);
+    public List<ChampionName> getChampionNameDtos(String input);
 
     public TierDto getDetailInfo(int comsaveId);
 
@@ -21,17 +25,10 @@ public interface LolMapper {
 
     public String getChampionKorName(String championName);
 
-//    public List<TierDto> getAlltierLoseComsave(String comsaveId);
-//
-//    public TierDto getAlltierSelectComsave(String comsaveId);
-//
-//    public List<TierDto> getLoseComsave(String tier, String comsaveId);
-//
-//    public TierDto getSelectComsave(String tier, String comsaveId);
 
     public void saveComment(Combination_Comment combinationComment);
 
-    public List<Combination_Comment> getComment(int comsaveId, int page, int numberOfPage);
+    public List<Combination_Comment> getComment(int comsaveId, int showPage, int numberOfPage);
 
     public int getMaxPage(int comsaveId);
 }

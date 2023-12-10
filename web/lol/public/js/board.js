@@ -60,8 +60,8 @@ function 엑세스토큰검증() {
         })
             .then(response => {
                 if (response.headers.get('Authorization') != null) {
-                    const token = response.headers.get('Authorization');
-                    localStorage.setItem('jwtToken', token);
+                    jwtToken = response.headers.get('Authorization');
+                    localStorage.setItem('jwtToken', jwtToken);
                     document.querySelector('.loginDiv').innerHTML = '로그아웃';
                     document.querySelector('.myPage').style.display = 'block';
                 } else {
@@ -71,7 +71,6 @@ function 엑세스토큰검증() {
             })
     } else {
         document.querySelector('.loginDiv').innerHTML = '로그인';
-        document.querySelector('.writingButton').style.display = 'none';
     }
 }
 
@@ -155,8 +154,8 @@ async function 게시글리스트불러오기() {
 }
 
 function 검색() {
-    var keyword = document.querySelector('.searchInput').value;
-    var searchSort = document.querySelector('.searchSort').value;
+    const keyword = document.querySelector('.searchInput').value;
+    const searchSort = document.querySelector('.searchSort').value;
 
     var searchURL = "/board?page=1&keyword=" + keyword + "&searchSort=" + searchSort;
     if (keyword != '') {

@@ -44,6 +44,11 @@
 header a {
     text-decoration: none; /*밑줄 지우기*/
     color: #FFFFFF;
+    /* 드래그 방지 */
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
 }
 
 header nav {

@@ -1,6 +1,6 @@
 package com.lol.repository;
 
-import com.lol.dto.UserDto;
+import com.lol.dto.user.UserAccount;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Optional;
@@ -8,9 +8,9 @@ import java.util.Optional;
 @Mapper
 public interface LoginMapper {
 
-    public void registerUser(UserDto userDto);
+    public void registerUser(UserAccount userAccount);
 
-    public Optional<UserDto> findByUser(String username);
+    public Optional<UserAccount> findByUser(String username);
 
     public void updateUser(String newPassword, String username);
 }

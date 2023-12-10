@@ -1,4 +1,4 @@
-package com.lol.dto;
+package com.lol.dto.user;
 
 import lombok.Data;
 
@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Data
-public class UserDto {
+public class UserAccount {
 
     private int id;
     private String username;

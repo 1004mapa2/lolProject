@@ -3,35 +3,8 @@ const url = 'http://localhost:8081';
 document.addEventListener("DOMContentLoaded", function () {
     엑세스토큰검증();
     댓글불러오기();
-    파라미터보내기();
+    조합정보가져오기();
 })
-
-async function 엑세스토큰검증() {
-    var jwtToken = localStorage.getItem('jwtToken');
-
-    if (jwtToken != "null" && jwtToken != null) {
-        await fetch(url + '/api/init', {
-            method: 'GET',
-            headers: {
-                'Authorization': localStorage.getItem('jwtToken'),
-            },
-            credentials: 'include'
-        })
-            .then(response => {
-                if (response.headers.get('Authorization') != null) {
-                    const token = response.headers.get('Authorization');
-                    localStorage.setItem('jwtToken', token);
-                    document.querySelector('.loginDiv').innerHTML = '로그아웃';
-                } else {
-                    document.querySelector('.loginDiv').innerHTML = '로그아웃';
-                }
-            })
-    } else {
-        document.querySelector('.loginDiv').innerHTML = '로그인';
-    }
-}
-
-
 
 document.querySelector('.loginDiv').addEventListener('click', function () {
     if (this.innerHTML == '로그아웃') {
@@ -46,11 +19,87 @@ document.querySelector('.loginDiv').addEventListener('click', function () {
     }
 })
 
-function 파라미터보내기() {
+document.querySelectorAll('.tierDiv').forEach(function (element) {
+    element.addEventListener('mouseover', function () {
+        this.classList.add('backColor');
+    })
+})
+
+document.querySelectorAll('.tierDiv').forEach(function (element) {
+    element.addEventListener('mouseout', function () {
+        this.classList.remove('backColor');
+    })
+})
+
+document.querySelector('.allTierDiv').addEventListener('mouseover', function () {
+    this.classList.add('backColor');
+})
+
+document.querySelector('.allTierDiv').addEventListener('mouseout', function () {
+    this.classList.remove('backColor');
+})
+
+document.querySelectorAll('.tierDiv').forEach(function (element) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const comsaveId = urlParams.get('comsaveId');
+    var tier = "";
+    element.addEventListener('click', function () {
+        if (this.querySelector('p').innerHTML == '챌린저') {
+            tier = "CHALLENGER";
+        } else if (this.querySelector('p').innerHTML == '그랜드마스터') {
+            tier = "GRANDMASTER";
+        } else if (this.querySelector('p').innerHTML == '마스터') {
+            tier = "MASTER";
+        } else if (this.querySelector('p').innerHTML == '다이아몬드') {
+            tier = "DIAMOND";
+        }
+        티어바꾸기(comsaveId, tier);
+    })
+})
+
+document.querySelector('.allTierDiv').addEventListener('click', function () {
     const urlParams = new URLSearchParams(window.location.search);
     var comsaveId = urlParams.get('comsaveId');
-    var tier = urlParams.get('tier');
-    fetch(url + `/getDetailInfo?comsaveId=${comsaveId}&tier=${tier}`)
+    var tier = "ALLTIER";
+    티어바꾸기(comsaveId, tier);
+})
+
+document.querySelector('.commentButton').addEventListener('click', async function () {
+    await 엑세스토큰검증();
+    await 댓글저장();
+    댓글불러오기();
+})
+
+/**
+ * 함수 시작
+ */
+async function 엑세스토큰검증() {
+    var jwtToken = localStorage.getItem('jwtToken');
+
+    if (jwtToken != "null" && jwtToken != null) {
+        await fetch(url + '/api/init', {
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('jwtToken'),
+            },
+            credentials: 'include'
+        })
+            .then(response => {
+                if (response.headers.get('Authorization') != null) {
+                    jwtToken = response.headers.get('Authorization');
+                    localStorage.setItem('jwtToken', jwtToken);
+                    document.querySelector('.loginDiv').innerHTML = '로그아웃';
+                } else {
+                    document.querySelector('.loginDiv').innerHTML = '로그아웃';
+                }
+            })
+    } else {
+        document.querySelector('.loginDiv').innerHTML = '로그인';
+    }
+}
+
+function 조합정보가져오기() {
+    fetch(url + "/getDetailInfo" + window.location.search)
         .then(response => {
             if (!response.ok) {
                 throw new Error('http 오류: ' + response.status);
@@ -101,15 +150,10 @@ function 파라미터보내기() {
             document.querySelector('.pickComBox').insertAdjacentHTML('afterbegin', 선택조합);
 
             document.querySelector('.pickCountBox').innerHTML = data.pickCount;
-            document.querySelector('.winRateBox').innerHTML = data.winRate + '%';
+            const winRate = Math.round(data.winRate * 100);
+            document.querySelector('.winRateBox').innerHTML = winRate + '%';
         })
 }
-
-document.querySelector('.commentButton').addEventListener('click', async function () {
-    await 엑세스토큰검증();
-    await 댓글저장();
-    await 댓글불러오기();
-})
 
 async function 댓글저장() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -133,20 +177,14 @@ async function 댓글저장() {
         })
 }
 
-async function 댓글불러오기() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const dataToSend = {
-        comsaveId: urlParams.get('comsaveId'),
-        page: urlParams.get('page')
-    }
-    await fetch(url + '/getComment', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(dataToSend)
+function 댓글불러오기() {
+    fetch(url + '/getComment' + window.location.search, {
+        method: 'GET'
     })
         .then(response => {
+            if (!response.ok) {
+                throw new Error('http 오류: ' + response.status);
+            }
 
             return response.json();
         })
@@ -155,7 +193,7 @@ async function 댓글불러오기() {
             document.querySelector('.pageNumberDiv').innerHTML = "";
             if (data.page == 0) {
                 var 메시지 =
-                `
+                    `
                 <div>
                     댓글이 없습니다.
                 </div>
@@ -185,62 +223,9 @@ async function 댓글불러오기() {
         })
 }
 
-document.querySelectorAll('.tierDiv').forEach(function (element) {
-    element.addEventListener('mouseover', function () {
-        this.classList.add('backColor');
-    })
-})
-
-document.querySelectorAll('.tierDiv').forEach(function (element) {
-    element.addEventListener('mouseout', function () {
-        this.classList.remove('backColor');
-    })
-})
-
-document.querySelector('.allTierDiv').addEventListener('mouseover', function () {
-    this.classList.add('backColor');
-})
-
-document.querySelector('.allTierDiv').addEventListener('mouseout', function () {
-    this.classList.remove('backColor');
-})
-
-document.querySelectorAll('.tierDiv').forEach(function (element) {
-    const urlParams = new URLSearchParams(window.location.search);
-    var comsaveId = urlParams.get('comsaveId');
-    var tier = "";
-    element.addEventListener('click', function () {
-        if (this.querySelector('p').innerHTML == '챌린저') {
-            tier = "CHALLENGER";
-        } else if (this.querySelector('p').innerHTML == '그랜드마스터') {
-            tier = "GRANDMASTER";
-        } else if (this.querySelector('p').innerHTML == '마스터') {
-            tier = "MASTER";
-        } else if (this.querySelector('p').innerHTML == '다이아몬드') {
-            tier = "DIAMOND";
-        }
-        티어바꾸기(comsaveId, tier);
-    })
-})
-
-document.querySelector('.allTierDiv').addEventListener('click', function () {
-    const urlParams = new URLSearchParams(window.location.search);
-    var comsaveId = urlParams.get('comsaveId');
-    var tier = "ALLTIER";
-    티어바꾸기(comsaveId, tier);
-})
-
 function 티어바꾸기(comsaveIdValue, tierValue) {
-    var dataToSend = {
-        comsaveId: comsaveIdValue,
-        tier: tierValue
-    }
-    fetch(url + '/getDetailInfoDynamic', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(dataToSend)
+    fetch(url + '/getDetailInfoDynamic' + "?comsaveId=" + comsaveIdValue + "&tier=" + tierValue, {
+        method: 'GET'
     })
         .then(response => {
             if (!response.ok) {
@@ -250,6 +235,7 @@ function 티어바꾸기(comsaveIdValue, tierValue) {
         })
         .then(data => {
             document.querySelector('.pickCountBox').innerHTML = data.pickCount;
-            document.querySelector('.winRateBox').innerHTML = data.winRate + '%';
+            const winRate = Math.round(data.winRate * 100);
+            document.querySelector('.winRateBox').innerHTML = winRate + '%';
         })
 }

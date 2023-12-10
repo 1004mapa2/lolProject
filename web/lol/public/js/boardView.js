@@ -21,14 +21,12 @@ document.querySelector('.loginDiv').addEventListener('click', function () {
 
 document.querySelector('.commentButton').addEventListener('click', async function () {
     await 엑세스토큰검증();
-    await 댓글저장();
-    게시글불러오기();
+    댓글저장();
 })
 
 document.querySelector('.likeButton').addEventListener('click', async function () {
     await 엑세스토큰검증();
-    await 좋아요저장();
-    좋아요불러오기();
+    좋아요저장();
 })
 
 document.querySelector('.boardHeaderBodyDiv').addEventListener('click', async function (event) {
@@ -57,8 +55,8 @@ async function 엑세스토큰검증() {
         })
             .then(response => {
                 if (response.headers.get('Authorization') != null) {
-                    const token = response.headers.get('Authorization');
-                    localStorage.setItem('jwtToken', token);
+                    jwtToken = response.headers.get('Authorization');
+                    localStorage.setItem('jwtToken', jwtToken);
                     document.querySelector('.loginDiv').innerHTML = '로그아웃';
                     document.querySelector('.myPage').style.display = 'block';
                 } else {
@@ -134,7 +132,7 @@ function 권한체크() {
         }
     })
         .then(response => {
-            if (!response.ok) {
+            if (!response.status == 401) {
                 throw new Error('http 오류: ' + response.status);
             }
             return response.json();
@@ -160,25 +158,25 @@ function 좋아요불러오기() {
             document.querySelector('.likeCountP').innerHTML = data;
         })
 
-    fetch(url + '/board/getMyLike' + window.location.search, {
-        method: 'GET',
-        headers: {
-            'Authorization': localStorage.getItem('jwtToken')
-        }
-    })
-        .then(response => {
-            if (response.status == 401) {
-                document.querySelector('.likeShapeP').innerHTML = '♡';
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data == 1) {
-                document.querySelector('.likeShapeP').innerHTML = '♥';
-            } else {
-                document.querySelector('.likeShapeP').innerHTML = '♡';
+        fetch(url + '/board/getMyLike' + window.location.search, {
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('jwtToken')
             }
         })
+            .then(response => {
+                if (response.status == 401) {
+                    document.querySelector('.likeShapeP').innerHTML = '♡';
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data == 1) {
+                    document.querySelector('.likeShapeP').innerHTML = '♥';
+                } else {
+                    document.querySelector('.likeShapeP').innerHTML = '♡';
+                }
+            })
 }
 
 async function 좋아요저장() {
@@ -191,6 +189,8 @@ async function 좋아요저장() {
         .then(response => {
             if (response.status == 401) {
                 alert('로그인 하세요');
+            } else if(response.ok) {
+                좋아요불러오기();
             }
         })
 }
@@ -213,6 +213,8 @@ async function 댓글저장() {
             document.querySelector('.commentText').value = '';
             if (response.status == 401) {
                 alert('로그인 하세요');
+            } else if(response.ok) {
+                게시글불러오기();
             }
         })
 }

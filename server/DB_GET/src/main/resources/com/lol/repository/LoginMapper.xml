@@ -4,12 +4,12 @@
 
 <mapper namespace="com.lol.repository.LoginMapper">
 
-    <insert id="registerUser" parameterType="com.lol.dto.UserDto">
+    <insert id="registerUser" parameterType="com.lol.dto.user.UserAccount">
         INSERT INTO USERACCOUNT(ID, USERNAME, PASSWORD, ROLE)
         VALUES(USERACCOUNT_AUTOINC.NEXTVAL, #{username}, #{password}, #{role})
     </insert>
 
-    <select id="findByUser" resultType="com.lol.dto.UserDto" parameterType="String">
+    <select id="findByUser" resultType="com.lol.dto.user.UserAccount" parameterType="String">
         SELECT * FROM USERACCOUNT WHERE USERNAME= #{username}
     </select>
 
