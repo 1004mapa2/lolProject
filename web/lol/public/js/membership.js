@@ -82,7 +82,7 @@ document.querySelector('.password2Input').addEventListener('blur', function () {
     회원가입허용();
 })
 
-document.querySelector('.loginButton').addEventListener('click', function () {
+document.querySelector('.submitButton').addEventListener('click', function () {
     회원가입();
 })
 
@@ -90,7 +90,7 @@ function 회원가입허용() {
     var errMsg1 = document.querySelector('.idErrorMessage').innerHTML;
     var errMsg2 = document.querySelector('.password1ErrorMessage').innerHTML;
     var errMsg3 = document.querySelector('.password2ErrorMessage').innerHTML;
-    var loginButton = document.querySelector('.loginButton');
+    var loginButton = document.querySelector('.submitButton');
 
     if (errMsg1 == "사용 가능한 아이디입니다." &&
         errMsg2 == '사용 가능한 비밀번호입니다.' &&

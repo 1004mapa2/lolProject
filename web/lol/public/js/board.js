@@ -34,9 +34,9 @@ document.querySelector('.searchInput').addEventListener('keyup', function (event
 
 document.querySelector('main ul').addEventListener('click', function (event) {
     if (event.target.classList.contains("upperDiv")) {
-    var boardId = event.target.parentNode.querySelector('input').value;
-    var boardViewURL = "/boardView?boardId=" + boardId;
-    window.location.href = boardViewURL;
+        var boardId = event.target.parentNode.querySelector('input').value;
+        var boardViewURL = "/boardView?boardId=" + boardId;
+        window.location.href = boardViewURL;
     }
 })
 

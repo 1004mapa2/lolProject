@@ -36,7 +36,7 @@ input {
     display: none;
 }
 
-.loginButton {
+.submitButton {
     height: 40px;
     font-size: 20px;
     color: #FFFFFF;
@@ -45,7 +45,7 @@ input {
     transition: all 0.5s;
 }
 
-.loginButton:hover {
+.submitButton:hover {
     cursor: pointer;
 }
 
