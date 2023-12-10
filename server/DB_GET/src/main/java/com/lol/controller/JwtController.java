@@ -1,8 +1,7 @@
 package com.lol.controller;
 
-import com.lol.dto.UserDto;
+import com.lol.dto.user.UserAccount;
 import com.lol.dto.user.UserUpdateDto;
-import com.lol.repository.RedisRepository;
 import com.lol.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -18,13 +17,13 @@ public class JwtController {
     private final LoginService loginService;
 
     @PostMapping("/registerUser")
-    public void registerUser(@RequestBody UserDto userDto) {
-        loginService.registerUser(userDto);
+    public void registerUser(@RequestBody UserAccount userAccount) {
+        loginService.registerUser(userAccount);
     }
 
     @PostMapping("/usernameDuplicateCheck")
-    public int usernameDuplicateCheck(@RequestBody UserDto userDto) {
-        int result = loginService.usernameDuplicateCheck(userDto.getUsername());
+    public int usernameDuplicateCheck(@RequestBody UserAccount userAccount) {
+        int result = loginService.usernameDuplicateCheck(userAccount.getUsername());
 
         return result;
     }

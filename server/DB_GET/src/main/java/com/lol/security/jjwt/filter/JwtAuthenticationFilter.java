@@ -2,11 +2,10 @@ package com.lol.security.jjwt.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lol.dto.Token;
-import com.lol.dto.UserDto;
+import com.lol.dto.user.UserAccount;
 import com.lol.repository.RedisRepository;
 import com.lol.security.jjwt.auth.JwtTokenizer;
 import com.lol.security.jjwt.auth.CustomUserDetails;
-import com.lol.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,9 +34,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            UserDto userDto = objectMapper.readValue(request.getInputStream(), UserDto.class);
+            UserAccount userAccount = objectMapper.readValue(request.getInputStream(), UserAccount.class);
             UsernamePasswordAuthenticationToken authenticationToken =
-                    new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword());
+                    new UsernamePasswordAuthenticationToken(userAccount.getUsername(), userAccount.getPassword());
 
             //PrincipalDetailsService 의 loadUserByUsername() 함수가 실행된다.
             //authentication 에 정보가 있다면 DB에 있는 username 과 password 가 일치한다는 뜻

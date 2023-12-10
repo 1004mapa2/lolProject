@@ -1,7 +1,7 @@
 package com.lol.service;
 
 import com.lol.dto.Token;
-import com.lol.dto.UserDto;
+import com.lol.dto.user.UserAccount;
 import com.lol.dto.user.UserUpdateDto;
 import com.lol.repository.LoginMapper;
 import com.lol.repository.RedisRepository;
@@ -20,16 +20,16 @@ public class LoginService {
     private final LoginMapper mapper;
     private final RedisRepository redisRepository;
 
-    public void registerUser(UserDto userDto) {
+    public void registerUser(UserAccount userAccount) {
         // 중복 확인 로직 넣기
-        String encryptedPassword = passwordEncoder.encode(userDto.getPassword());
-        userDto.setPassword(encryptedPassword);
-        userDto.setRole("ROLE_USER");
-        mapper.registerUser(userDto);
+        String encryptedPassword = passwordEncoder.encode(userAccount.getPassword());
+        userAccount.setPassword(encryptedPassword);
+        userAccount.setRole("ROLE_USER");
+        mapper.registerUser(userAccount);
     }
 
     public int usernameDuplicateCheck(String username) {
-        Optional<UserDto> userDto = mapper.findByUser(username);
+        Optional<UserAccount> userDto = mapper.findByUser(username);
         if (userDto.isPresent()) {
             return 1;
         } else {

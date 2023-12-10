@@ -47,6 +47,12 @@ public class BoardService {
         List<BoardListAllInfoDto> boardList = mapper.getBoardList(searchDto);
         int maxPage = (int) Math.ceil((double) mapper.getMaxPage(searchDto) / searchDto.getNumberOfPage());
 
+        // 같은 분에서 정렬하고 초는 빼고 다시 설정
+        for(BoardListAllInfoDto boardListAllInfoDto : boardList) {
+            LocalDateTime writeTime = LocalDateTime.parse(boardListAllInfoDto.getWriteTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            boardListAllInfoDto.setWriteTime(writeTime.format(DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm")));
+        }
+
         PageBoardDto pageBoardDto = new PageBoardDto();
         pageBoardDto.setMaxPage(maxPage);
         pageBoardDto.setBoardList(boardList);
@@ -57,7 +63,7 @@ public class BoardService {
     public void postBoard(PostBoardDto postBoardDto, String username) {
         Board board = new Board();
         LocalDateTime now = LocalDateTime.now();
-        String formatNowTime = now.format(DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm"));
+        String formatNowTime = now.format(DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm:ss"));
 
         board.setTitle(postBoardDto.getTitle());
         board.setContent(postBoardDto.getContent());

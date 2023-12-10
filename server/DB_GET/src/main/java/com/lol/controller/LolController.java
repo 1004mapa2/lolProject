@@ -1,10 +1,12 @@
 package com.lol.controller;
 
 import com.google.gson.Gson;
-import com.lol.dto.*;
+import com.lol.domain.ChampionName;
+import com.lol.dto.detail.Combination_CommentDto;
+import com.lol.dto.main.ReceiveDto;
+import com.lol.dto.main.TierDto;
 import com.lol.service.LolService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,54 +18,41 @@ public class LolController {
 
     private final LolService lolService;
     @PostMapping("/getTierInfo")
-    public String getTierInfo(@RequestBody ReceiveDto data){
-        Gson gson = new Gson();
-        List<TierDto> TierInfo = lolService.getTierInfo(data);
-        String json = gson.toJson(TierInfo);
+    public List<TierDto> getTierInfo(@RequestBody ReceiveDto data){
 
-        return json;
+        return lolService.getTierInfo(data);
     }
 
     @PostMapping("/getChampionNameInfo")
-    public String getChampionNameInfo(@RequestBody String data){
+    public List<ChampionName> getChampionNameInfo(@RequestBody String data){
         Gson gson = new Gson();
         String reData = gson.fromJson(data, String.class);
-        List<ChampionNameDto> championNameInfo = lolService.getChampionNameInfo(reData);
-        String json = gson.toJson(championNameInfo);
 
-        return json;
+        return lolService.getChampionNameInfo(reData);
     }
 
     @GetMapping("/getDetailInfo")
-    public String getDetailInfo(@RequestParam("comsaveId") int comsaveId, @RequestParam("tier") String tier){
-        Gson gson = new Gson();
+    public TierDto getDetailInfo(@RequestParam("comsaveId") int comsaveId, @RequestParam("tier") String tier){
         TierDto detailInfo = lolService.getDetailInfo(comsaveId, tier);
         detailInfo.setChampionKorNames(lolService.get5ChampionName(comsaveId));
-        String json = gson.toJson(detailInfo);
 
-        return json;
+        return detailInfo;
     }
 
-    @PostMapping("/getDetailInfoDynamic")
-    public String getDetailInfoDynamic(@RequestBody DetailDto detailDto){
-        Gson gson = new Gson();
-        TierDto detailInfo = lolService.getDetailInfo(detailDto.getComsaveId(), detailDto.getTier());
-        String json = gson.toJson(detailInfo);
+    @GetMapping("/getDetailInfoDynamic")
+    public TierDto getDetailInfoDynamic(@RequestParam("comsaveId") int comsaveId, @RequestParam("tier") String tier){
 
-        return json;
+        return lolService.getDetailInfo(comsaveId, tier);
     }
 
     @PostMapping("/saveComment")
     public void saveComment(@RequestBody Combination_CommentDto commentDto, Authentication authentication) {
-        lolService.saveComment(commentDto, authentication);
+        lolService.saveComment(commentDto, authentication.getName());
     }
 
-    @PostMapping("/getComment")
-    public String getComment(@RequestBody Combination_CommentDto commentDto) {
-        Gson gson = new Gson();
-        Combination_CommentDto commentData = lolService.getComment(commentDto);
-        String json = gson.toJson(commentData);
+    @GetMapping("/getComment")
+    public Combination_CommentDto getComment(@RequestParam("comsaveId") int comsaveId, @RequestParam("page") int page) {
 
-        return json;
+        return lolService.getComment(comsaveId, page);
     }
 }

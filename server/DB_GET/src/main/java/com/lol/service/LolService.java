@@ -1,9 +1,13 @@
 package com.lol.service;
 
-import com.lol.dto.*;
+import com.lol.domain.ChampionName;
+import com.lol.domain.Combination_Comment;
+import com.lol.dto.detail.ChampionsDto;
+import com.lol.dto.detail.Combination_CommentDto;
+import com.lol.dto.main.ReceiveDto;
+import com.lol.dto.main.TierDto;
 import com.lol.repository.LolMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -41,7 +45,7 @@ public class LolService {
         }
     }
 
-    public List<ChampionNameDto> getChampionNameInfo(String data) {
+    public List<ChampionName> getChampionNameInfo(String data) {
 
         return mapper.getChampionNameDtos(data);
     }
@@ -52,18 +56,6 @@ public class LolService {
         } else {
             return mapper.getDetailInfo_tier(comsaveId, tier);
         }
-//        List<TierDto> loseComsave;
-//        TierDto selectComsave;
-//        if(tier.equals("ALLTIER")){
-//            loseComsave = mapper.getAlltierLoseComsave(comsaveId);
-//            selectComsave = mapper.getAlltierSelectComsave(comsaveId);
-//        } else {
-//            loseComsave = mapper.getLoseComsave(tier, comsaveId);
-//            selectComsave = mapper.getSelectComsave(tier, comsaveId);
-//        }
-//        loseComsave.add(0, selectComsave);
-//
-//        return loseComsave;
     }
 
     public List<String> get5ChampionName(int comsaveId) { // 반복문 쓰는 법 찾아보기
@@ -78,28 +70,26 @@ public class LolService {
         return championKorNames;
     }
 
-    public void saveComment(Combination_CommentDto commentDto, Authentication authentication) {
+    public void saveComment(Combination_CommentDto commentDto, String username) {
+        LocalDateTime now = LocalDateTime.now();
+        String formatNowTime = now.format(DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm"));
+
         Combination_Comment combinationComment = new Combination_Comment();
         combinationComment.setContent(commentDto.getContent());
         combinationComment.setComsaveId(commentDto.getComsaveId());
-        combinationComment.setUsername(authentication.getName());
-
-        LocalDateTime now = LocalDateTime.now();
-        String formatNowTime = now.format(DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm"));
+        combinationComment.setUsername(username);
         combinationComment.setWriteTime(formatNowTime);
+
         mapper.saveComment(combinationComment);
     }
 
-    public Combination_CommentDto getComment(Combination_CommentDto commentDto) {
+    public Combination_CommentDto getComment(int comsaveId, int page) {
         int numberOfPage = 5;
-        int page = (commentDto.getPage() - 1) * numberOfPage;
-        int comsaveId = commentDto.getComsaveId();
+        int showPage = (page - 1) * numberOfPage;
 
-        List<Combination_Comment> commentList = mapper.getComment(comsaveId, page, numberOfPage);
+        List<Combination_Comment> commentList = mapper.getComment(comsaveId, showPage, numberOfPage);
         int maxPage = (int) Math.ceil((double) mapper.getMaxPage(comsaveId) / numberOfPage);
-        commentDto.setCommentList(commentList);
-        commentDto.setPage(maxPage);
 
-        return commentDto;
+        return new Combination_CommentDto(commentList, maxPage);
     }
 }

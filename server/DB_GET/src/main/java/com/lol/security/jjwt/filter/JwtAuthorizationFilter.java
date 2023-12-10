@@ -2,14 +2,13 @@ package com.lol.security.jjwt.filter;
 
 
 import com.lol.dto.Token;
-import com.lol.dto.UserDto;
+import com.lol.dto.user.UserAccount;
 import com.lol.repository.LoginMapper;
 import com.lol.repository.RedisRepository;
 import com.lol.security.jjwt.auth.CustomUserDetails;
 import com.lol.security.jjwt.auth.JwtTokenizer;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -82,9 +81,9 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     private void setAuthenticationToContext(Map<String, Object> claims) {
         String username = (String) claims.get("username");
-        Optional<UserDto> optionalUserDto = mapper.findByUser(username);
-        UserDto userDto = optionalUserDto.orElseThrow(() -> new NullPointerException());
-        CustomUserDetails customUserDetails = new CustomUserDetails(userDto);
+        Optional<UserAccount> optionalUserDto = mapper.findByUser(username);
+        UserAccount userAccount = optionalUserDto.orElseThrow(() -> new NullPointerException());
+        CustomUserDetails customUserDetails = new CustomUserDetails(userAccount);
         Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, customUserDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }

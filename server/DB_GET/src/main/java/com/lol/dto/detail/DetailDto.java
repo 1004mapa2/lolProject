@@ -1,4 +1,4 @@
-package com.lol.dto;
+package com.lol.dto.detail;
 
 import lombok.Data;
 
