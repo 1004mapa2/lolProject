@@ -150,6 +150,14 @@ img {
     margin-left: 10px;
 }
 
+.com {
+    /* 드래그 방지 */
+    /* -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none; */
+}
+
 .comButtonDiv {
     display: flex;
     justify-content: space-around;

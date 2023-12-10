@@ -54,7 +54,7 @@ main a:visited {
 }
 
 .lowerLeft {
-    width: 400px;
+    width: 450px;
     display: flex;
     justify-content: space-between;
 }

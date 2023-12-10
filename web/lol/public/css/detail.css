@@ -200,5 +200,5 @@ hr {
     display: flex;
     width: 200px;
     /* background-color: #BFFF00; */
-    justify-content: space-between;
+    justify-content: space-evenly;
 }

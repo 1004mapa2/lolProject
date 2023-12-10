@@ -3,10 +3,14 @@ const url = 'http://localhost:8081';
 
 document.querySelector('.usernameInput').addEventListener('blur', function () {
     //fetch로 db에서 같은 아이디가 있는지 체크
-    var errMsg = document.querySelector('.idErrorMessage');
-    if (document.querySelector('.usernameInput').value == "") {
+    const errMsg = document.querySelector('.idErrorMessage');
+    const username = document.querySelector('.usernameInput').value;
+    if (username == "") {
         errMsg.style.color = '#de283b';
         errMsg.innerHTML = '아이디를 입력해 주세요.';
+    } else if (username.length > 10) {
+        errMsg.style.color = '#de283b';
+        errMsg.innerHTML = '아이디는 10자리를 넘길 수 없습니다.';
     } else {
         const username = {
             "username": document.querySelector('.usernameInput').value

@@ -43,8 +43,8 @@ async function 엑세스토큰검증() {
         })
             .then(response => {
                 if (response.headers.get('Authorization') != null) {
-                    const token = response.headers.get('Authorization');
-                    localStorage.setItem('jwtToken', token);
+                    jwtToken = response.headers.get('Authorization');
+                    localStorage.setItem('jwtToken', jwtToken);
                     document.querySelector('.loginDiv').innerHTML = '로그아웃';
                     document.querySelector('.myPage').style.display = 'block';
                 } else {
@@ -58,23 +58,31 @@ async function 엑세스토큰검증() {
 }
 
 function 글등록() {
-    const dataToSend = {
-        title: document.querySelector('.titleText').value,
-        content: document.querySelector('.contentText').value
-    };
-    fetch(url + '/board/postBoard', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': localStorage.getItem('jwtToken')
-        },
-        body: JSON.stringify(dataToSend)
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('http 오류: ' + response.status);
-            } else {
-                window.location.href = "board?page=1";
-            }
+    const title = document.querySelector('.titleText').value;
+    const content = document.querySelector('.contentText').value;
+    if(title.length > 30) {
+        alert('제목의 길이는 30자를 넘을 수 없습니다.');
+    } else if(content.length > 1000) {
+        alert('내용의 길이는 1000자를 넘을 수 없습니다.');
+    } else {
+        const dataToSend = {
+            title: title,
+            content: content
+        };
+        fetch(url + '/board/postBoard', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('jwtToken')
+            },
+            body: JSON.stringify(dataToSend)
         })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('http 오류: ' + response.status);
+                } else {
+                    window.location.href = "board?page=1";
+                }
+            })
+    }
 }

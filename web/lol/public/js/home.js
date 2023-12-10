@@ -5,50 +5,26 @@ const clientUrl = 'http://localhost:3000';
 let dragged;
 
 document.addEventListener("DOMContentLoaded", function () {
-    ALLTIER받아오기();
     엑세스토큰검증();
+    ALLTIER받아오기();
     CHAMPIONNAME받아오기(document.querySelector('.searchInput').value);
 })
 
-
-// leftDiv 시작
-function CHAMPIONNAME받아오기(value) {
-    fetch(url + '/getChampionNameInfo', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(value)
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('http 오류: ' + response.status);
-            }
-            return response.json();
-        })
-        .then(data => {
-            document.querySelector('main ul').innerHTML = "";
-            if (data.length == 0) {
-                var 없음 =
-                    `<div>그런 챔프는 없어..<div>`;
-                document.querySelector('main ul').insertAdjacentHTML('beforeend', 없음);
-            } else {
-                data.forEach(function (item) {
-                    var span크기 = item.ChampionKorName.length * 15;
-                    var 열 =
-                        `<li>
-                        <img src="/img/${item.ChampionEngName}.png">
-                        <span style="width: ${span크기}px;" class="korNameBox">${item.ChampionKorName}</span>
-                        </li>`;
-                    document.querySelector('main ul').insertAdjacentHTML('beforeend', 열);
-                })
+document.querySelector('.loginDiv').addEventListener('click', function () {
+    if (this.innerHTML == '로그아웃') {
+        fetch(url + '/api/logout', {
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem('jwtToken')
             }
         })
-}
+        localStorage.removeItem('jwtToken');
+        this.href = '/';
+    }
+})
 
-document.querySelector('.searchInput').addEventListener('input', function (e) {
+document.querySelector('.searchInput').addEventListener('input', function () {
     CHAMPIONNAME받아오기(this.value);
-
 })
 
 document.querySelector('main ul').addEventListener('click', function (event) {
@@ -96,7 +72,7 @@ document.addEventListener("dragend", function () {
 document.addEventListener("drop", function (event) {
     event.preventDefault();
     if (event.target.classList.contains("com")) {
-        var store = event.target.src;
+        const store = event.target.src;
         event.target.src = dragged.src;
         if (dragged.classList.contains("com")) {
             dragged.src = store;
@@ -107,87 +83,6 @@ document.addEventListener("drop", function (event) {
 /**
  * 드래그 로직 끝
  */
-
-// leftDiv 끝
-
-
-// rightDiv
-function ALLTIER받아오기() {
-    const dataToSend = {};
-    var sortValue = document.querySelector('.sortP').value;
-    var tierValue = document.querySelector('.tierP').value;
-
-    if (sortValue == '승률 순') {
-        sortValue = 'WINRATE';
-    } else {
-        sortValue = 'PICKCOUNT';
-    }
-    var championNameData = document.querySelector('.comImg').querySelectorAll('img');
-    championNameData.forEach(function (data, i) {
-        dataToSend[`championName${i + 1}`] = data.src.replace(clientUrl + '/img/', '').replace('.png', '');
-    })
-    dataToSend.tier = tierValue;
-    dataToSend.sort = sortValue;
-
-    fetch(url + '/getTierInfo', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(dataToSend)
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('http 오류: ' + response.status);
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (document.querySelector('.resultComBox').innerHTML != "") {
-                document.querySelector('.resultComBox').innerHTML = "";
-            }
-            data.forEach(function (item) {
-                var 열 =
-                    `<div class="resultCom">
-                        <input type="hidden" value="${item.comsaveId}">
-                        <div class="littleSpace"></div>
-                        <div class="clickBox"></div>
-                        <div class="totalBox">
-                            <div class="championComBox">
-                                <img src="/img/${item.topName}.png">
-                                <img src="/img/${item.jungleName}.png">
-                                <img src="/img/${item.middleName}.png">
-                                <img src="/img/${item.bottomName}.png">
-                                <img src="/img/${item.utilityName}.png">
-                            </div>
-                            <div class="definitionBox">
-                                <a class="winRate">${item.winRate}</a>
-                                <a class="pickCount">${item.pickCount}</a>
-                            </div>
-                        </div>
-                        <div class="littleSpace"></div>
-                    </div>`;
-                document.querySelector('.resultComBox').insertAdjacentHTML('beforeend', 열);
-            });
-        })
-    document.querySelector('.resultComBox').style.opacity = 1;
-}
-
-function 조합박스(click_src) {
-    var empty = clientUrl + "/img/emptyBox.png";
-    const list = document.querySelector('.comImg').querySelectorAll('img');
-
-    for (let i = 0; i < list.length; i++) {
-        if (list[0].src != click_src && list[1].src != click_src &&
-            list[2].src != click_src && list[3].src != click_src && list[4].src != click_src) {
-            if (list[i].src == empty) {
-                list[i].src = click_src;
-                break;
-            }
-        }
-    }
-    ALLTIER받아오기();
-}
 
 /**
  * 클릭으로 챔피언 빼기
@@ -203,7 +98,7 @@ document.querySelector('.comImg').addEventListener('click', function (event) {
  * 랜덤 넣기
  */
 document.querySelector('.comButton1').addEventListener('click', function () {
-    var empty = clientUrl + "/img/emptyBox.png";
+    const empty = clientUrl + "/img/emptyBox.png";
     const list = document.querySelector('.comImg').querySelectorAll('img');
     for (let i = 0; i < list.length; i++) {
         if (list[i].src == empty) {
@@ -238,18 +133,7 @@ document.querySelector('.tierP').addEventListener('input', function () {
     ALLTIER받아오기();
 })
 
-/**
- * 효과 함수
- */
-// function 조합효과불러오기() {
-//     document.querySelector('.resultComBox').style.opacity = 0;
-//     setTimeout(function () {
-//         ALLTIER받아오기();
-//     }, 500);
-// }
-
 document.querySelector('.resultComBox').addEventListener('mouseover', function (event) {
-
     if (event.target.classList.contains("clickBox")) {
         event.target.parentNode.querySelector('.totalBox').style.backgroundColor = '#8B5FBF';
     }
@@ -270,41 +154,120 @@ document.querySelector('.resultComBox').addEventListener('click', function (even
     }
 })
 
-// document.querySelector('.test1').addEventListener('click', function () {
-//     fetch('http://localhost:8081/api/user', {
-//         method: 'GET',
-//         headers: {
-//             'Authorization': localStorage.getItem('jwtToken')
-//         }
-//     })
-//         .then(response => {
-//             alert(response.status);
-//         })
-// })
+/**
+ * 함수 시작
+ */
+function CHAMPIONNAME받아오기(value) {
+    fetch(url + '/getChampionNameInfo', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(value)
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('http 오류: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            document.querySelector('main ul').innerHTML = "";
+            if (data.length == 0) {
+                var 없음 =
+                    `<div>그런 챔프는 없어..<div>`;
+                document.querySelector('main ul').insertAdjacentHTML('beforeend', 없음);
+            } else {
+                data.forEach(function (item) {
+                    const span크기 = item.championKorName.length * 15;
+                    var 열 =
+                        `<li>
+                        <img src="/img/${item.championEngName}.png">
+                        <span style="width: ${span크기}px;" class="korNameBox">${item.championKorName}</span>
+                        </li>`;
+                    document.querySelector('main ul').insertAdjacentHTML('beforeend', 열);
+                })
+            }
+        })
+}
 
-// document.querySelector('.test2').addEventListener('click', function () {
-//     fetch('http://localhost:8081/api/manager', {
-//         method: 'GET',
-//         headers: {
-//             'Authorization': localStorage.getItem('jwtToken')
-//         }
-//     })
-//         .then(response => {
-//             alert(response.status);
-//         })
-// })
+function ALLTIER받아오기() {
+    const dataToSend = {};
+    var sortValue = document.querySelector('.sortP').value;
+    var tierValue = document.querySelector('.tierP').value;
 
-// document.querySelector('.test3').addEventListener('click', function () {
-//     fetch('http://localhost:8081/api/admin', {
-//         method: 'GET',
-//         headers: {
-//             'Authorization': localStorage.getItem('jwtToken')
-//         }
-//     })
-//         .then(response => {
-//             alert(response.status);
-//         })
-// })
+    if (sortValue == '승률 순') {
+        sortValue = 'WINRATE';
+    } else {
+        sortValue = 'PICKCOUNT';
+    }
+    const championNameData = document.querySelector('.comImg').querySelectorAll('img');
+    championNameData.forEach(function (data, i) {
+        dataToSend[`championName${i + 1}`] = data.src.replace(clientUrl + '/img/', '').replace('.png', '');
+    })
+    dataToSend.tier = tierValue;
+    dataToSend.sort = sortValue;
+
+    fetch(url + '/getTierInfo', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dataToSend)
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('http 오류: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (document.querySelector('.resultComBox').innerHTML != "") {
+                document.querySelector('.resultComBox').innerHTML = "";
+            }
+            data.forEach(function (item) {
+                const winRate = Math.round(item.winRate * 100);
+                var 열 =
+                    `<div class="resultCom">
+                        <input type="hidden" value="${item.comsaveId}">
+                        <div class="littleSpace"></div>
+                        <div class="clickBox"></div>
+                        <div class="totalBox">
+                            <div class="championComBox">
+                                <img src="/img/${item.topName}.png">
+                                <img src="/img/${item.jungleName}.png">
+                                <img src="/img/${item.middleName}.png">
+                                <img src="/img/${item.bottomName}.png">
+                                <img src="/img/${item.utilityName}.png">
+                            </div>
+                            <div class="definitionBox">
+                                <a class="winRate">${winRate}%</a>
+                                <a class="pickCount">${item.pickCount}</a>
+                            </div>
+                        </div>
+                        <div class="littleSpace"></div>
+                    </div>`;
+                document.querySelector('.resultComBox').insertAdjacentHTML('beforeend', 열);
+            });
+        })
+    document.querySelector('.resultComBox').style.opacity = 1;
+}
+
+function 조합박스(click_src) {
+    const empty = clientUrl + "/img/emptyBox.png";
+    const list = document.querySelector('.comImg').querySelectorAll('img');
+
+    for (let i = 0; i < list.length; i++) {
+        if (list[0].src != click_src && list[1].src != click_src &&
+            list[2].src != click_src && list[3].src != click_src && list[4].src != click_src) {
+            if (list[i].src == empty) {
+                list[i].src = click_src;
+                break;
+            }
+        }
+    }
+    ALLTIER받아오기();
+}
 
 function 엑세스토큰검증() {
     var jwtToken = localStorage.getItem('jwtToken');
@@ -319,8 +282,8 @@ function 엑세스토큰검증() {
         })
             .then(response => {
                 if (response.headers.get('Authorization') != null) {
-                    const token = response.headers.get('Authorization');
-                    localStorage.setItem('jwtToken', token);
+                    jwtToken = response.headers.get('Authorization');
+                    localStorage.setItem('jwtToken', jwtToken);
                     document.querySelector('.loginDiv').innerHTML = '로그아웃';
                     document.querySelector('.myPage').style.display = 'block';
                 } else {
@@ -332,16 +295,3 @@ function 엑세스토큰검증() {
         document.querySelector('.loginDiv').innerHTML = '로그인';
     }
 }
-
-document.querySelector('.loginDiv').addEventListener('click', function () {
-    if (this.innerHTML == '로그아웃') {
-        fetch(url + '/api/logout', {
-            method: 'GET',
-            headers: {
-                'Authorization': localStorage.getItem('jwtToken')
-            }
-        })
-        localStorage.removeItem('jwtToken');
-        this.href = '/';
-    }
-})
