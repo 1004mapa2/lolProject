@@ -9,8 +9,11 @@
         VALUES(USERACCOUNT_AUTOINC.NEXTVAL, #{username}, #{password}, #{role})
     </insert>
 
-    <select id="findByUsername" resultType="com.lol.dto.UserDto" parameterType="String">
+    <select id="findByUser" resultType="com.lol.dto.UserDto" parameterType="String">
         SELECT * FROM USERACCOUNT WHERE USERNAME= #{username}
     </select>
 
+    <update id="updateUser" parameterType="String">
+        UPDATE USERACCOUNT SET PASSWORD= #{newPassword} WHERE USERNAME= #{username}
+    </update>
 </mapper>

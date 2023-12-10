@@ -48,10 +48,8 @@ public class SecurityConfiguration {
                 .apply(new CustomFilterConfigurer())
                 .and()
                 .authorizeRequests(authorize -> authorize
-//                        .antMatchers("/api/admin/**").hasRole("ADMIN")
-//                        .antMatchers("/api/manager/**").hasAnyRole("ADMIN", "MANAGER")
-//                        .antMatchers("/api/user/**").hasAnyRole("ADMIN", "MANAGER", "USER")
                         .antMatchers("/api/init").hasAnyRole("ADMIN", "MANAGER", "USER")
+                        .antMatchers("/api/updateUser").hasAnyRole("ADMIN", "MANAGER", "USER")
                         .antMatchers("/saveComment").hasAnyRole("ADMIN", "MANAGER", "USER")
                         .antMatchers("/board/postBoard").hasAnyRole("ADMIN", "MANAGER", "USER")
                         .antMatchers("/board/postComment").hasAnyRole("ADMIN", "MANAGER", "USER")

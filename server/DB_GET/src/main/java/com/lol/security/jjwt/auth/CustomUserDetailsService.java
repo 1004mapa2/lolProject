@@ -19,7 +19,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<UserDto> optionalUserDto = mapper.findByUsername(username);
+        Optional<UserDto> optionalUserDto = mapper.findByUser(username);
         UserDto userDto = optionalUserDto.orElseThrow(() -> new UsernameNotFoundException("유저가 없습니다."));
 
         return new CustomUserDetails(userDto);
