@@ -75,7 +75,7 @@ function 글데이터불러오기() {
 }
 
 function 권한체크() {
-    fetch(url + '/board/checkUser' + window.location.search, {
+    fetch(url + '/board/checkBoardUser' + window.location.search, {
         method: 'GET',
         headers: {
             'Authorization': localStorage.getItem('jwtToken')

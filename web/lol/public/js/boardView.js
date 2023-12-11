@@ -149,7 +149,9 @@ function 권한체크() {
             return response.json();
         })
         .then(data => {
-            if (document.querySelector('.writerP').innerHTML == data.username) {
+            if (data.role == 'ROLE_ADMIN') {
+                document.querySelector('.adjustBoardDiv').style.display = 'flex';
+            } else if (document.querySelector('.writerP').innerHTML == data.username) {
                 document.querySelector('.adjustBoardDiv').style.display = 'flex';
             }
             document.querySelectorAll('main li').forEach(function (item) {
