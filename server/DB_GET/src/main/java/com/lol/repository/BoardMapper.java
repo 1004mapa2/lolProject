@@ -27,6 +27,8 @@ public interface BoardMapper {
 
     public void updateBoard(PostBoardDto postBoardDto);
 
+    public String checkBoardUser(int boardId);
+
     public List<Board_Comment> getComments(int boardId);
 
     public void postComment(Board_Comment boardComment);

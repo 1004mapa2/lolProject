@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Cookie;
@@ -100,6 +101,18 @@ public class BoardService {
             userAccount.setRole(authority.getAuthority());
         }
         return userAccount;
+    }
+
+    public int checkBoardUser(int boardId, Authentication authentication) {
+        if(mapper.checkBoardUser(boardId).equals(authentication.getName())) {
+            return 1;
+        }
+        for (GrantedAuthority authority : authentication.getAuthorities()) {
+            if(authority.getAuthority().equals("ROLE_ADMIN")) {
+                return 1;
+            }
+        }
+        return 0;
     }
 
     public void deleteBoard(int boardId) {

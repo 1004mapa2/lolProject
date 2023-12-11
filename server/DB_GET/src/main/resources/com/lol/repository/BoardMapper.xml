@@ -51,6 +51,10 @@
         UPDATE BOARD SET TITLE= #{title}, CONTENT= #{content} WHERE ID= #{boardId}
     </update>
 
+    <select id="checkBoardUser" parameterType="int" resultType="String">
+        SELECT WRITER FROM BOARD WHERE ID= #{boardId}
+    </select>
+
     <select id="getComments" parameterType="int" resultType="com.lol.domain.Board_Comment">
         SELECT * FROM BOARD_COMMENT WHERE BOARDID= #{boardId} ORDER BY WRITETIME DESC
     </select>
