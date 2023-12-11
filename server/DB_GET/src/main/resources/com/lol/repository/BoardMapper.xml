@@ -60,6 +60,10 @@
         VALUES(BOARD_COMMENT_AUTOINC.NEXTVAL, #{boardId}, #{content}, #{username}, #{writeTime})
     </insert>
 
+    <delete id="deleteComment" parameterType="int">
+        DELETE FROM BOARD_COMMENT WHERE ID= #{commentId}
+    </delete>
+
     <update id="incViewCount" parameterType="int">
         UPDATE BOARD SET VIEWCOUNT = VIEWCOUNT + 1 WHERE ID= #{boardId}
     </update>

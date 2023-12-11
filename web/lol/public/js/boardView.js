@@ -39,6 +39,11 @@ document.querySelector('.boardHeaderBodyDiv').addEventListener('click', async fu
     }
 })
 
+document.querySelector('main ul').addEventListener('click', async function (event) {
+    await 엑세스토큰검증();
+    댓글삭제(event);
+})
+
 /**
  * 함수 시작
  */
@@ -70,7 +75,9 @@ async function 엑세스토큰검증() {
 }
 
 async function 게시글불러오기() {
-    await fetch(url + '/board/getBoard' + window.location.search, {
+    const urlParams = new URLSearchParams(window.location.search);
+    var boardId = urlParams.get('boardId');
+    await fetch(url + '/board/getBoard/' + boardId, {
         method: 'GET',
         credentials: 'include' //쿠키를 받아와야 되기 때문에 추가
     })
@@ -114,18 +121,22 @@ async function 게시글불러오기() {
                 <li>
                     <p class="writerP">${item.username}</p>
                     <p class="contentP">${item.content}</p>
-                    <p class="writeTimeP">${item.writeTime}</p>
+                    <div class="commentDateDiv">
+                        <p class="writeTimeP">${item.writeTime}</p>
+                        <p class="commentDeleteP">삭제</p>
+                    </div>
+                    <input type="hidden" value="${item.id}">
                     <hr>
                 </li>
                 `;
                 document.querySelector('main ul').insertAdjacentHTML('beforeend', 댓글);
             })
         })
-        권한체크();
+    권한체크();
 }
 
 function 권한체크() {
-    fetch(url + '/board/checkUser' + window.location.search, {
+    fetch(url + '/board/checkUser', {
         method: 'GET',
         headers: {
             'Authorization': localStorage.getItem('jwtToken')
@@ -138,9 +149,16 @@ function 권한체크() {
             return response.json();
         })
         .then(data => {
-            if (data == 1) {
+            if (document.querySelector('.writerP').innerHTML == data.username) {
                 document.querySelector('.adjustBoardDiv').style.display = 'flex';
             }
+            document.querySelectorAll('main li').forEach(function (item) {
+                if (data.role == 'ROLE_ADMIN') {
+                    item.querySelector('.commentDeleteP').style.display = 'block';
+                } else if (item.querySelector('.writerP').innerHTML == data.username) {
+                    item.querySelector('.commentDeleteP').style.display = 'block';
+                }
+            })
         })
 }
 
@@ -158,25 +176,25 @@ function 좋아요불러오기() {
             document.querySelector('.likeCountP').innerHTML = data;
         })
 
-        fetch(url + '/board/getMyLike' + window.location.search, {
-            method: 'GET',
-            headers: {
-                'Authorization': localStorage.getItem('jwtToken')
+    fetch(url + '/board/getMyLike' + window.location.search, {
+        method: 'GET',
+        headers: {
+            'Authorization': localStorage.getItem('jwtToken')
+        }
+    })
+        .then(response => {
+            if (response.status == 401) {
+                document.querySelector('.likeShapeP').innerHTML = '♡';
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data == 1) {
+                document.querySelector('.likeShapeP').innerHTML = '♥';
+            } else {
+                document.querySelector('.likeShapeP').innerHTML = '♡';
             }
         })
-            .then(response => {
-                if (response.status == 401) {
-                    document.querySelector('.likeShapeP').innerHTML = '♡';
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data == 1) {
-                    document.querySelector('.likeShapeP').innerHTML = '♥';
-                } else {
-                    document.querySelector('.likeShapeP').innerHTML = '♡';
-                }
-            })
 }
 
 async function 좋아요저장() {
@@ -189,7 +207,7 @@ async function 좋아요저장() {
         .then(response => {
             if (response.status == 401) {
                 alert('로그인 하세요');
-            } else if(response.ok) {
+            } else if (response.ok) {
                 좋아요불러오기();
             }
         })
@@ -213,7 +231,7 @@ async function 댓글저장() {
             document.querySelector('.commentText').value = '';
             if (response.status == 401) {
                 alert('로그인 하세요');
-            } else if(response.ok) {
+            } else if (response.ok) {
                 게시글불러오기();
             }
         })
@@ -225,7 +243,7 @@ function 게시글수정() {
 
 function 게시글삭제() {
     const urlParams = new URLSearchParams(window.location.search);
-    var boardId = urlParams.get('boardId');
+    const boardId = urlParams.get('boardId');
     fetch(url + '/board/deleteBoard/' + boardId, {
         method: 'DELETE',
         headers: {
@@ -240,4 +258,23 @@ function 게시글삭제() {
                 window.location.href = '/board?page=1';
             }
         })
+}
+
+function 댓글삭제(event) {
+    if (event.target.classList.contains('commentDeleteP')) {
+        const commentId = event.target.parentNode.parentNode.querySelector('input').value;
+        fetch(url + '/board/deleteComment/' + commentId, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': localStorage.getItem('jwtToken')
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('http 오류: ' + response.status);
+                } else {
+                    게시글불러오기();
+                }
+            })
+    }
 }

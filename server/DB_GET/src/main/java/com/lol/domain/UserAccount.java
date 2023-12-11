@@ -1,4 +1,4 @@
-package com.lol.dto.user;
+package com.lol.domain;
 
 import lombok.Data;
 

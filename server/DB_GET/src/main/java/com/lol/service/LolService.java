@@ -2,12 +2,15 @@ package com.lol.service;
 
 import com.lol.domain.ChampionName;
 import com.lol.domain.Combination_Comment;
+import com.lol.domain.UserAccount;
 import com.lol.dto.detail.ChampionsDto;
 import com.lol.dto.detail.Combination_CommentDto;
 import com.lol.dto.main.ReceiveDto;
 import com.lol.dto.main.TierDto;
 import com.lol.repository.LolMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -91,5 +94,18 @@ public class LolService {
         int maxPage = (int) Math.ceil((double) mapper.getMaxPage(comsaveId) / numberOfPage);
 
         return new Combination_CommentDto(commentList, maxPage);
+    }
+
+    public void deleteComment(int commentId) {
+        mapper.deleteComment(commentId);
+    }
+
+    public UserAccount checkUser(Authentication authentication) {
+        UserAccount userAccount = new UserAccount();
+        userAccount.setUsername(authentication.getName());
+        for (GrantedAuthority authority : authentication.getAuthorities()) {
+            userAccount.setRole(authority.getAuthority());
+        }
+        return userAccount;
     }
 }

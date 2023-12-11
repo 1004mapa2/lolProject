@@ -51,13 +51,16 @@ public class SecurityConfiguration {
                         .antMatchers("/api/init").hasAnyRole("ADMIN", "MANAGER", "USER")
                         .antMatchers("/api/updateUser").hasAnyRole("ADMIN", "MANAGER", "USER")
                         .antMatchers("/saveComment").hasAnyRole("ADMIN", "MANAGER", "USER")
+                        .antMatchers("/deleteComment/{commentId}").hasAnyRole("ADMIN", "MANAGER", "USER")
                         .antMatchers("/board/postBoard").hasAnyRole("ADMIN", "MANAGER", "USER")
                         .antMatchers("/board/postComment").hasAnyRole("ADMIN", "MANAGER", "USER")
+                        .antMatchers("/board/deleteComment/{boardId}").hasAnyRole("ADMIN", "MANAGER", "USER")
                         .antMatchers("/board/postLike").hasAnyRole("ADMIN", "MANAGER", "USER")
                         .antMatchers("/board/getMyLike").hasAnyRole("ADMIN", "MANAGER", "USER")
                         .antMatchers("/board/checkUser").hasAnyRole("ADMIN", "MANAGER", "USER")
                         .antMatchers("/board/deleteBoard/{boardId}").hasAnyRole("ADMIN", "MANAGER", "USER")
                         .antMatchers("/board/updateBoard/{boardId}").hasAnyRole("ADMIN", "MANAGER", "USER")
+
                         .anyRequest().permitAll()
                 );
 

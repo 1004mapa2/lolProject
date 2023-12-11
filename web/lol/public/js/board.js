@@ -68,6 +68,7 @@ function 엑세스토큰검증() {
                     document.querySelector('.loginDiv').innerHTML = '로그아웃';
                     document.querySelector('.myPage').style.display = 'block';
                 }
+                document.querySelector('.writingButton').style.display = 'block';
             })
     } else {
         document.querySelector('.loginDiv').innerHTML = '로그인';

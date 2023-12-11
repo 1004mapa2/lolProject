@@ -2,6 +2,7 @@ package com.lol.service;
 
 import com.lol.domain.Board;
 import com.lol.domain.Board_Comment;
+import com.lol.domain.UserAccount;
 import com.lol.dto.board.*;
 import com.lol.repository.BoardMapper;
 import lombok.RequiredArgsConstructor;
@@ -92,19 +93,13 @@ public class BoardService {
         return mapper.getBoardUpdateData(boardId);
     }
 
-    public int checkUser(int boardId, Authentication authentication) {
+    public UserAccount checkUser(Authentication authentication) {
+        UserAccount userAccount = new UserAccount();
+        userAccount.setUsername(authentication.getName());
         for (GrantedAuthority authority : authentication.getAuthorities()) {
-            if(authority.getAuthority().equals("ROLE_ADMIN")) {
-                return 1;
-            }
+            userAccount.setRole(authority.getAuthority());
         }
-
-        String writerName = mapper.getBoard(boardId).getWriter();
-        if (writerName.equals(authentication.getName())) {
-            return 1;
-        } else {
-            return 0;
-        }
+        return userAccount;
     }
 
     public void deleteBoard(int boardId) {
@@ -127,6 +122,10 @@ public class BoardService {
         boardComment.setUsername(username);
 
         mapper.postComment(boardComment);
+    }
+
+    public void deleteComment(int commentId) {
+        mapper.deleteComment(commentId);
     }
 
     public int getLike(int boardId) {

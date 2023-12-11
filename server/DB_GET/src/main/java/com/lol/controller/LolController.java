@@ -2,6 +2,7 @@ package com.lol.controller;
 
 import com.google.gson.Gson;
 import com.lol.domain.ChampionName;
+import com.lol.domain.UserAccount;
 import com.lol.dto.detail.Combination_CommentDto;
 import com.lol.dto.main.ReceiveDto;
 import com.lol.dto.main.TierDto;
@@ -54,5 +55,18 @@ public class LolController {
     public Combination_CommentDto getComment(@RequestParam("comsaveId") int comsaveId, @RequestParam("page") int page) {
 
         return lolService.getComment(comsaveId, page);
+    }
+
+    @DeleteMapping("/deleteComment/{commentId}")
+    public void deleteComment(@PathVariable int commentId) {
+        lolService.deleteComment(commentId);
+    }
+
+    @GetMapping("/checkUser")
+    public UserAccount checkUser(Authentication authentication) {
+        if(authentication != null) {
+            return lolService.checkUser(authentication);
+        }
+        return null;
     }
 }

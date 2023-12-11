@@ -1,6 +1,6 @@
 package com.lol.security.jjwt.auth;
 
-import com.lol.dto.user.UserAccount;
+import com.lol.domain.UserAccount;
 import com.lol.repository.LoginMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

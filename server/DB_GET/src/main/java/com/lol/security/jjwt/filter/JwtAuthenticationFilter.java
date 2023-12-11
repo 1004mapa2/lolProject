@@ -2,7 +2,7 @@ package com.lol.security.jjwt.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lol.dto.Token;
-import com.lol.dto.user.UserAccount;
+import com.lol.domain.UserAccount;
 import com.lol.repository.RedisRepository;
 import com.lol.security.jjwt.auth.JwtTokenizer;
 import com.lol.security.jjwt.auth.CustomUserDetails;
