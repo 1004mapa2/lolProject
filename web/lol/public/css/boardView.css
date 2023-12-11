@@ -104,3 +104,17 @@ ul {
     color: #848484;
     font-size: 15px;
 }
+
+.commentDateDiv {
+    display: flex;
+    margin-top: 20px;
+    justify-content: space-between;
+}
+
+.commentDeleteP {
+    display: none;
+}
+
+.commentDeleteP:hover {
+    cursor: pointer;
+}

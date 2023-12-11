@@ -186,6 +186,21 @@ hr {
 
 .commentDetail {
     margin-left: 25px;
+    margin-right: 25px;
+}
+
+.commentDeleteP {
+    display: none;
+}
+
+.commentDeleteP:hover {
+    cursor: pointer;
+}
+
+.commentDateDiv {
+    display: flex;
+    margin-top: 20px;
+    justify-content: space-between;
 }
 
 .pageNumberContainer {

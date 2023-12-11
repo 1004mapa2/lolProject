@@ -71,7 +71,7 @@ main a:visited {
 }
 
 .writingButton {
-    display: block;
+    display: none;
     margin-right: 10px;
     width: 100px;
     height: 30px;

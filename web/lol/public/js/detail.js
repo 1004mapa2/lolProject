@@ -1,7 +1,7 @@
 const url = 'http://localhost:8081';
 // const url = 'http://3.34.99.97:8081';
-document.addEventListener("DOMContentLoaded", function () {
-    엑세스토큰검증();
+document.addEventListener("DOMContentLoaded", async function () {
+    await 엑세스토큰검증();
     댓글불러오기();
     조합정보가져오기();
 })
@@ -70,6 +70,11 @@ document.querySelector('.commentButton').addEventListener('click', async functio
     댓글불러오기();
 })
 
+document.querySelector('.commentContainer').addEventListener('click', async function (event) {
+    await 엑세스토큰검증();
+    댓글삭제(event);
+})
+
 /**
  * 함수 시작
  */
@@ -89,8 +94,10 @@ async function 엑세스토큰검증() {
                     jwtToken = response.headers.get('Authorization');
                     localStorage.setItem('jwtToken', jwtToken);
                     document.querySelector('.loginDiv').innerHTML = '로그아웃';
+                    document.querySelector('.myPage').style.display = 'block';
                 } else {
                     document.querySelector('.loginDiv').innerHTML = '로그아웃';
+                    document.querySelector('.myPage').style.display = 'block';
                 }
             })
     } else {
@@ -177,8 +184,8 @@ async function 댓글저장() {
         })
 }
 
-function 댓글불러오기() {
-    fetch(url + '/getComment' + window.location.search, {
+async function 댓글불러오기() {
+    await fetch(url + '/getComment' + window.location.search, {
         method: 'GET'
     })
         .then(response => {
@@ -211,9 +218,13 @@ function 댓글불러오기() {
                     var 게시글 =
                         `
                         <div class="commentDetail">
-                            <div style="color: #848484">${data.commentList[i].username}</div>
+                            <div style="color: #848484" class="username">${data.commentList[i].username}</div>
                             <div>${data.commentList[i].content}</div>
-                            <div style="margin-top: 20px;">${data.commentList[i].writeTime}</div>
+                            <div class="commentDateDiv">
+                                <p>${data.commentList[i].writeTime}</p>
+                                <p class="commentDeleteP">삭제</p>
+                            </div>
+                            <input type="hidden" value="${data.commentList[i].id}"/>
                         </div>
                         <hr/>
                         `
@@ -221,6 +232,7 @@ function 댓글불러오기() {
                 }
             }
         })
+    권한체크();
 }
 
 function 티어바꾸기(comsaveIdValue, tierValue) {
@@ -238,4 +250,47 @@ function 티어바꾸기(comsaveIdValue, tierValue) {
             const winRate = Math.round(data.winRate * 100);
             document.querySelector('.winRateBox').innerHTML = winRate + '%';
         })
+}
+
+function 권한체크() {
+    fetch(url + '/checkUser', {
+        method: 'GET',
+        headers: {
+            'Authorization': localStorage.getItem('jwtToken')
+        }
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('http 오류: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            document.querySelectorAll('.commentDetail').forEach(function (item) {
+                if(data.role == 'ROLE_ADMIN') {
+                    item.querySelector('.commentDeleteP').style.display = 'block';
+                } else if(item.querySelector('.username').innerHTML == data.username) {
+                    item.querySelector('.commentDeleteP').style.display = 'block';
+                }
+            })
+        })
+}
+
+function 댓글삭제(event) {
+    if (event.target.classList.contains('commentDeleteP')) {
+        const commentId = event.target.parentNode.parentNode.querySelector('input').value;
+        fetch(url + '/deleteComment/' + commentId, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': localStorage.getItem('jwtToken')
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('http 오류: ' + response.status);
+                } else {
+                    댓글불러오기();
+                }
+            })
+    }
 }
