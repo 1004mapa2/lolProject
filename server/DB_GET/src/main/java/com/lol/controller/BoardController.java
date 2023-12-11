@@ -47,6 +47,12 @@ public class BoardController {
         return boardService.checkUser(authentication);
     }
 
+    @GetMapping("/checkBoardUser")
+    public int checkBoardUser(@RequestParam("boardId") int boardId, Authentication authentication) {
+
+        return boardService.checkBoardUser(boardId, authentication);
+    }
+
     @DeleteMapping("/deleteBoard/{boardId}")
     public void deleteBoard(@PathVariable int boardId) {
         boardService.deleteBoard(boardId);
