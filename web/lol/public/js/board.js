@@ -1,4 +1,4 @@
-const url = 'http://localhost:8081';
+const url = 'http://3.37.36.48:8081';
 
 document.addEventListener("DOMContentLoaded", async function () {
     await 게시글리스트불러오기();
