@@ -1,5 +1,6 @@
 package com.lol.controller;
 
+import com.lol.domain.UserAccount;
 import com.lol.dto.board.*;
 import com.lol.service.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +29,8 @@ public class BoardController {
         boardService.postBoard(postBoardDto, authentication.getName());
     }
 
-    @GetMapping("/getBoard")
-    public BoardViewDto getBoard(@RequestParam("boardId") int boardId, HttpServletRequest req, HttpServletResponse res) {
+    @GetMapping("/getBoard/{boardId}")
+    public BoardViewDto getBoard(@PathVariable("boardId") int boardId, HttpServletRequest req, HttpServletResponse res) {
 
         return boardService.getBoard(boardId, req, res);
     }
@@ -41,9 +42,9 @@ public class BoardController {
     }
 
     @GetMapping("/checkUser")
-    public int checkUser(@RequestParam int boardId, Authentication authentication) {
+    public UserAccount checkUser(Authentication authentication) {
 
-        return boardService.checkUser(boardId, authentication);
+        return boardService.checkUser(authentication);
     }
 
     @DeleteMapping("/deleteBoard/{boardId}")
@@ -59,6 +60,11 @@ public class BoardController {
     @PostMapping("/postComment")
     public void postComment(@RequestBody PostCommentDto postCommentDto, Authentication authentication) {
         boardService.postComment(postCommentDto, authentication.getName());
+    }
+
+    @DeleteMapping("/deleteComment/{commentId}")
+    public void deleteComment(@PathVariable int commentId) {
+        boardService.deleteComment(commentId);
     }
 
     @GetMapping("/getLike")

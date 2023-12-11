@@ -1,6 +1,6 @@
 package com.lol.security.jjwt.auth;
 
-import com.lol.dto.user.UserAccount;
+import com.lol.domain.UserAccount;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

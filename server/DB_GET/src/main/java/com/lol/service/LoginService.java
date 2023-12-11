@@ -1,7 +1,7 @@
 package com.lol.service;
 
 import com.lol.dto.Token;
-import com.lol.dto.user.UserAccount;
+import com.lol.domain.UserAccount;
 import com.lol.dto.user.UserUpdateDto;
 import com.lol.repository.LoginMapper;
 import com.lol.repository.RedisRepository;

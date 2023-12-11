@@ -86,4 +86,8 @@
     <select id="getMaxPage" parameterType="int" resultType="int">
         SELECT COUNT(*) FROM COMBINATION_COMMENT WHERE COMSAVEID= #{comsaveId}
     </select>
+
+    <delete id="deleteComment" parameterType="int">
+        DELETE FROM COMBINATION_COMMENT WHERE ID= #{commentId}
+    </delete>
 </mapper>

@@ -31,4 +31,6 @@ public interface LolMapper {
     public List<Combination_Comment> getComment(int comsaveId, int showPage, int numberOfPage);
 
     public int getMaxPage(int comsaveId);
+
+    public void deleteComment(int commentId);
 }

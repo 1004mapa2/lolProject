@@ -2,7 +2,7 @@ package com.lol.security.jjwt.filter;
 
 
 import com.lol.dto.Token;
-import com.lol.dto.user.UserAccount;
+import com.lol.domain.UserAccount;
 import com.lol.repository.LoginMapper;
 import com.lol.repository.RedisRepository;
 import com.lol.security.jjwt.auth.CustomUserDetails;

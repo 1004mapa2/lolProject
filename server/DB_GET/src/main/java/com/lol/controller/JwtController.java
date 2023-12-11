@@ -1,6 +1,6 @@
 package com.lol.controller;
 
-import com.lol.dto.user.UserAccount;
+import com.lol.domain.UserAccount;
 import com.lol.dto.user.UserUpdateDto;
 import com.lol.service.LoginService;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
 package com.lol.repository;
 
-import com.lol.dto.user.UserAccount;
+import com.lol.domain.UserAccount;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Optional;

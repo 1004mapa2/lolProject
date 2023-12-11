@@ -31,6 +31,8 @@ public interface BoardMapper {
 
     public void postComment(Board_Comment boardComment);
 
+    public void deleteComment(int commentId);
+
     public void incViewCount(int boardId);
 
     public Optional<Integer> findByLike(int boardId, String username);
