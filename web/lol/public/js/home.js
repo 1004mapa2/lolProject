@@ -1,5 +1,5 @@
-const url = 'http://3.37.36.48:8081';
-const clientUrl = 'http://3.37.36.48:3000';
+const url = 'http://54.180.81.104:8081';
+const clientUrl = 'http://54.180.81.104:3000';
 let dragged;
 
 document.addEventListener("DOMContentLoaded", function () {
