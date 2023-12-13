@@ -1,4 +1,4 @@
-const url = 'http://54.180.81.104:8081';
+const url = 'http://13.124.127.226:8081';
 
 document.querySelector('.submitButton').addEventListener('click', function () {
     로그인();
