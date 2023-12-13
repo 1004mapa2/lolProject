@@ -1,4 +1,4 @@
-const url = 'http://13.124.127.226:8081';
+const url = 'http://13.124.127.226:8080';
 
 document.addEventListener("DOMContentLoaded", function () {
     엑세스토큰검증();

@@ -1,4 +1,4 @@
-const url = 'http://13.124.127.226:8081';
+const url = 'http://13.124.127.226:8080';
 
 document.querySelector('.usernameInput').addEventListener('blur', function () {
     //fetch로 db에서 같은 아이디가 있는지 체크
