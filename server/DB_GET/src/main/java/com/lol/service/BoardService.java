@@ -82,6 +82,13 @@ public class BoardService {
 
         Board board = mapper.getBoard(boardId);
         List<Board_Comment> boardComments = mapper.getComments(boardId);
+
+        // 같은 분에서 정렬하고 초는 빼고 다시 설정
+        for(Board_Comment board_Comment : boardComments) {
+            LocalDateTime writeTime = LocalDateTime.parse(board_Comment.getWriteTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            board_Comment.setWriteTime(writeTime.format(DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm")));
+        }
+
         BoardViewDto boardViewDto = new BoardViewDto();
         boardViewDto.setBoard(board);
         boardViewDto.setBoardComments(boardComments);
@@ -127,7 +134,7 @@ public class BoardService {
     public void postComment(PostCommentDto postCommentDto, String username) {
         Board_Comment boardComment = new Board_Comment();
         LocalDateTime now = LocalDateTime.now();
-        String formatNowTime = now.format(DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm"));
+        String formatNowTime = now.format(DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm:ss"));
 
         boardComment.setBoardId(postCommentDto.getBoardId());
         boardComment.setContent(postCommentDto.getContent());
