@@ -80,20 +80,23 @@ public class BoardService {
 
         viewCount(boardId, req, res);
 
-        Board board = mapper.getBoard(boardId);
-        List<Board_Comment> boardComments = mapper.getComments(boardId);
+        Optional<Board> optionalBoard = mapper.findByBoard(boardId);
+        if(optionalBoard.isPresent()) {
+            List<Board_Comment> boardComments = mapper.getComments(boardId);
 
-        // 같은 분에서 정렬하고 초는 빼고 다시 설정
-        for(Board_Comment board_Comment : boardComments) {
-            LocalDateTime writeTime = LocalDateTime.parse(board_Comment.getWriteTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-            board_Comment.setWriteTime(writeTime.format(DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm")));
+            // 같은 분에서 정렬하고 초는 빼고 다시 설정
+            for(Board_Comment board_Comment : boardComments) {
+                LocalDateTime writeTime = LocalDateTime.parse(board_Comment.getWriteTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                board_Comment.setWriteTime(writeTime.format(DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm")));
+            }
+
+            BoardViewDto boardViewDto = new BoardViewDto();
+            boardViewDto.setBoard(optionalBoard.get());
+            boardViewDto.setBoardComments(boardComments);
+
+            return boardViewDto;
         }
-
-        BoardViewDto boardViewDto = new BoardViewDto();
-        boardViewDto.setBoard(board);
-        boardViewDto.setBoardComments(boardComments);
-
-        return boardViewDto;
+        return null;
     }
 
     public PostBoardDto getBoardUpdateData(int boardId) {
@@ -132,16 +135,19 @@ public class BoardService {
     }
 
     public void postComment(PostCommentDto postCommentDto, String username) {
-        Board_Comment boardComment = new Board_Comment();
-        LocalDateTime now = LocalDateTime.now();
-        String formatNowTime = now.format(DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm:ss"));
+        Optional<Board> optionalBoard = mapper.findByBoard(postCommentDto.getBoardId());
+        if(optionalBoard.isPresent()) {
+            Board_Comment boardComment = new Board_Comment();
+            LocalDateTime now = LocalDateTime.now();
+            String formatNowTime = now.format(DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm:ss"));
 
-        boardComment.setBoardId(postCommentDto.getBoardId());
-        boardComment.setContent(postCommentDto.getContent());
-        boardComment.setWriteTime(formatNowTime);
-        boardComment.setUsername(username);
+            boardComment.setBoardId(postCommentDto.getBoardId());
+            boardComment.setContent(postCommentDto.getContent());
+            boardComment.setWriteTime(formatNowTime);
+            boardComment.setUsername(username);
 
-        mapper.postComment(boardComment);
+            mapper.postComment(boardComment);
+        }
     }
 
     public void deleteComment(int commentId) {
@@ -166,16 +172,19 @@ public class BoardService {
     }
 
     public void postLike(int boardId, String username) {
-        int likeAdjust = 0;
-        Optional<Integer> likeExist = mapper.findByLike(boardId, username);
-        if (likeExist.isEmpty()) {
-            mapper.postLike(boardId, username);
-        } else {
-            if (likeExist.get() == 1) {
-                mapper.updateLike(boardId, username, likeAdjust);
+        Optional<Board> optionalBoard = mapper.findByBoard(boardId);
+        if(optionalBoard.isPresent()) {
+            int likeAdjust = 0;
+            Optional<Integer> likeExist = mapper.findByLike(boardId, username);
+            if (likeExist.isEmpty()) {
+                mapper.postLike(boardId, username);
             } else {
-                likeAdjust = 1;
-                mapper.updateLike(boardId, username, likeAdjust);
+                if (likeExist.get() == 1) {
+                    mapper.updateLike(boardId, username, likeAdjust);
+                } else {
+                    likeAdjust = 1;
+                    mapper.updateLike(boardId, username, likeAdjust);
+                }
             }
         }
     }

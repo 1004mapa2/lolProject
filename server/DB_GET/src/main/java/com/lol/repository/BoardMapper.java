@@ -19,7 +19,7 @@ public interface BoardMapper {
 
     public int getMaxPage(SearchDto searchDto);
 
-    public Board getBoard(int boardId);
+    public Optional<Board> findByBoard(int boardId);
 
     public PostBoardDto getBoardUpdateData(int boardId);
 
