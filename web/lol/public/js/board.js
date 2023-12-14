@@ -1,4 +1,5 @@
 const url = 'http://13.124.127.226:8081';
+// const url = 'http://localhost:8081';
 
 document.addEventListener("DOMContentLoaded", async function () {
     await 게시글리스트불러오기();
@@ -35,6 +36,10 @@ document.querySelector('.searchInput').addEventListener('keyup', function (event
 document.querySelector('main ul').addEventListener('click', function (event) {
     if (event.target.classList.contains("upperDiv")) {
         var boardId = event.target.parentNode.querySelector('input').value;
+        var boardViewURL = "/boardView?boardId=" + boardId;
+        window.location.href = boardViewURL;
+    } else if(event.target.classList.contains("boardTitle")) {
+        var boardId = event.target.parentNode.parentNode.querySelector('input').value;
         var boardViewURL = "/boardView?boardId=" + boardId;
         window.location.href = boardViewURL;
     }
@@ -133,7 +138,7 @@ async function 게시글리스트불러오기() {
                         <li class="writeBox">
                             <input type="hidden" id="boardId" value="${item.id}">
                             <div class="upperDiv">
-                                <p>${item.title}</p>
+                                <p class="boardTitle">${item.title}</p>
                                 <img class="commentImg" src="/img/말풍선.png">
                             </div>
                             <div class="lowerDiv">

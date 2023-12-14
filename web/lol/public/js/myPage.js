@@ -1,4 +1,5 @@
 const url = 'http://13.124.127.226:8081';
+// const url = 'http://localhost:8081';
 
 document.addEventListener("DOMContentLoaded", async function () {
     await 엑세스토큰검증();

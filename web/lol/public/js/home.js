@@ -1,5 +1,7 @@
 const url = 'http://13.124.127.226:8081';
 const clientUrl = 'http://13.124.127.226:3000';
+// const url = 'http://localhost:8081';
+// const clientUrl = 'http://localhost:3000';
 let dragged;
 
 document.addEventListener("DOMContentLoaded", function () {
