@@ -43,8 +43,10 @@ public class BoardController {
 
     @GetMapping("/checkUser")
     public UserAccount checkUser(Authentication authentication) {
-
-        return boardService.checkUser(authentication);
+        if(authentication != null) {
+            return boardService.checkUser(authentication);
+        }
+        return null;
     }
 
     @GetMapping("/checkBoardUser")

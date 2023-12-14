@@ -4,20 +4,34 @@
 
 <mapper namespace="com.lol.repository.BoardMapper">
     <select id="getBoardList" parameterType="com.lol.dto.board.SearchDto" resultType="com.lol.dto.board.BoardListAllInfoDto">
-        SELECT X.ID, X.TITLE, X.CONTENT, X.WRITER, X.WRITETIME, X.VIEWCOUNT, X.LIKECOUNT, NVL(COUNT(Y.BOARDID), 0) COMMENTCOUNT
-        FROM (SELECT A.ID, A.TITLE, A.CONTENT, A.WRITER, A.WRITETIME, A.VIEWCOUNT,
-                     COUNT(CASE WHEN B.LIKEEXIST = 1 THEN 1 END) LIKECOUNT
-              FROM BOARD A
-                       LEFT JOIN BOARD_LIKE B ON A.ID = B.BOARDID
-              GROUP BY A.ID, A.TITLE, A.CONTENT, A.WRITER, A.WRITETIME, A.VIEWCOUNT) X
-                 LEFT JOIN BOARD_COMMENT Y ON X.ID = Y.BOARDID
-        <where>
-            <if test="keyword != null">
-                AND ${searchSort} LIKE '%'||#{keyword}||'%'
-            </if>
-        </where>
-        GROUP BY X.ID, X.TITLE, X.CONTENT, X.WRITER, X.WRITETIME, X.VIEWCOUNT, X.LIKECOUNT, Y.BOARDID
-        ORDER BY ${sort} DESC OFFSET #{startNumber} ROWS FETCH NEXT #{numberOfPage} ROWS ONLY
+        SELECT CCC.*
+        FROM
+        (
+            SELECT BBB.*
+            FROM
+            (
+                SELECT ROWNUM RN, AAA.*
+                FROM
+                (
+                    SELECT X.ID, X.TITLE, X.CONTENT, X.WRITER, X.WRITETIME, X.VIEWCOUNT, X.LIKECOUNT, NVL(COUNT(Y.BOARDID), 0)
+                    COMMENTCOUNT
+                    FROM (SELECT A.ID, A.TITLE, A.CONTENT, A.WRITER, A.WRITETIME, A.VIEWCOUNT,
+                    COUNT(CASE WHEN B.LIKEEXIST = 1 THEN 1 END) LIKECOUNT
+                    FROM BOARD A
+                    LEFT JOIN BOARD_LIKE B ON A.ID = B.BOARDID
+                    GROUP BY A.ID, A.TITLE, A.CONTENT, A.WRITER, A.WRITETIME, A.VIEWCOUNT) X
+                    LEFT JOIN BOARD_COMMENT Y ON X.ID = Y.BOARDID
+                    <where>
+                        <if test="keyword != null">AND ${searchSort} LIKE '%'||#{keyword}||'%'
+                        </if>
+                    </where>
+                    GROUP BY X.ID, X.TITLE, X.CONTENT, X.WRITER, X.WRITETIME, X.VIEWCOUNT, X.LIKECOUNT, Y.BOARDID
+                    ORDER BY ${sort} DESC
+                ) AAA
+            ) BBB
+            <![CDATA[WHERE BBB.RN > #{startNumber}]]>
+        ) CCC
+        <![CDATA[WHERE ROWNUM <= #{numberOfPage}]]>
     </select>
 
     <insert id="postBoard" parameterType="com.lol.domain.Board">

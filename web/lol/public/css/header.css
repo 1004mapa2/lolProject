@@ -23,6 +23,14 @@
     height: 300px;
 }
 
+.Banner {
+    position: absolute;
+    top: 100px;
+    min-width: 13%;
+    height: 90px;
+    z-index: 1;
+}
+
 .blackBar {
     position: absolute;
     top: 260px;

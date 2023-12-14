@@ -1,4 +1,5 @@
 const url = 'http://13.124.127.226:8081';
+// const url = 'http://localhost:8081';
 
 document.addEventListener("DOMContentLoaded", async function () {
     await 엑세스토큰검증();
@@ -132,7 +133,9 @@ async function 게시글불러오기() {
                 document.querySelector('main ul').insertAdjacentHTML('beforeend', 댓글);
             })
         })
-    권한체크();
+    if (document.querySelector('.loginDiv').innerHTML == '로그아웃') {
+        권한체크();
+    }
 }
 
 function 권한체크() {

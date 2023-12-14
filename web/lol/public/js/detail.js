@@ -1,4 +1,5 @@
 const url = 'http://13.124.127.226:8081';
+// const url = 'http://localhost:8081';
 
 document.addEventListener("DOMContentLoaded", async function () {
     await 엑세스토큰검증();
@@ -232,7 +233,9 @@ async function 댓글불러오기() {
                 }
             }
         })
-    권한체크();
+    if(document.querySelector('.loginDiv').innerHTML == '로그아웃') {
+        권한체크();
+    }
 }
 
 function 티어바꾸기(comsaveIdValue, tierValue) {
