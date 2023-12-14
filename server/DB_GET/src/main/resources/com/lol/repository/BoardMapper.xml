@@ -49,7 +49,7 @@
         </where>
     </select>
 
-    <select id="getBoard" parameterType="int" resultType="com.lol.domain.Board">
+    <select id="findByBoard" parameterType="int" resultType="com.lol.domain.Board">
         SELECT * FROM BOARD WHERE ID= #{boardId}
     </select>
 
