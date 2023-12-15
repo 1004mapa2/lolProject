@@ -1,7 +1,5 @@
 const url = 'http://13.124.127.226:8081';
-const clientUrl = 'http://13.124.127.226:3000';
 // const url = 'http://localhost:8081';
-// const clientUrl = 'http://localhost:3000';
 let dragged;
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -203,7 +201,7 @@ function ALLTIER받아오기() {
     }
     const championNameData = document.querySelector('.comImg').querySelectorAll('img');
     championNameData.forEach(function (data, i) {
-        dataToSend[`championName${i + 1}`] = data.src.replace(clientUrl + '/img/', '').replace('.png', '');
+        dataToSend[`championName${i + 1}`] = data.src.replace(window.location.href + 'img/', '').replace('.png', '');
     })
     dataToSend.tier = tierValue;
     dataToSend.sort = sortValue;
