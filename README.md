@@ -1,71 +1,97 @@
-# LOL 조합 추천 프로젝트
+<div align="center">
+	<img src="https://github.com/1004mapa2/lolProject/assets/109250944/754252e6-c16b-4ede-b2a0-a04d909a48d5" alt="Logo" width="80" height="80">
 
+  <h3>LOL 조합 추천 프로젝트</h3>
+  <br />
+  <p>
+    배포 링크
+    <br />
+    <a href="http://qpeprqpe.site">qpeprqpe.site</a>
+  </p>
+</div>
+<br />
 
-![image](https://github.com/1004mapa2/lolProject/assets/109250944/1a2bfe10-e36b-4c43-898c-990035946052)
+### 목차
+1. [프로젝트 소개](#프로젝트-소개)
+    - [주요 라이브러리](#주요-라이브러리)
+    - [배포 아키텍쳐](#배포-아키텍쳐)
+2. [사용법 및 기능소개](#사용법-및-기능소개)
+3. [개발 로드맵](#개발-로드맵)
+4. [세부 내용](#세부-내용)
+    - [ERD](#ERD)
+    - [Sequence Diagram](#sequence-diagram)
+    - [REST API Docs](#rest-api-docs)
+    - [figma 설계 초안](#figma-설계-초안)
+    - [selenium 적용 파트](#selenium-적용-파트)
+<br />
 
-
-### 🖥사이트 링크 [qpeprqpe.site](http://qpeprqpe.site)
----
-
-
-## 목차
-- [프로젝트 소개](#프로젝트-소개)
-
-- [페이지 구성](#페이지-구성)
-  
-- [시연 영상](#시연-영상)
-  
-- [시퀀스 다이어그램](#시퀀스-다이어그램)
-  
-- [ERD](#ERD)
-
-
----
 ## 프로젝트 소개
-figma 초안 [figma_link]()
-이러이러한 프로젝트다
-알라알리야
+<br />
 
+![메인화면](https://github.com/1004mapa2/lolProject/assets/109250944/752b47b2-f00e-4ba2-a57e-b5dae1f00d42)
 
----
-## 페이지 구성
+~해서 이 프로젝트를 시작하게 되었고 좀 더 전략적으로 승리할 수 있도록 이 사이트를 만들게 되었습니다.
 
+얻을 수 있는 정보
+- 승률이 높은 조합
+- 조합 운영 팁
+- 팀 조합에 어울리는 챔피언
 
-|메인페이지|상세페이지|
-|:--:|:--:|
-|![메인페이지](https://github.com/1004mapa2/lolProject/assets/109250944/39667e29-9168-4ef1-ab04-8933a5295145)|![메인페이지](https://github.com/1004mapa2/lolProject/assets/109250944/7a68bc27-6522-413f-b2f2-1186a8968b48)|
-|**로그인**|**회원가입**|
-|![메인페이지](https://github.com/1004mapa2/lolProject/assets/109250944/7a68bc27-6522-413f-b2f2-1186a8968b48)|![메인페이지](https://github.com/1004mapa2/lolProject/assets/109250944/7a68bc27-6522-413f-b2f2-1186a8968b48)|
-|**마이페이지**|**게시판**|
-|![메인페이지](https://github.com/1004mapa2/lolProject/assets/109250944/7a68bc27-6522-413f-b2f2-1186a8968b48)|![메인페이지](https://github.com/1004mapa2/lolProject/assets/109250944/7a68bc27-6522-413f-b2f2-1186a8968b48)|
-|**게시판 글쓰기**|**게시판 글상세**|
-|![메인페이지](https://github.com/1004mapa2/lolProject/assets/109250944/7a68bc27-6522-413f-b2f2-1186a8968b48)|![메인페이지](https://github.com/1004mapa2/lolProject/assets/109250944/7a68bc27-6522-413f-b2f2-1186a8968b48)|
+<br />
+<br />
 
+### 주요 라이브러리
 
+- ![spring](https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
+- ![springSecurity](https://img.shields.io/badge/springsecurity-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white)
+- ![jwt](https://img.shields.io/badge/jwt-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white)
+- ![redis](https://img.shields.io/badge/redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)
+- ![selenium](https://img.shields.io/badge/selenium-43B02A?style=for-the-badge&logo=selenium&logoColor=white)
+- ![node.js](https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)
 
+<br />
 
+### 배포 아키텍쳐
 
+![배포아키텍쳐](https://github.com/1004mapa2/lolProject/assets/109250944/bcb3265c-9603-4a10-9233-e0999917cdcf)
 
----
-## 시연 영상
+EC2에 프론트엔드 서버와 백엔드 서버를 분리해서 REST API를 적용하였습니다.
+<br />
+LocalServer에 riot사이트 API를 이용하여 스프링 스케줄러를 적용해서 지속적으로 EC2 DB 데이터를 최신으로 업데이트합니다.
 
+<br />
 
-조합 보기
+## 사용법 및 기능소개
 
+메인화면에서 작동하는 gif 첨부
+설명란
+세부 기능 소개는 링크를 참조해 주세요. (링크주소)
 
-상세페이지
+<br />
 
+## 개발 로드맵
+- [X] 미생성 게시물 url로 접근 불가 로직 추가
+- [ ] 관리자 권한으로 챔피언 추가 기능 구현
+- [ ] 게시물 페이지 일정 이상 넘어가면 화살표로 구현
 
-회원가입, 로그인
-https://github.com/1004mapa2/lolProject/assets/109250944/842da54a-2a1e-4121-9789-c4dcafe29b1e
+<br />
 
+## 세부 내용
 
-게시판 글쓰기
+### ERD
 
-게시판 상세, 댓글 작성, 페이지 이동
+<br />
 
+### Sequence Diagram
 
-## 시퀀스 다이어그램
+<br />
 
+### REST API Docs
 
-## ERD
+<br />
+
+### figma 설계 초안
+
+<br />
+
+### selenium 적용 파트
