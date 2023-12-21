@@ -1,5 +1,5 @@
 <div align="center">
-	<img src="https://github.com/1004mapa2/lolProject/assets/109250944/754252e6-c16b-4ede-b2a0-a04d909a48d5" alt="Logo" width="80" height="80">
+	<img src="/images/riotLogo.png" alt="Logo" width="80" height="80">
 
   <h3>LOL 조합 추천 프로젝트</h3>
   <br />
@@ -28,7 +28,7 @@
 ## 프로젝트 소개
 <br />
 
-![메인화면](https://github.com/1004mapa2/lolProject/assets/109250944/752b47b2-f00e-4ba2-a57e-b5dae1f00d42)
+![메인화면](/images/mainPage.png)
 
 ~해서 이 프로젝트를 시작하게 되었고 좀 더 전략적으로 승리할 수 있도록 이 사이트를 만들게 되었습니다.
 
@@ -53,7 +53,7 @@
 
 ### 배포 아키텍쳐
 
-![배포아키텍쳐](https://github.com/1004mapa2/lolProject/assets/109250944/bcb3265c-9603-4a10-9233-e0999917cdcf)
+![배포아키텍쳐](/images/architecture.png)
 
 EC2에 프론트엔드 서버와 백엔드 서버를 분리해서 REST API를 적용하였습니다.
 <br />
