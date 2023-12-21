@@ -64,8 +64,10 @@ LocalServer에 riot사이트 API를 이용하여 스프링 스케줄러를 적�
 ## 사용법 및 기능소개
 
 메인화면에서 작동하는 gif 첨부
+<br />
 설명란
-세부 기능 소개는 링크를 참조해 주세요. (링크주소)
+<br />
+세부 기능 소개는 링크의 문서를 참조해 주세요. <a href="https://zircon-moat-99e.notion.site/59948773811147a9b44c639823b64394?pvs=4">Documentation</a>
 
 <br />
 
