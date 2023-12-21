@@ -33,7 +33,7 @@ figma 초안 [figma_link]()
 
 |메인페이지|상세페이지|
 |:--:|:--:|
-|![메인페이지](https://github.com/1004mapa2/lolProject/assets/109250944/7a68bc27-6522-413f-b2f2-1186a8968b48)|![메인페이지](https://github.com/1004mapa2/lolProject/assets/109250944/7a68bc27-6522-413f-b2f2-1186a8968b48)|
+|![메인페이지](https://github.com/1004mapa2/lolProject/assets/109250944/39667e29-9168-4ef1-ab04-8933a5295145)|![메인페이지](https://github.com/1004mapa2/lolProject/assets/109250944/7a68bc27-6522-413f-b2f2-1186a8968b48)|
 |**로그인**|**회원가입**|
 |![메인페이지](https://github.com/1004mapa2/lolProject/assets/109250944/7a68bc27-6522-413f-b2f2-1186a8968b48)|![메인페이지](https://github.com/1004mapa2/lolProject/assets/109250944/7a68bc27-6522-413f-b2f2-1186a8968b48)|
 |**마이페이지**|**게시판**|
