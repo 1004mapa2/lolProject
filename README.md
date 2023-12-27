@@ -4,9 +4,7 @@
   <h3>LOL 조합 추천 프로젝트</h3>
   <br />
   <p>
-    배포 링크
-    <br />
-    <a href="http://qpeprqpe.site">qpeprqpe.site</a>
+    <a href="http://13.124.127.226:3000/">배포 링크</a>
   </p>
 </div>
 <br />
@@ -90,8 +88,8 @@ LocalServer에 riot사이트 API를 이용하여 스프링 스케줄러를 적�
 
 <br />
 
-### REST API Docs
-
+### Swagger UI
+<a href="http://13.124.127.226:8081/swagger-ui/">REST API 명세서</a>
 <br />
 
 ### figma 설계 초안
