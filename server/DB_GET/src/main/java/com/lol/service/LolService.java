@@ -41,7 +41,7 @@ public class LolService {
             receiveDto.setChampionName5(null);
         }
 
-        if(receiveDto.getTier().equals("ALLTIER")){
+        if(receiveDto.getTier().equals("ALLTIER")) {
             return mapper.getAllTierDtos(receiveDto);
         } else {
             return mapper.getEachTierDtos(receiveDto);
@@ -73,19 +73,6 @@ public class LolService {
         return championKorNames;
     }
 
-    public void saveComment(Combination_CommentDto commentDto, String username) {
-        LocalDateTime now = LocalDateTime.now();
-        String formatNowTime = now.format(DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm"));
-
-        Combination_Comment combinationComment = new Combination_Comment();
-        combinationComment.setContent(commentDto.getContent());
-        combinationComment.setComsaveId(commentDto.getComsaveId());
-        combinationComment.setUsername(username);
-        combinationComment.setWriteTime(formatNowTime);
-
-        mapper.saveComment(combinationComment);
-    }
-
     public Combination_CommentDto getComment(int comsaveId, int page) {
         int numberOfPage = 5;
         int showPage = (page - 1) * numberOfPage;
@@ -96,8 +83,24 @@ public class LolService {
         return new Combination_CommentDto(commentList, maxPage);
     }
 
-    public void deleteComment(int commentId) {
-        mapper.deleteComment(commentId);
+    public void postComment(Combination_CommentDto commentDto, String username) {
+        LocalDateTime now = LocalDateTime.now();
+        String formatNowTime = now.format(DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm"));
+
+        Combination_Comment combinationComment = new Combination_Comment();
+        combinationComment.setContent(commentDto.getContent());
+        combinationComment.setComsaveId(commentDto.getComsaveId());
+        combinationComment.setUsername(username);
+        combinationComment.setWriteTime(formatNowTime);
+
+        mapper.postComment(combinationComment);
+    }
+
+    public void deleteComment(int commentId, String username) {
+        Combination_Comment comment = mapper.findByComment(commentId);
+        if(comment.getUsername().equals(username)) {
+            mapper.deleteComment(commentId);
+        }
     }
 
     public UserAccount checkUser(Authentication authentication) {
