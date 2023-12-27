@@ -26,11 +26,13 @@ public interface LolMapper {
     public String getChampionKorName(String championName);
 
 
-    public void saveComment(Combination_Comment combinationComment);
+    public void postComment(Combination_Comment combinationComment);
 
     public List<Combination_Comment> getComment(int comsaveId, int showPage, int numberOfPage);
 
     public int getMaxPage(int comsaveId);
 
     public void deleteComment(int commentId);
+
+    public Combination_Comment findByComment(int commentId);
 }
