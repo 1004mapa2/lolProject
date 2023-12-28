@@ -1,6 +1,7 @@
 const url = 'http://13.124.127.226:8081';
 // const url = 'http://localhost:8081';
 let dragged;
+const clientUrl = window.location.href;
 
 document.addEventListener("DOMContentLoaded", function () {
     엑세스토큰검증();
@@ -28,23 +29,6 @@ document.querySelector('.searchInput').addEventListener('input', function () {
 document.querySelector('main ul').addEventListener('click', function (event) {
     if (event.target.tagName === 'IMG') {
         조합박스(event.target.src);
-    }
-})
-
-document.querySelector('main ul').addEventListener('mouseover', function (event) {
-    if (event.target.tagName === 'IMG') {
-        event.target.style.width = '55px';
-        event.target.style.height = '55px';
-        event.target.style.transition = 'all 0.3s';
-        event.target.parentNode.querySelector('span').style.opacity = 1;
-    }
-})
-
-document.querySelector('main ul').addEventListener('mouseout', function (event) {
-    if (event.target.tagName === 'IMG') {
-        event.target.style.width = '50px';
-        event.target.style.height = '50px';
-        event.target.parentNode.querySelector('span').style.opacity = 0;
     }
 })
 
@@ -85,7 +69,7 @@ document.addEventListener("drop", function (event) {
 /**
  * 클릭으로 챔피언 빼기
  */
-document.querySelector('.comImg').addEventListener('click', function (event) {
+document.querySelector('.comImgDiv').addEventListener('click', function (event) {
     if (event.target.tagName == 'IMG') {
         event.target.src = "/img/emptyBox.png";
     }
@@ -95,9 +79,9 @@ document.querySelector('.comImg').addEventListener('click', function (event) {
 /**
  * 랜덤 넣기
  */
-document.querySelector('.comButton1').addEventListener('click', function () {
-    const empty = clientUrl + "/img/emptyBox.png";
-    const list = document.querySelector('.comImg').querySelectorAll('img');
+document.querySelector('.randomButton').addEventListener('click', function () {
+    const empty = clientUrl + "img/emptyBox.png";
+    const list = document.querySelector('.comImgDiv').querySelectorAll('img');
     for (let i = 0; i < list.length; i++) {
         if (list[i].src == empty) {
             list[i].src = "/img/random.png";
@@ -109,8 +93,8 @@ document.querySelector('.comButton1').addEventListener('click', function () {
 /**
  * 조합 박스 비우기
  */
-document.querySelector('.comButton2').addEventListener('click', function () {
-    const list = document.querySelector('.comImg').querySelectorAll('img');
+document.querySelector('.clearButton').addEventListener('click', function () {
+    const list = document.querySelector('.comImgDiv').querySelectorAll('img');
     for (let i = 0; i < list.length; i++) {
         list[i].src = "/img/emptyBox.png";
     }
@@ -144,8 +128,8 @@ document.querySelector('.resultComBox').addEventListener('mouseout', function (e
 })
 
 document.querySelector('.resultComBox').addEventListener('click', function (event) {
-    if (event.target.classList.contains("clickBox")) {
-        var comsaveId = event.target.parentNode.querySelector('input').value;
+    if (event.target.tagName === 'I') {
+        var comsaveId = event.target.parentNode.parentNode.parentNode.querySelector('input').value;
         var tier = document.querySelector('.tierP').value;
         var detailURL = "/detail?comsaveId=" + comsaveId + "&tier=" + tier + "&page=1";
         window.location.href = detailURL;
@@ -177,11 +161,14 @@ function CHAMPIONNAME받아오기(value) {
                 document.querySelector('main ul').insertAdjacentHTML('beforeend', 없음);
             } else {
                 data.forEach(function (item) {
-                    const span크기 = item.championKorName.length * 15;
+                    var korName = item.championKorName;
+                    if(item.championKorName.length > 4) {
+                        korName = korName.slice(0, 4) + "..";
+                    }
                     var 열 =
                         `<li>
                         <img src="/img/${item.championEngName}.png">
-                        <span style="width: ${span크기}px;" class="korNameBox">${item.championKorName}</span>
+                        <div class="korNameBox">${korName}</div>
                         </li>`;
                     document.querySelector('main ul').insertAdjacentHTML('beforeend', 열);
                 })
@@ -199,7 +186,7 @@ function ALLTIER받아오기() {
     } else {
         sortValue = 'PICKCOUNT';
     }
-    const championNameData = document.querySelector('.comImg').querySelectorAll('img');
+    const championNameData = document.querySelector('.comImgDiv').querySelectorAll('img');
     championNameData.forEach(function (data, i) {
         dataToSend[`championName${i + 1}`] = data.src.replace(window.location.href + 'img/', '').replace('.png', '');
     })
@@ -228,8 +215,6 @@ function ALLTIER받아오기() {
                 var 열 =
                     `<div class="resultCom">
                         <input type="hidden" value="${item.comsaveId}">
-                        <div class="littleSpace"></div>
-                        <div class="clickBox"></div>
                         <div class="totalBox">
                             <div class="championComBox">
                                 <img src="/img/${item.topName}.png">
@@ -242,18 +227,20 @@ function ALLTIER받아오기() {
                                 <a class="winRate">${winRate}%</a>
                                 <a class="pickCount">${item.pickCount}</a>
                             </div>
+                            <div class="detailDiv">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            </div>
                         </div>
-                        <div class="littleSpace"></div>
-                    </div>`;
+                    </div>
+                    `;
                 document.querySelector('.resultComBox').insertAdjacentHTML('beforeend', 열);
             });
         })
-    document.querySelector('.resultComBox').style.opacity = 1;
 }
 
 function 조합박스(click_src) {
-    const empty = clientUrl + "/img/emptyBox.png";
-    const list = document.querySelector('.comImg').querySelectorAll('img');
+    const empty = clientUrl + "img/emptyBox.png";
+    const list = document.querySelector('.comImgDiv').querySelectorAll('img');
 
     for (let i = 0; i < list.length; i++) {
         if (list[0].src != click_src && list[1].src != click_src &&
