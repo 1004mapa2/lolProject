@@ -85,11 +85,11 @@ LocalServer에 riot사이트 API를 이용하여 스프링 스케줄러를 적�
 <br />
 
 ### Sequence Diagram
-
+<a href="https://zircon-moat-99e.notion.site/726533b2de3a43c283b5da3c62b81c3c?pvs=4">Documentation</a>
 <br />
 
 ### Swagger UI
-<a href="http://13.124.127.226:8081/swagger-ui/">REST API 명세서</a>
+<a href="http://13.124.127.226:8081/swagger-ui/">Documentation</a>
 <br />
 
 ### figma 설계 초안
