@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/home.css">
     <link rel="stylesheet" href="css/footer.css">
+    <script src="https://kit.fontawesome.com/a4b68d13c2.js" crossorigin="anonymous"></script>
 </head>
 
 <body style="margin: 0;">
@@ -21,7 +22,7 @@
                 <div class="tabBar">
                     <nav>
                         <ul>
-                            <li><a href="/">조합 분석</a></li>
+                            <li><a href="/" style="color: #74C7FB;">조합 분석</a></li>
                             <li style="width: 50px;"></li>
                             <li><a href="board?page=1">커뮤니티</a></li>
                         </ul>
@@ -42,7 +43,11 @@
                 <div class="leftDiv">
                     <div class="championDiv">
                         <div class="searchDiv">
+                            <img src="/img/tierImg/CHALLENGER.webp" class="searchImg" />
                             <input class="searchInput" placeholder="챔피언을 입력하세요">
+                            <div class="iconDiv">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </div>
                         </div>
                         <div class="championListContainer">
                             <ul></ul>
@@ -53,29 +58,31 @@
                 <div class="middleDiv"></div>
                 <!--  -->
                 <div class="rightDiv">
-                    <div class="useSticky">
-                        <div class="positionName">
-                            <p class="top">TOP</p>
-                            <p class="jungle">JUNGLE</p>
-                            <p class="middle">MIDDLE</p>
-                            <p class="bottom">BOTTOM</p>
-                            <p class="utility">UTILITY</p>
-                        </div>
-                        <div class="comDiv">
-                            <div class="comImg">
-                                <img src="/img/emptyBox.png" class="com">
-                                <img src="/img/emptyBox.png" class="com">
-                                <img src="/img/emptyBox.png" class="com">
-                                <img src="/img/emptyBox.png" class="com">
-                                <img src="/img/emptyBox.png" class="com">
-                            </div>
-                            <div class="comButtonDiv">
-                                <button class="comButton1">랜덤 넣기</button>
-                                <button class="comButton2">비우기</button>
-                            </div>
+
+                    <div class="comDiv">
+                        <div class="comImgDiv">
+                            <img src="/img/emptyBox.png" class="com">
+                            <img src="/img/emptyBox.png" class="com">
+                            <img src="/img/emptyBox.png" class="com">
+                            <img src="/img/emptyBox.png" class="com">
+                            <img src="/img/emptyBox.png" class="com">
                         </div>
                     </div>
+                    <div class="buttonDiv">
+                        <div class="randomButton">
+                            <i class="fa-solid fa-shuffle"></i>
+                            <p>랜덤 추가</p>
+                        </div>
+                        <div class="clearButton">
+                            <i class="fa-solid fa-trash-can"></i>
+                            <p>모두 비우기</p>
+                        </div>
+                    </div>
+
+                    <div class="rightMiddleDiv"></div>
+
                     <div class="listDiv">
+                        <img src="/img/teemoImage.jpg" style="width: 470px; height: 100%;">
                         <div class="choiceList">
                             <select class="tierP">
                                 <option>ALLTIER</option>
@@ -89,13 +96,16 @@
                                 <option>승률 순</option>
                             </select>
                         </div>
-                        <div style="width: 100px;"></div>
-                        <div class="definition">
-                            <span>승률</span>
-                            <span>픽 횟수</span>
+                    </div>
+                    <div class="definitionDiv">
+                        <p class="combinationP">조합</p>
+                        <div class="winPickDiv">
+                            <p class="winRateP">승률</p>
+                            <p class="pickCountP">픽 횟수</p>
                         </div>
                     </div>
                     <div class="resultComBox"></div>
+
                 </div>
             </div>
         </div>
@@ -105,4 +115,5 @@
     </footer>
     <script src="/js/home.js"></script>
 </body>
+
 </html>
