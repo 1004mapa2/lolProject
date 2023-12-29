@@ -163,25 +163,20 @@ function 조합정보가져오기() {
         })
 }
 
-async function 댓글저장() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const dataToSend = {
-        content: document.querySelector('.commentText').value,
-        comsaveId: urlParams.get('comsaveId')
-    }
-    await fetch(url + '/saveComment', {
-        method: 'POST',
-        headers: {
-            'Authorization': localStorage.getItem('jwtToken'),
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(dataToSend)
+function 티어바꾸기(comsaveIdValue, tierValue) {
+    fetch(url + '/getDetailInfoDynamic' + "?comsaveId=" + comsaveIdValue + "&tier=" + tierValue, {
+        method: 'GET'
     })
         .then(response => {
-            document.querySelector('.commentText').value = '';
-            if (response.status == 401) {
-                alert('로그인 하세요');
+            if (!response.ok) {
+                throw new Error('http 오류: ' + response.status);
             }
+            return response.json();
+        })
+        .then(data => {
+            document.querySelector('.pickCountBox').innerHTML = data.pickCount;
+            const winRate = Math.round(data.winRate * 100);
+            document.querySelector('.winRateBox').innerHTML = winRate + '%';
         })
 }
 
@@ -238,21 +233,45 @@ async function 댓글불러오기() {
     }
 }
 
-function 티어바꾸기(comsaveIdValue, tierValue) {
-    fetch(url + '/getDetailInfoDynamic' + "?comsaveId=" + comsaveIdValue + "&tier=" + tierValue, {
-        method: 'GET'
+async function 댓글저장() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const dataToSend = {
+        content: document.querySelector('.commentText').value,
+        comsaveId: urlParams.get('comsaveId')
+    }
+    await fetch(url + '/postComment', {
+        method: 'POST',
+        headers: {
+            'Authorization': localStorage.getItem('jwtToken'),
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dataToSend)
     })
         .then(response => {
-            if (!response.ok) {
-                throw new Error('http 오류: ' + response.status);
+            document.querySelector('.commentText').value = '';
+            if (response.status == 401) {
+                alert('로그인 하세요');
             }
-            return response.json();
         })
-        .then(data => {
-            document.querySelector('.pickCountBox').innerHTML = data.pickCount;
-            const winRate = Math.round(data.winRate * 100);
-            document.querySelector('.winRateBox').innerHTML = winRate + '%';
+}
+
+function 댓글삭제(event) {
+    if (event.target.classList.contains('commentDeleteP')) {
+        const commentId = event.target.parentNode.parentNode.querySelector('input').value;
+        fetch(url + '/deleteComment/' + commentId, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': localStorage.getItem('jwtToken')
+            }
         })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('http 오류: ' + response.status);
+                } else {
+                    댓글불러오기();
+                }
+            })
+    }
 }
 
 function 권한체크() {
@@ -277,23 +296,4 @@ function 권한체크() {
                 }
             })
         })
-}
-
-function 댓글삭제(event) {
-    if (event.target.classList.contains('commentDeleteP')) {
-        const commentId = event.target.parentNode.parentNode.querySelector('input').value;
-        fetch(url + '/deleteComment/' + commentId, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': localStorage.getItem('jwtToken')
-            }
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('http 오류: ' + response.status);
-                } else {
-                    댓글불러오기();
-                }
-            })
-    }
 }

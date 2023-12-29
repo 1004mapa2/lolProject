@@ -1,7 +1,10 @@
+body {
+    background-color: #f4f5f8;
+}
+
 main {
     min-width: 1050px;
     height: 100vh;
-    background-color: #F5F3F7;
 }
 
 li {

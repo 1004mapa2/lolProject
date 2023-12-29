@@ -1,14 +1,14 @@
+body {
+    height: 100%;
+    background-color: #f4f5f8;
+}
+
 .container {
     width: 500px;
     margin: 0 auto;
     display: flex;
     justify-content: center;
     flex-direction: column;
-}
-
-body {
-    height: 100%;
-    background-color: #F5F3F7;
 }
 
 input {

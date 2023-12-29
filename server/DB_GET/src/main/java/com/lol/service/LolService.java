@@ -25,19 +25,19 @@ public class LolService {
     private final LolMapper mapper;
 
     public List<TierDto> getTierInfo(ReceiveDto receiveDto) {
-        if (receiveDto.getChampionName1().equals("random") || receiveDto.getChampionName1().equals("emptyBox")) {
+        if (receiveDto.getChampionName1().equals("random") || receiveDto.getChampionName1().equals("topIcon")) {
             receiveDto.setChampionName1(null);
         }
-        if (receiveDto.getChampionName2().equals("random") || receiveDto.getChampionName2().equals("emptyBox")) {
+        if (receiveDto.getChampionName2().equals("random") || receiveDto.getChampionName2().equals("jungleIcon")) {
             receiveDto.setChampionName2(null);
         }
-        if (receiveDto.getChampionName3().equals("random") || receiveDto.getChampionName3().equals("emptyBox")) {
+        if (receiveDto.getChampionName3().equals("random") || receiveDto.getChampionName3().equals("middleIcon")) {
             receiveDto.setChampionName3(null);
         }
-        if (receiveDto.getChampionName4().equals("random") || receiveDto.getChampionName4().equals("emptyBox")) {
+        if (receiveDto.getChampionName4().equals("random") || receiveDto.getChampionName4().equals("bottomIcon")) {
             receiveDto.setChampionName4(null);
         }
-        if (receiveDto.getChampionName5().equals("random") || receiveDto.getChampionName5().equals("emptyBox")) {
+        if (receiveDto.getChampionName5().equals("random") || receiveDto.getChampionName5().equals("utilityIcon")) {
             receiveDto.setChampionName5(null);
         }
 
