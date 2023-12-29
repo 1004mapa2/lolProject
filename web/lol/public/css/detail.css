@@ -1,10 +1,9 @@
 body {
-    background-color: #F5F3F7;
+    background-color: #f4f5f8;
 }
 
 main {
     min-width: 1050px;
-    /* height: 2050px; */
 }
 
 .container {
@@ -12,11 +11,6 @@ main {
     margin: 0 auto;
     display: flex;
     justify-content: center;
-}
-
-img {
-    width: 80px;
-    height: 80px;
 }
 
 p {
@@ -118,6 +112,11 @@ hr {
     width: 50%;
     text-align: center;
     border: 1px solid #D8D8D8;
+}
+
+.tierDiv img {
+    width: 80px;
+    height: 80px;
 }
 
 .tierDiv.backColor {
