@@ -54,12 +54,7 @@ document.addEventListener("dragend", function () {
 document.addEventListener("drop", function (event) {
     event.preventDefault();
     if (event.target.classList.contains("com")) {
-        const store = event.target.src;
-        event.target.src = dragged.src;
-        if (dragged.classList.contains("com")) {
-            dragged.src = store;
-        }
-        ALLTIER받아오기();
+        조합박스드래그(event.target, dragged);
     }
 })
 /**
@@ -70,8 +65,16 @@ document.addEventListener("drop", function (event) {
  * 클릭으로 챔피언 빼기
  */
 document.querySelector('.comImgDiv').addEventListener('click', function (event) {
-    if (event.target.tagName == 'IMG') {
-        event.target.src = "/img/emptyBox.png";
+    if (event.target.id == 'top') {
+        event.target.src = "/img/topIcon.png";
+    } else if (event.target.id == 'jungle') {
+        event.target.src = "/img/jungleIcon.png";
+    } else if (event.target.id == 'middle') {
+        event.target.src = "/img/middleIcon.png";
+    } else if (event.target.id == 'bottom') {
+        event.target.src = "/img/bottomIcon.png";
+    } else if (event.target.id == 'utility') {
+        event.target.src = "/img/utilityIcon.png";
     }
     ALLTIER받아오기();
 })
@@ -80,10 +83,13 @@ document.querySelector('.comImgDiv').addEventListener('click', function (event) 
  * 랜덤 넣기
  */
 document.querySelector('.randomButton').addEventListener('click', function () {
-    const empty = clientUrl + "img/emptyBox.png";
     const list = document.querySelector('.comImgDiv').querySelectorAll('img');
     for (let i = 0; i < list.length; i++) {
-        if (list[i].src == empty) {
+        if (list[i].src == clientUrl + "img/topIcon.png"
+            || list[i].src == clientUrl + "img/jungleIcon.png"
+            || list[i].src == clientUrl + "img/middleIcon.png"
+            || list[i].src == clientUrl + "img/bottomIcon.png"
+            || list[i].src == clientUrl + "img/utilityIcon.png") {
             list[i].src = "/img/random.png";
             break;
         }
@@ -96,7 +102,17 @@ document.querySelector('.randomButton').addEventListener('click', function () {
 document.querySelector('.clearButton').addEventListener('click', function () {
     const list = document.querySelector('.comImgDiv').querySelectorAll('img');
     for (let i = 0; i < list.length; i++) {
-        list[i].src = "/img/emptyBox.png";
+        if (list[i].id == 'top') {
+            list[i].src = "/img/topIcon.png";
+        } else if (list[i].id == 'jungle') {
+            list[i].src = "/img/jungleIcon.png";
+        } else if (list[i].id == 'middle') {
+            list[i].src = "/img/middleIcon.png";
+        } else if (list[i].id == 'bottom') {
+            list[i].src = "/img/bottomIcon.png";
+        } else if (list[i].id == 'utility') {
+            list[i].src = "/img/utilityIcon.png";
+        }
     }
     ALLTIER받아오기();
 })
@@ -162,7 +178,7 @@ function CHAMPIONNAME받아오기(value) {
             } else {
                 data.forEach(function (item) {
                     var korName = item.championKorName;
-                    if(item.championKorName.length > 4) {
+                    if (item.championKorName.length > 4) {
                         korName = korName.slice(0, 4) + "..";
                     }
                     var 열 =
@@ -239,14 +255,40 @@ function ALLTIER받아오기() {
 }
 
 function 조합박스(click_src) {
-    const empty = clientUrl + "img/emptyBox.png";
+    const empty = [clientUrl + "img/topIcon.png",
+    clientUrl + "img/jungleIcon.png",
+    clientUrl + "img/middleIcon.png",
+    clientUrl + "img/bottomIcon.png",
+    clientUrl + "img/utilityIcon.png"
+    ];
     const list = document.querySelector('.comImgDiv').querySelectorAll('img');
 
     for (let i = 0; i < list.length; i++) {
         if (list[0].src != click_src && list[1].src != click_src &&
             list[2].src != click_src && list[3].src != click_src && list[4].src != click_src) {
-            if (list[i].src == empty) {
+            if (list[i].src == empty[i]) {
                 list[i].src = click_src;
+                break;
+            }
+        }
+    }
+    ALLTIER받아오기();
+}
+
+function 조합박스드래그(타겟, 드래그) {
+    const empty = [clientUrl + "img/topIcon.png",
+    clientUrl + "img/jungleIcon.png",
+    clientUrl + "img/middleIcon.png",
+    clientUrl + "img/bottomIcon.png",
+    clientUrl + "img/utilityIcon.png"
+    ];
+    const list = document.querySelector('.comImgDiv').querySelectorAll('img');
+
+    for (let i = 0; i < list.length; i++) {
+        if (list[0].src != 드래그.src && list[1].src != 드래그.src &&
+            list[2].src != 드래그.src && list[3].src != 드래그.src && list[4].src != 드래그.src) {
+            if (list[i].src == empty[i]) {
+                타겟.src = 드래그.src;
                 break;
             }
         }

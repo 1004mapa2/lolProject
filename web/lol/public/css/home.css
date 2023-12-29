@@ -8,9 +8,12 @@
     src: url("../font/NanumSquareRoundR.ttf") format("truetype");
 }
 
+body {
+    background-color: #f4f5f8;
+}
+
 main {
     min-width: 1050px;
-    background-color: #F5F3F7;
 }
 
 p {
@@ -36,7 +39,7 @@ p {
 
 .championDiv {
     border: 1px solid #BDBDBD;
-    background-color: #E9E4ED;
+    background-color: #FFFFFF;
 }
 
 .searchDiv {
@@ -49,7 +52,7 @@ p {
 }
 
 .searchImg {
-    width: 70px;
+    width: 100px;
     height: 40px;
 }
 
@@ -58,13 +61,14 @@ p {
     width: 420px;
     border: 1px solid #9A73B5;
     border-radius: 10px;
+    text-indent: 20px;
 }
 
 .iconDiv {
     font-size: 25px;
     position: absolute;
     top: 5px;
-    right: 5px;
+    right: 10px;
 }
 
 .championListContainer {
@@ -105,7 +109,7 @@ main li {
 
 /* ---middleDiv 시작--- */
 .middleDiv {
-    width: 30px;
+    width: 20px;
 }
 
 /* ---middleDiv 끝--- */
@@ -114,21 +118,23 @@ main li {
 /* ---rightDiv 시작--- */
 .rightDiv {
     /* height: 1350px; */
-    width: 470px;
+    width: 480px;
 }
 
 .comDiv {
     top: 0;
     position: sticky;
     z-index: 1000;
-    background-color: #E9E4ED;
+    background-color: #F0F3F5;
     border: 1px solid #BDBDBD;
+    border-bottom: none;
+    height: 110px;
 }
 
 .comImgDiv {
     display: flex;
-    justify-content:space-evenly;
-    margin: 10px 10px 10px 10px;
+    justify-content: space-evenly;
+    margin: 10px 10px 0px 10px;
     background-color: #F5F3F7;
     border: 1px solid #BDBDBD;
     border-radius: 30px;
@@ -140,6 +146,12 @@ main li {
     margin-top: 10px;
     margin-bottom: 10px;
     border-radius: 30px;
+
+    /* 드래그 방지 */
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
 }
 
 .buttonDiv {
@@ -185,6 +197,17 @@ main li {
     align-items: center;
 }
 
+.listImg {
+    width: 480px;
+    height: 100%;
+
+    /* 드래그 방지 */
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+}
+
 .choiceList {
     position: absolute;
     display: flex;
@@ -208,6 +231,7 @@ main li {
     height: 30px;
     align-items: center;
     font-weight: bold;
+    background-color: #F0F3F5;
 }
 
 .combinationP {
@@ -227,12 +251,19 @@ main li {
     height: 60px;
     align-items: center;
     border: 1px solid #BDBDBD;
+    border-top: none;
 }
 
 .resultComBox img {
     width: 40px;
     height: 40px;
     border-radius: 30px;
+
+    /* 드래그 방지 */
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
 }
 
 .totalBox {
@@ -262,4 +293,5 @@ main li {
 .detailDiv:hover {
     cursor: pointer;
 }
+
 /* ---rightDiv 끝--- */
