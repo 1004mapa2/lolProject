@@ -50,7 +50,7 @@ public class SecurityConfiguration {
                 .authorizeRequests(authorize -> authorize
                         .antMatchers("/api/init").hasAnyRole("ADMIN", "MANAGER", "USER")
                         .antMatchers("/api/updateUser").hasAnyRole("ADMIN", "MANAGER", "USER")
-                        .antMatchers("/saveComment").hasAnyRole("ADMIN", "MANAGER", "USER")
+                        .antMatchers("/postComment").hasAnyRole("ADMIN", "MANAGER", "USER")
                         .antMatchers("/deleteComment/{commentId}").hasAnyRole("ADMIN", "MANAGER", "USER")
                         .antMatchers("/board/postBoard").hasAnyRole("ADMIN", "MANAGER", "USER")
                         .antMatchers("/board/postComment").hasAnyRole("ADMIN", "MANAGER", "USER")
