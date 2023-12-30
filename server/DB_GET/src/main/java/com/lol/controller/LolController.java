@@ -98,7 +98,7 @@ public class LolController {
             @ApiImplicitParam(name = "principal", value = "아이디 입력", dataTypeClass = Object.class, paramType = "query")
     })
     public void deleteComment(@PathVariable int commentId, Authentication authentication) {
-        lolService.deleteComment(commentId, authentication.getName());
+        lolService.deleteComment(commentId, authentication);
     }
 
     @GetMapping("/checkUser")
