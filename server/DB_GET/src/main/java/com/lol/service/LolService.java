@@ -97,15 +97,15 @@ public class LolService {
     }
 
     public void deleteComment(int commentId, Authentication authentication) {
-        for (GrantedAuthority authority : authentication.getAuthorities()) {
-            if(authority.getAuthority().equals("ROLE_ADMIN")) {
-                mapper.deleteComment(commentId);
-            }
-        }
-
         Combination_Comment comment = mapper.findByComment(commentId);
         if(comment.getUsername().equals(authentication.getName())) {
             mapper.deleteComment(commentId);
+        } else {
+            for (GrantedAuthority authority : authentication.getAuthorities()) {
+                if(authority.getAuthority().equals("ROLE_ADMIN")) {
+                    mapper.deleteComment(commentId);
+                }
+            }
         }
     }
 
