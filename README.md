@@ -86,6 +86,9 @@ LocalServer에 riot사이트 API를 이용하여 스프링 스케줄러를 적�
 <br />
 
 ## 개발 로드맵
+- [X] 게시판 CRUD 기능 구현
+- [X] springSecurity, JWT 구현
+- [X] 조합 관련 기능 구현
 - [X] 미생성 게시물 url로 접근 불가 로직 추가
 - [ ] 관리자 권한으로 챔피언 추가 기능 구현
 - [ ] 게시물 페이지 일정 이상 넘어가면 화살표로 구현
@@ -93,8 +96,6 @@ LocalServer에 riot사이트 API를 이용하여 스프링 스케줄러를 적�
 <br />
 
 ## 세부 내용
-
-### ERD
 
 <br />
 
@@ -105,9 +106,3 @@ LocalServer에 riot사이트 API를 이용하여 스프링 스케줄러를 적�
 ### Swagger UI
 <a href="http://13.124.127.226:8081/swagger-ui/">Documentation</a>
 <br />
-
-### figma 설계 초안
-
-<br />
-
-### selenium 적용 파트
