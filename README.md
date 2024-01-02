@@ -97,8 +97,6 @@ LocalServer에 riot사이트 API를 이용하여 스프링 스케줄러를 적�
 
 ## 세부 내용
 
-<br />
-
 ### Sequence Diagram
 <a href="https://zircon-moat-99e.notion.site/726533b2de3a43c283b5da3c62b81c3c?pvs=4">Documentation</a>
 <br />
