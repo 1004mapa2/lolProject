@@ -102,6 +102,7 @@ LocalServer에 riot사이트 API를 이용하여 스프링 스케줄러를 적�
 
 ### Selenium
 API를 받아올 때 api-key가 만료되었을 경우 자동 업데이트
+![selenium](/images/selenium.gif)
 <br />
 
 ### Sequence Diagram
