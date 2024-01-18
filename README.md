@@ -16,11 +16,11 @@
 2. [사용법 및 기능소개](#사용법-및-기능소개)
 3. [개발 로드맵](#개발-로드맵)
 4. [세부 내용](#세부-내용)
-    - [ERD](#ERD)
+    - [ERD](#erd)
+    - [Selenium](#selenium)
     - [Sequence Diagram](#sequence-diagram)
-    - [Swagger UI](#Swagger-UI)
-    - [figma 설계 초안](#figma-설계-초안)
-    - [selenium 적용 파트](#selenium-적용-파트)
+    - [Swagger UI](#swagger-ui)
+    
 <br />
 
 ## 프로젝트 소개
@@ -48,12 +48,12 @@
 
 ### 주요 라이브러리
 
-- ![spring](https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
 - ![springSecurity](https://img.shields.io/badge/springsecurity-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white)
 - ![jwt](https://img.shields.io/badge/jwt-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white)
 - ![redis](https://img.shields.io/badge/redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)
+- ![oracle](https://img.shields.io/badge/oracle-F80000?style=for-the-badge&logo=Oracle&logoColor=white)
+- ![swagger-ui](https://img.shields.io/badge/swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=black)
 - ![selenium](https://img.shields.io/badge/selenium-43B02A?style=for-the-badge&logo=selenium&logoColor=white)
-- ![node.js](https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)
 
 <br />
 
@@ -96,6 +96,13 @@ LocalServer에 riot사이트 API를 이용하여 스프링 스케줄러를 적�
 <br />
 
 ## 세부 내용
+
+### ERD
+<br />
+
+### Selenium
+API를 받아올 때 api-key가 만료되었을 경우 자동 업데이트
+<br />
 
 ### Sequence Diagram
 <a href="https://zircon-moat-99e.notion.site/726533b2de3a43c283b5da3c62b81c3c?pvs=4">Documentation</a>
