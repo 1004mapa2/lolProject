@@ -1,10 +1,16 @@
 const url = 'http://13.124.127.226:8081';
 // const url = 'http://localhost:8081';
 
+/**
+ * 페이지가 로드될 때 실행
+ */
 document.addEventListener("DOMContentLoaded", function () {
     엑세스토큰검증();
 })
 
+/**
+ * 로그아웃 버튼 클릭 이벤트
+ */
 document.querySelector('.loginDiv').addEventListener('click', function () {
     if (this.innerHTML == '로그아웃') {
         fetch(url + '/api/logout', {
@@ -19,10 +25,16 @@ document.querySelector('.loginDiv').addEventListener('click', function () {
     }
 })
 
+/**
+ * 취소 버튼 클릭 시 게시글 목록 url로 이동
+ */
 document.querySelector('.cencelButton').addEventListener('click', function () {
     window.location.href = "board";
 })
 
+/**
+ * 글등록 버튼 클릭 이벤트
+ */
 document.querySelector('.postButton').addEventListener('click', async function () {
     await 엑세스토큰검증();
     글등록();

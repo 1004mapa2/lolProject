@@ -1,11 +1,17 @@
 const url = 'http://13.124.127.226:8081';
 // const url = 'http://localhost:8081';
 
+/**
+ * 페이지가 로드될 때 실행
+ */
 document.addEventListener("DOMContentLoaded", async function () {
     await 게시글리스트불러오기();
     엑세스토큰검증();
 })
 
+/**
+ * 로그아웃 버튼 클릭 이벤트
+ */
 document.querySelector('.loginDiv').addEventListener('click', function () {
     if (this.innerHTML == '로그아웃') {
         fetch(url + '/api/logout', {
@@ -19,20 +25,33 @@ document.querySelector('.loginDiv').addEventListener('click', function () {
     }
 })
 
+/**
+ * 글쓰기 버튼 클릭 이벤트
+ */
 document.querySelector('.writingButton').addEventListener('click', function () {
     window.location.href = "boardWrite";
 })
 
+/**
+ * 검색 버튼 클릭 이벤트
+ */
 document.querySelector('.searchButton').addEventListener('click', function () {
     검색();
 })
 
+/**
+ * 검색 인풋박스에서 enter 눌렀을 때 이벤트
+ */
 document.querySelector('.searchInput').addEventListener('keyup', function (event) {
     if (event.key === 'Enter') {
         검색();
     }
 })
 
+/**
+ * 작성 글 클릭 이벤트
+ * 글 클릭 시 boardId를 parameter로 갖고 글상세 url로 이동
+ */
 document.querySelector('main ul').addEventListener('click', function (event) {
     if (event.target.classList.contains("upperDiv")) {
         var boardId = event.target.parentNode.querySelector('input').value;
@@ -45,6 +64,9 @@ document.querySelector('main ul').addEventListener('click', function (event) {
     }
 })
 
+/**
+ * 글 정렬 순서 바꾸기 이벤트
+ */
 document.querySelector('.sort').addEventListener('input', function () {
     게시글리스트불러오기();
 })
