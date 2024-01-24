@@ -1,6 +1,9 @@
 const url = 'http://13.124.127.226:8081';
 // const url = 'http://localhost:8081';
 
+/**
+ * 아이디 input 박스에서 포커스가 나갔을 때 DB에서 중복체크 후 메시지 출력 이벤트
+ */
 document.querySelector('.usernameInput').addEventListener('blur', function () {
     //fetch로 db에서 같은 아이디가 있는지 체크
     const errMsg = document.querySelector('.idErrorMessage');
@@ -39,6 +42,9 @@ document.querySelector('.usernameInput').addEventListener('blur', function () {
     }
 })
 
+/**
+ * 비밀번호 input 박스에서 포커스가 나갔을 때 유효성 검사 후 메시지 출력 이벤트
+ */
 document.querySelector('.password1Input').addEventListener('blur', function () {
     //비밀번호 길이 15자리 이상이면 오류 메시지 출력
     var password1_errMsg = document.querySelector('.password1ErrorMessage');
@@ -69,6 +75,9 @@ document.querySelector('.password1Input').addEventListener('blur', function () {
 
 })
 
+/**
+ * 비밀번호 확인 input 박스에서 포커스가 나갔을 때 유효성 검사 후 메시지 출력 이벤트
+ */
 document.querySelector('.password2Input').addEventListener('blur', function () {
     //위에 비밀번호와 같지 않으면 오류 메시지 출력
     var errMsg = document.querySelector('.password2ErrorMessage');
@@ -86,10 +95,16 @@ document.querySelector('.password2Input').addEventListener('blur', function () {
     회원가입허용();
 })
 
+/**
+ * 회원가입 버튼 클릭 이벤트
+ */
 document.querySelector('.submitButton').addEventListener('click', function () {
     회원가입();
 })
 
+/**
+ * 함수 시작
+ */
 function 회원가입허용() {
     var errMsg1 = document.querySelector('.idErrorMessage').innerHTML;
     var errMsg2 = document.querySelector('.password1ErrorMessage').innerHTML;

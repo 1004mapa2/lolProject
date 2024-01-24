@@ -1,12 +1,18 @@
 const url = 'http://13.124.127.226:8081';
 // const url = 'http://localhost:8081';
 
+/**
+ * 페이지가 로드될 때 실행
+ */
 document.addEventListener("DOMContentLoaded", async function () {
     await 엑세스토큰검증();
     댓글불러오기();
     조합정보가져오기();
 })
 
+/**
+ * 로그아웃 버튼 클릭 이벤트
+ */
 document.querySelector('.loginDiv').addEventListener('click', function () {
     if (this.innerHTML == '로그아웃') {
         fetch(url + '/api/logout', {
@@ -20,26 +26,41 @@ document.querySelector('.loginDiv').addEventListener('click', function () {
     }
 })
 
+/**
+ * 티어 버튼에 마우스를 올렸을 때 뒷배경 색깔 변경 이벤트
+ */
 document.querySelectorAll('.tierDiv').forEach(function (element) {
     element.addEventListener('mouseover', function () {
         this.classList.add('backColor');
     })
 })
 
+/**
+ * 티어 버튼에 마우스를 내렸을 때 뒷배경 색깔 변경 이벤트
+ */
 document.querySelectorAll('.tierDiv').forEach(function (element) {
     element.addEventListener('mouseout', function () {
         this.classList.remove('backColor');
     })
 })
 
+/**
+ * 모든 티어 버튼에 마우스를 올렸을 때 뒷배경 색깔 변경 이벤트
+ */
 document.querySelector('.allTierDiv').addEventListener('mouseover', function () {
     this.classList.add('backColor');
 })
 
+/**
+ * 모든 티어 버튼에 마우스를 내렸을 때 뒷배경 색깔 변경 이벤트
+ */
 document.querySelector('.allTierDiv').addEventListener('mouseout', function () {
     this.classList.remove('backColor');
 })
 
+/**
+ * 티어 버튼 클릭 이벤트
+ */
 document.querySelectorAll('.tierDiv').forEach(function (element) {
     const urlParams = new URLSearchParams(window.location.search);
     const comsaveId = urlParams.get('comsaveId');
@@ -58,6 +79,9 @@ document.querySelectorAll('.tierDiv').forEach(function (element) {
     })
 })
 
+/**
+ * 모든 티어 버튼 클릭 이벤트
+ */
 document.querySelector('.allTierDiv').addEventListener('click', function () {
     const urlParams = new URLSearchParams(window.location.search);
     var comsaveId = urlParams.get('comsaveId');
@@ -65,12 +89,18 @@ document.querySelector('.allTierDiv').addEventListener('click', function () {
     티어바꾸기(comsaveId, tier);
 })
 
+/**
+ * 댓글 작성 버튼 클릭 이벤트
+ */
 document.querySelector('.commentButton').addEventListener('click', async function () {
     await 엑세스토큰검증();
     await 댓글저장();
     댓글불러오기();
 })
 
+/**
+ * 댓글 삭제 버튼 클릭 이벤트
+ */
 document.querySelector('.commentContainer').addEventListener('click', async function (event) {
     await 엑세스토큰검증();
     댓글삭제(event);

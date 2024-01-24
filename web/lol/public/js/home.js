@@ -3,12 +3,18 @@ const url = 'http://13.124.127.226:8081';
 let dragged;
 const clientUrl = window.location.href;
 
+/**
+ * 페이지가 로드될 때 실행
+ */
 document.addEventListener("DOMContentLoaded", function () {
     엑세스토큰검증();
     ALLTIER받아오기();
     CHAMPIONNAME받아오기(document.querySelector('.searchInput').value);
 })
 
+/**
+ * 로그아웃 버튼 클릭 이벤트
+ */
 document.querySelector('.loginDiv').addEventListener('click', function () {
     if (this.innerHTML == '로그아웃') {
         fetch(url + '/api/logout', {
@@ -22,10 +28,16 @@ document.querySelector('.loginDiv').addEventListener('click', function () {
     }
 })
 
+/**
+ * input 박스에 챔피언 이름 입력 시 DB에서 일치하는 값 얻어오기
+ */
 document.querySelector('.searchInput').addEventListener('input', function () {
     CHAMPIONNAME받아오기(this.value);
 })
 
+/**
+ * 챔피언 클릭 시 조합 박스에 넣기
+ */
 document.querySelector('main ul').addEventListener('click', function (event) {
     if (event.target.tagName === 'IMG') {
         조합박스(event.target.src);
@@ -62,7 +74,7 @@ document.addEventListener("drop", function (event) {
  */
 
 /**
- * 클릭으로 챔피언 빼기
+ * 조합 박스에 챔피언 클릭 시 비우기
  */
 document.querySelector('.comImgDiv').addEventListener('click', function (event) {
     if (event.target.id == 'top') {
@@ -80,7 +92,7 @@ document.querySelector('.comImgDiv').addEventListener('click', function (event) 
 })
 
 /**
- * 랜덤 넣기
+ * 랜덤 넣기 버튼 클릭 시 조합 박스에 빈 박스 넣기
  */
 document.querySelector('.randomButton').addEventListener('click', function () {
     const list = document.querySelector('.comImgDiv').querySelectorAll('img');
@@ -97,7 +109,7 @@ document.querySelector('.randomButton').addEventListener('click', function () {
 })
 
 /**
- * 조합 박스 비우기
+ * 비우기 버튼 클릭 시 조합 박스 전체 비우기
  */
 document.querySelector('.clearButton').addEventListener('click', function () {
     const list = document.querySelector('.comImgDiv').querySelectorAll('img');
@@ -131,18 +143,9 @@ document.querySelector('.tierP').addEventListener('input', function () {
     ALLTIER받아오기();
 })
 
-document.querySelector('.resultComBox').addEventListener('mouseover', function (event) {
-    if (event.target.classList.contains("clickBox")) {
-        event.target.parentNode.querySelector('.totalBox').style.backgroundColor = '#8B5FBF';
-    }
-})
-
-document.querySelector('.resultComBox').addEventListener('mouseout', function (event) {
-    if (event.target.classList.contains("clickBox")) {
-        event.target.parentNode.querySelector('.totalBox').style.backgroundColor = '#FFFFFF';
-    }
-})
-
+/**
+ * 상세 버튼 클릭 시 상세 페이지 url로 이동
+ */
 document.querySelector('.resultComBox').addEventListener('click', function (event) {
     if (event.target.tagName === 'I') {
         var comsaveId = event.target.parentNode.parentNode.parentNode.querySelector('input').value;

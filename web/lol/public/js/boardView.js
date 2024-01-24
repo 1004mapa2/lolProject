@@ -1,12 +1,18 @@
 const url = 'http://13.124.127.226:8081';
 // const url = 'http://localhost:8081';
 
+/**
+ * 페이지가 로드될 때 실행
+ */
 document.addEventListener("DOMContentLoaded", async function () {
     await 엑세스토큰검증();
     게시글불러오기();
     좋아요불러오기();
 })
 
+/**
+ * 로그아웃 버튼 클릭 이벤트
+ */
 document.querySelector('.loginDiv').addEventListener('click', function () {
     if (this.innerHTML == '로그아웃') {
         fetch(url + '/api/logout', {
@@ -20,16 +26,25 @@ document.querySelector('.loginDiv').addEventListener('click', function () {
     }
 })
 
+/**
+ * 댓글 작성 버튼 클릭 이벤트
+ */
 document.querySelector('.commentButton').addEventListener('click', async function () {
     await 엑세스토큰검증();
     댓글저장();
 })
 
+/**
+ * 좋아요 버튼 클릭 이벤트
+ */
 document.querySelector('.likeButton').addEventListener('click', async function () {
     await 엑세스토큰검증();
     좋아요저장();
 })
 
+/**
+ * 게시글 수정, 삭제 버튼 클릭 이벤트
+ */
 document.querySelector('.boardHeaderBodyDiv').addEventListener('click', async function (event) {
     if (event.target.classList.contains('boardUpdate')) {
         게시글수정();
@@ -40,6 +55,9 @@ document.querySelector('.boardHeaderBodyDiv').addEventListener('click', async fu
     }
 })
 
+/**
+ * 댓글 삭제 버튼 클릭 이벤트
+ */
 document.querySelector('main ul').addEventListener('click', async function (event) {
     await 엑세스토큰검증();
     댓글삭제(event);
