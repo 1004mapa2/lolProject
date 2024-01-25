@@ -13,6 +13,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -24,6 +26,11 @@ public class LolService {
 
     private final LolMapper mapper;
 
+    /**
+     * 입력된 조합 정보 가져오기
+     * @param receiveDto(탑, 정글, 미드, 원딜, 서폿, 티어, 정렬 기준)
+     * @return List<TierDto>
+     */
     public List<TierDto> getTierInfo(ReceiveDto receiveDto) {
         if (receiveDto.getChampionName1().equals("random") || receiveDto.getChampionName1().equals("topIcon")) {
             receiveDto.setChampionName1(null);
@@ -48,11 +55,22 @@ public class LolService {
         }
     }
 
+    /**
+     * 챔피언 검색 정보 가져오기
+     * @param data(입력 문자열)
+     * @return List<ChampionName>
+     */
     public List<ChampionName> getChampionNameInfo(String data) {
 
         return mapper.getChampionNameDtos(data);
     }
 
+    /**
+     * 상세 페이지 조합 정보 가져오기
+     * @param comsaveId(조합 고유 번호)
+     * @param tier(티어 기준)
+     * @return TierDto
+     */
     public TierDto getDetailInfo(int comsaveId, String tier) {
         if(tier.equals("ALLTIER")) {
             return mapper.getDetailInfo(comsaveId);
@@ -61,6 +79,11 @@ public class LolService {
         }
     }
 
+    /**
+     * 챔피언 5개 한글 이름 가져오기
+     * @param comsaveId(조합 고유 번호)
+     * @return List<String>
+     */
     public List<String> get5ChampionName(int comsaveId) { // 반복문 쓰는 법 찾아보기
         ChampionsDto championEngNames = mapper.getChampionNames(comsaveId);
         List<String> championKorNames = new ArrayList<>();
@@ -73,6 +96,12 @@ public class LolService {
         return championKorNames;
     }
 
+    /**
+     * 조합 상세보기 한줄 코멘트 가져오기
+     * @param comsaveId(조합 고유 번호)
+     * @param page(한줄 코멘트 페이지 번호)
+     * @return Combination_CommentDto
+     */
     public Combination_CommentDto getComment(int comsaveId, int page) {
         int numberOfPage = 5;
         int showPage = (page - 1) * numberOfPage;
@@ -83,6 +112,11 @@ public class LolService {
         return new Combination_CommentDto(commentList, maxPage);
     }
 
+    /**
+     * 한줄 코멘트 등록
+     * @param commentDto(코멘트 내용)
+     * @param username(유저 아이디)
+     */
     public void postComment(Combination_CommentDto commentDto, String username) {
         LocalDateTime now = LocalDateTime.now();
         String formatNowTime = now.format(DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm"));
@@ -96,6 +130,11 @@ public class LolService {
         mapper.postComment(combinationComment);
     }
 
+    /**
+     * 한줄 코멘트 삭제
+     * @param commentId(댓글 고유 번호)
+     * @param authentication(사용자 정보)
+     */
     public void deleteComment(int commentId, Authentication authentication) {
         Combination_Comment comment = mapper.findByComment(commentId);
         if(comment.getUsername().equals(authentication.getName())) {
@@ -109,6 +148,11 @@ public class LolService {
         }
     }
 
+    /**
+     * 자신이 등록한 코멘트 체크(삭제 처리하기 위함)
+     * @param authentication(사용자 정보)
+     * @return UserAccount
+     */
     public UserAccount checkUser(Authentication authentication) {
         UserAccount userAccount = new UserAccount();
         userAccount.setUsername(authentication.getName());

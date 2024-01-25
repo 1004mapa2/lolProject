@@ -7,27 +7,53 @@
     <select id="getAllTierDtos" parameterType="com.lol.dto.main.ReceiveDto" resultType="com.lol.dto.main.TierDto">
         SELECT *
         FROM (
-            SELECT * FROM ALL_TIER_TOTAL
-            WHERE PICKCOUNT >= 5
-                <if test="championName1 != null">
-                    AND TOPNAME= #{championName1, jdbcType=VARCHAR}
-                </if>
-                <if test="championName2 != null">
-                    AND JUNGLENAME= #{championName2, jdbcType=VARCHAR}
-                </if>
-                <if test="championName3 != null">
-                    AND MIDDLENAME= #{championName3, jdbcType=VARCHAR}
-                </if>
-                <if test="championName4 != null">
-                    AND BOTTOMNAME= #{championName4, jdbcType=VARCHAR}
-                </if>
-                <if test="championName5 != null">
-                    AND UTILITYNAME= #{championName5, jdbcType=VARCHAR}
-                </if>
-            ORDER BY ${sort} DESC
-            )
-            <![CDATA[WHERE ROWNUM <= 15]]>
+        SELECT * FROM ALL_TIER_TOTAL
+        WHERE PICKCOUNT >= 5
+        <if test="championName1 != null">
+            AND TOPNAME= #{championName1, jdbcType=VARCHAR}
+        </if>
+        <if test="championName2 != null">
+            AND JUNGLENAME= #{championName2, jdbcType=VARCHAR}
+        </if>
+        <if test="championName3 != null">
+            AND MIDDLENAME= #{championName3, jdbcType=VARCHAR}
+        </if>
+        <if test="championName4 != null">
+            AND BOTTOMNAME= #{championName4, jdbcType=VARCHAR}
+        </if>
+        <if test="championName5 != null">
+            AND UTILITYNAME= #{championName5, jdbcType=VARCHAR}
+        </if>
+        ORDER BY ${sort} DESC
+        )
+        <![CDATA[WHERE ROWNUM <= 15]]>
     </select>
+
+<!--    <select id="getAllTierDtos" parameterType="com.lol.dto.main.ReceiveDto" resultType="com.lol.dto.main.TierDto">-->
+<!--        SELECT *-->
+<!--        FROM (-->
+<!--        SELECT * FROM ALL_TIER_TOTAL-->
+<!--        WHERE PICKCOUNT >= 5-->
+<!--        <if test="championName1 != null">-->
+<!--            AND TOPNAME= #{championName1, jdbcType=VARCHAR}-->
+<!--        </if>-->
+<!--        <if test="championName2 != null">-->
+<!--            AND JUNGLENAME= #{championName2, jdbcType=VARCHAR}-->
+<!--        </if>-->
+<!--        <if test="championName3 != null">-->
+<!--            AND MIDDLENAME= #{championName3, jdbcType=VARCHAR}-->
+<!--        </if>-->
+<!--        <if test="championName4 != null">-->
+<!--            AND BOTTOMNAME= #{championName4, jdbcType=VARCHAR}-->
+<!--        </if>-->
+<!--        <if test="championName5 != null">-->
+<!--            AND UTILITYNAME= #{championName5, jdbcType=VARCHAR}-->
+<!--        </if>-->
+<!--        ORDER BY ${sort} DESC-->
+<!--        )-->
+<!--        <![CDATA[WHERE ROWNUM <= 15]]>-->
+<!--    </select>-->
+
 
     <select id="getEachTierDtos" parameterType="com.lol.dto.main.ReceiveDto" resultType="com.lol.dto.main.TierDto">
         SELECT * FROM
@@ -66,53 +92,60 @@
     </select>
 
     <select id="getDetailInfo" parameterType="int" resultType="com.lol.dto.main.TierDto">
-        SELECT * FROM ALL_TIER_TOTAL WHERE COMSAVEID= #{comsaveId}
+        SELECT *
+        FROM ALL_TIER_TOTAL
+        WHERE COMSAVEID = #{comsaveId}
     </select>
 
     <select id="getDetailInfo_tier" resultType="com.lol.dto.main.TierDto">
-        SELECT * FROM EACH_TIER_TOTAL WHERE COMSAVEID= #{comsaveId} AND TIER= #{tier}
+        SELECT *
+        FROM EACH_TIER_TOTAL
+        WHERE COMSAVEID = #{comsaveId}
+          AND TIER = #{tier}
     </select>
 
     <select id="getChampionNames" parameterType="int" resultType="com.lol.dto.detail.ChampionsDto">
-        SELECT TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME FROM ALL_TIER_TOTAL WHERE COMSAVEID= #{comsaveId}
+        SELECT TOPNAME, JUNGLENAME, MIDDLENAME, BOTTOMNAME, UTILITYNAME
+        FROM ALL_TIER_TOTAL
+        WHERE COMSAVEID = #{comsaveId}
     </select>
 
     <select id="getChampionKorName" parameterType="String" resultType="String">
-        SELECT CHAMPIONKORNAME FROM CHAMPIONNAME WHERE CHAMPIONENGNAME= #{championName}
+        SELECT CHAMPIONKORNAME
+        FROM CHAMPIONNAME
+        WHERE CHAMPIONENGNAME = #{championName}
     </select>
 
     <select id="getComment" parameterType="int" resultType="com.lol.domain.Combination_Comment">
         SELECT CCC.*
-        FROM
-        (
-            SELECT BBB.*
-            FROM
-            (
-                SELECT ROWNUM RN, AAA.*
-                FROM
-                (
-                    SELECT * FROM COMBINATION_COMMENT WHERE COMSAVEID= #{comsaveId} ORDER BY ID DESC
-                ) AAA
-            ) BBB
-            <![CDATA[WHERE BBB.RN > #{showPage}]]>
-        ) CCC
-        <![CDATA[WHERE ROWNUM <= #{numberOfPage}]]>
+        FROM (SELECT BBB.*
+              FROM (SELECT ROWNUM RN, AAA.*
+                    FROM (SELECT * FROM COMBINATION_COMMENT WHERE COMSAVEID = #{comsaveId} ORDER BY ID DESC) AAA) BBB
+            <![CDATA[WHERE BBB.RN > #{showPage}]]>) CCC
+        <![CDATA[WHERE ROWNUM <= #{numberOfPage}
+        ]]>
     </select>
 
     <select id="getMaxPage" parameterType="int" resultType="int">
-        SELECT COUNT(*) FROM COMBINATION_COMMENT WHERE COMSAVEID= #{comsaveId}
+        SELECT COUNT(*)
+        FROM COMBINATION_COMMENT
+        WHERE COMSAVEID = #{comsaveId}
     </select>
 
     <insert id="postComment" parameterType="com.lol.domain.Combination_Comment">
         INSERT INTO COMBINATION_COMMENT(ID, COMSAVEID, USERNAME, CONTENT, WRITETIME)
-        VALUES(COMBINATION_COMMENT_AUTOINC.NEXTVAL, #{comsaveId}, #{username}, #{content}, #{writeTime})
+        VALUES (COMBINATION_COMMENT_AUTOINC.NEXTVAL, #{comsaveId}, #{username}, #{content}, #{writeTime})
     </insert>
 
     <delete id="deleteComment" parameterType="int">
-        DELETE FROM COMBINATION_COMMENT WHERE ID= #{commentId}
+        DELETE
+        FROM COMBINATION_COMMENT
+        WHERE ID = #{commentId}
     </delete>
 
     <select id="findByComment" parameterType="int" resultType="com.lol.domain.Combination_Comment">
-        SELECT * FROM COMBINATION_COMMENT WHERE ID= #{commentId}
+        SELECT *
+        FROM COMBINATION_COMMENT
+        WHERE ID = #{commentId}
     </select>
 </mapper>

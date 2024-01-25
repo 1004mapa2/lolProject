@@ -47,7 +47,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
              * 4. response.Header 에 넣기
              * 5. Redis 에서 그 RefreshToken 에 매칭되는 AccessToken 업데이트
              */
-            //refresh 가 없는 경우 구현해야됨.
             String refresh = "";
             Cookie[] cookies = request.getCookies();
             for (Cookie cookie : cookies) {

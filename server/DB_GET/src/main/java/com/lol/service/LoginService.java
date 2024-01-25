@@ -20,6 +20,10 @@ public class LoginService {
     private final LoginMapper mapper;
     private final RedisRepository redisRepository;
 
+    /**
+     * 유저 회원가입
+     * @param userAccount(아이디, 비밀번호)
+     */
     public void registerUser(UserAccount userAccount) {
         // 중복 확인 로직 넣기
         String encryptedPassword = passwordEncoder.encode(userAccount.getPassword());
@@ -28,6 +32,11 @@ public class LoginService {
         mapper.registerUser(userAccount);
     }
 
+    /**
+     * 유저 아이디 중복체크
+     * @param username(유저 아이디)
+     * @return int
+     */
     public int usernameDuplicateCheck(String username) {
         Optional<UserAccount> userDto = mapper.findByUser(username);
         if (userDto.isPresent()) {
@@ -37,6 +46,10 @@ public class LoginService {
         }
     }
 
+    /**
+     * 로그아웃
+     * @param request
+     */
     public void logout(HttpServletRequest request) {
         String jws = request.getHeader("Authorization");
         Token token = redisRepository.findByAccessToken(jws).orElseGet(() -> null);
@@ -45,6 +58,12 @@ public class LoginService {
         }
     }
 
+    /**
+     * 비밀번호 변경
+     * @param userUpdateDto(현재 비밀번호, 새 비밀번호)
+     * @param username(유저 아이디)
+     * @return int
+     */
     public int updateUser(UserUpdateDto userUpdateDto, String username) {
         if (passwordEncoder.matches(userUpdateDto.getOriginalPassword(), mapper.findByUser(username).get().getPassword())) {
             String encryptedPassword = passwordEncoder.encode(userUpdateDto.getNewPassword());
