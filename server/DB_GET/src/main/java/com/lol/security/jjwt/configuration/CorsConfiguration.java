@@ -17,7 +17,9 @@ public class CorsConfiguration {
         config.addAllowedOrigin("http://13.124.127.226");
         config.addAllowedOrigin("http://qpeprqpe.site:3000");
         config.addAllowedOrigin("http://qpeprqpe.site");
-        config.addAllowedOrigin("http://localhost:3000");
+//        config.addAllowedOrigin("http://localhost:3000");
+//        config.addAllowedOrigin("https://qpeprqpe.site");
+//        config.addAllowedOrigin("https://qpeprqpe.site:3000");
         config.addAllowedHeader("*"); //모든 header에 응답을 허용
         config.addAllowedMethod("*"); //모든 post, get, put, delete, patch 요청을 허용
         source.registerCorsConfiguration("/**", config);
