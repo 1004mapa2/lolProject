@@ -59,7 +59,7 @@
 
 ### 배포 아키텍쳐
 
-![배포아키텍쳐](/images/architecture.png)
+![배포아키텍쳐](/images/architecture_.png)
 
 EC2에 프론트엔드 서버와 백엔드 서버를 분리해서 REST API를 적용하였습니다.
 <br />
@@ -98,6 +98,8 @@ LocalServer에 riot사이트 API를 이용하여 스프링 스케줄러를 적�
 ## 세부 내용
 
 ### ERD
+![erd](/images/ERD.png)
+<br />
 <br />
 
 ### Selenium
