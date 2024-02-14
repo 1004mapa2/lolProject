@@ -61,9 +61,9 @@
 
 ![배포아키텍쳐](/images/architecture_.png)
 
-EC2에 프론트엔드 서버와 백엔드 서버를 분리해서 REST API를 적용하였습니다.
+EC2에 Node.js를 이용한 Web Server와 Spring Boot를 이용한 Application Server로 분리해서 REST API를 적용하였습니다.
 <br />
-LocalServer에 riot사이트 API를 이용하여 스프링 스케줄러를 적용해서 지속적으로 EC2 DB 데이터를 최신으로 업데이트합니다.
+Application Server에 스케줄러를 적용해서 riotAPI의 데이터를 지속적으로 받아와 최신으로 업데이트합니다.
 
 <br />
 
@@ -91,7 +91,7 @@ LocalServer에 riot사이트 API를 이용하여 스프링 스케줄러를 적�
 - [X] 조합 관련 기능 구현
 - [X] 미생성 게시물 url로 접근 불가 로직 추가
 - [ ] 관리자 권한으로 챔피언 추가 기능 구현
-- [ ] 게시물 페이지 일정 이상 넘어가면 화살표로 구현
+- [ ] DB 테이블 설계 수정
 
 <br />
 
